@@ -2,35 +2,36 @@ package com.comp.compmanager.entities;
 
 import jakarta.persistence.*;
 
-//Skapar tabell
+//CREATE TABLE
 @Entity
-//Byter namn på tabellen
+//NAME TABLE
 @Table(name = "players")
-public class Spelare {
+public class Player {
+
 
     //Primary key
     @Id
     //Auto-increment
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    //Väljer namn på kolumn
+    //Names column
     @Column(name = "player_id")
     private int id;
 
-    //Namn på kolumn, max-längd, kan inte lämnas tom
+    //Col-name, max-length, not null
     @Column(name = "player_name", length = 20, nullable = false)
     private String nickname;
 
     @Column(name = "player_team", length = 30, nullable = false)
-    private String lag;
+    private String team;
 
-    //Kontruktor
-    public Spelare(){}
-    public Spelare(String nickname, String lag) {
+    //constructor
+    public Player(){}
+    public Player(String nickname, String lag) {
         this.nickname = nickname;
-        this.lag = lag;
+        this.team = lag;
     }
 
-    //Getters & Setters
+    //getters & setters
     public int getId() {
         return id;
     } public void setId(int id) {
@@ -41,9 +42,8 @@ public class Spelare {
     } public void setNickname(String nickname) {
         this.nickname = nickname; }
 
-    public String getLag() {
-        return lag;
-    } public void setLag(String lag) {
-        this.lag = lag; }
-
+    public String getTeam() {
+        return team;
+    }
+    public void setTeam(String team) { this.team = team; }
 }
