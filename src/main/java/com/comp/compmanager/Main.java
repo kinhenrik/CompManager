@@ -23,11 +23,6 @@ public class Main extends Application {
         SpelareDAO spelareDAO = new SpelareDAO();
 
         Spelare spelare1 = new Spelare("Tillagd spelare asd", "Testlag 4");
-        if (spelareDAO.addPlayer(spelare1)) {
-            System.out.println("Player '" + spelare1.getNickname() + "' from team '" + spelare1.getLag() + "' added to database.");
-        } else {
-            System.out.println("Player '" + spelare1.getNickname() + "' from team '" + spelare1.getLag() + "' could not be added to database.");
-        }
 
         //Gör ändring på tabelldata
         spelare1.setLag("Ändrat lag 1");

@@ -2,18 +2,18 @@ package com.comp.compmanager.DAO;
 
 import com.comp.compmanager.entities.Spelare;
 import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class SpelareDAO {
 
-    //Hämtar konfigurationen från persistence.xml-filen som är döpt till "myconfig"
+    //retrieve "myconfig" from persistence.xml
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("myconfig");
 
-    //CRUD-operationer
+
     //CREATE
-    public boolean addPlayer(Spelare player) {
+    public void addPlayer (Spelare player) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -22,43 +22,37 @@ public class SpelareDAO {
             transaction.begin();
             manager.persist(player);
             transaction.commit();
-            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             if (manager != null && transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
-            return false;
         } finally {
             manager.close();
         }
     }
 
-    //READ
-    public Spelare getPlayerByID(int id) {
+    //GET
+    public Spelare getPlayerByID (int player_id) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        Spelare playerToReturn = manager.find(Spelare.class, id);
+        Spelare playerToReturn = manager.find(Spelare.class, player_id);
         manager.close();
         return playerToReturn;
     }
 
-    public List<Spelare> getAllPlayers() {
+    public List<Spelare> getAllPlayers () {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         List<Spelare> listToReturn = new ArrayList<>();
 
-        //Få fram alla i tabellen
+        //Get all players from Table
         TypedQuery<Spelare> result = manager.createQuery("FROM Spelare", Spelare.class);
-
-        //Få fram mer specifikt i tabellen
-        /*TypedQuery<Spelare> result = manager.createQuery("FROM Spelare s WHERE s.lag LIKE :variabel", Spelare.class);
-        result.setParameter("variabel", "Fiskmånnen");*/
 
         listToReturn.addAll(result.getResultList());
         return listToReturn;
     }
 
     //UPDATE
-    public void updatePlayer(Spelare playerToUpdate) {
+    public void updatePlayer (Spelare playerToUpdate) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {
@@ -83,7 +77,7 @@ public class SpelareDAO {
     }
 
     //DELETE
-    public void deletePlayer(Spelare player) {
+    public void deletePlayer (Spelare player) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {
