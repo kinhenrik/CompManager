@@ -16,10 +16,12 @@ public class Main extends Application {
         stage.setTitle("Title");
         stage.setScene(scene);
         stage.show();
+
+
     }
 
     public static void main(String[] args) {
-
+        //samuels branch
         launch();
 
     }
