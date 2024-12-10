@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 
 public class Player {
 
-
     //Primary key
     @Id
     //Auto-increment
@@ -18,8 +17,12 @@ public class Player {
     @Column(name = "player_id")
     private int id;
 
-    //Col-name, max-length, not null
     @Column(name = "player_name", length = 50, nullable = false)
+    private String name;
+    @Column(name = "player_surname", length = 50, nullable = false)
+    private String surname;
+    //Col-name, max-length, not null
+    @Column(name = "player_nickname", length = 50, nullable = false)
     private String nickname;
 
     @Column(name = "player_team", length = 50, nullable = false)
@@ -27,24 +30,32 @@ public class Player {
 
     //Player constructor
     public Player(){}
-    public Player(String nickname, String team) {
+    public Player(String name, String surname, String nickname, String team) {
+        this.name = name;
+        this.surname = surname;
         this.nickname = nickname;
         this.team = team;
     }
 
-    //getters & setters
+    //GETTERS & SETTERS
     public int getId() {
         return id;
-    } public void setId(int id) {
-        this.id = id; }
+    }
+    public void setId(int id) {this.id = id; }
 
-    public String getNickname() {
-        return nickname;
-    } public void setNickname(String nickname) {
-        this.nickname = nickname; }
+    public String getName() {return name;}
+    public void setName(String name) { this.name = name;}
+
+    public String getSurname() {return surname;}
+    public void setSurname(String surname) { this.surname = surname;}
+
+    public String getNickname() {return nickname;}
+    public void setNickname(String nickname) { this.nickname = nickname; }
 
     public String getTeam() {
         return team;
     }
     public void setTeam(String team) { this.team = team; }
+
+
 }

@@ -1,30 +1,20 @@
 package com.comp.compmanager;
 
-import com.comp.compmanager.View.AdminView;
-import com.comp.compmanager.View.TeamView;
+import com.comp.compmanager.View.ViewManager;
 
 import javafx.application.Application;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import java.io.IOException;
-
 
 public class Main extends Application {
 
     @Override
-    public void start(Stage stage) throws IOException {
-        
-        // Playerview rutan
-        AdminView adminView = new AdminView();
-        adminView.show(stage); // Visa spelare-vyn
+public void start(Stage stage) {
 
-        // Teamview rutan
-        TeamView teamView = new TeamView();
-        teamView.show(stage); // Visa TeamView
-
+    ViewManager viewManager = new ViewManager(stage); // Skapa vyhanterare
+    viewManager.start();
     }
-    public static void main(String[] args) {
+
+public static void main(String[] args) {
         launch();
     }
-
 }

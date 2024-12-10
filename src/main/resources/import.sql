@@ -3,3 +3,14 @@ insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, ad
 insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, admin_city, admin_country, admin_email) values ('Charles', 'White', '2080 Collins Avenue', '43123', 'Grove City', 'Ohio', 'cgwhite@gmail.com');
 insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, admin_city, admin_country, admin_email) values ('Ludwig', 'Svensson', 'Lillesäter 10', '98316', 'Malmberget', 'Sweden', 'ludwig_s@hotmail.com');
 insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, admin_city, admin_country, admin_email) values ('Henrik', 'Kinnunen', 'Gammelekevägen 31', '74961', 'Örsundsbro', 'Sweden', 'henrik.kinnunen.java24@edu.edugrade.se');
+
+
+
+insert into Teams(team_id, team_name) values (1, 'Immortals');
+
+
+
+
+
+
+
