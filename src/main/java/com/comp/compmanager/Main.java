@@ -50,16 +50,24 @@ public class Main extends Application {
         TableColumn<Player, String> id_column = new TableColumn<>("ID");
         id_column.setCellValueFactory(new PropertyValueFactory<>("id"));
 
+        //"Name" col getting name data
+        TableColumn<Player, String> name_column = new TableColumn<>("Name");
+        name_column.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        //"Surname" col getting surname data
+        TableColumn<Player, String> surname_column = new TableColumn<>("Surname");
+        surname_column.setCellValueFactory(new PropertyValueFactory<>("surname"));
+
         //"Player" col getting nickname data
-        TableColumn<Player, String> name_column = new TableColumn<>("Player");
-        name_column.setCellValueFactory(new PropertyValueFactory<>("nickname"));
+        TableColumn<Player, String> nickname_column = new TableColumn<>("Nickname");
+        nickname_column.setCellValueFactory(new PropertyValueFactory<>("nickname"));
 
         //"Team" col getting team data
         TableColumn<Player, String> team_column = new TableColumn<>("Team");
         team_column.setCellValueFactory(new PropertyValueFactory<>("team"));
 
         //combine all cols
-        table.getColumns().addAll(id_column, name_column, team_column);
+        table.getColumns().addAll(id_column, name_column, surname_column, nickname_column, team_column);
 
         //adds all col data to ObservableList for JavaFX
         List<Player> players = playerDAO.getAllPlayers();
@@ -68,9 +76,14 @@ public class Main extends Application {
 
 
         //TEXT FIELDS
+        //name
+        TextField nameTextField = new TextField();
+        nameTextField.setPromptText("Name...");
+        //surname
+        TextField surnameTextField = new TextField();
+        surnameTextField.setPromptText("Surname...");
         //nickname
         TextField nicknameTextField = new TextField();
-
         nicknameTextField.setPromptText("Nickname...");
         //team
         TextField teamTextField = new TextField();
@@ -92,20 +105,46 @@ public class Main extends Application {
             table.getItems().remove(table.getSelectionModel().getSelectedItem());
         });
 
-        addPlayerBtn.setOnAction(e -> { playerDAO.addPlayer(new Player(nicknameTextField.getText(), teamTextField.getText()));
-            table.getItems().add(new Player(nicknameTextField.getText(), teamTextField.getText()));
+        addPlayerBtn.setOnAction(e -> {
+            if (nameTextField.getText() != "" ) {
+                playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), teamTextField.getText()));
+                table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), teamTextField.getText()));
+
+                //reset text fields after use
+                nameTextField.setText("");
+                surnameTextField.setText("");
+                nicknameTextField.setText("");
+                teamTextField.setText("");
+            }
+            else {
+                System.out.println("NAME FIELD CANT EMPTY");
+            }
         });
 
-        editPlayerBtn.setOnAction(e -> { table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
-            table.getSelectionModel().getSelectedItem().setTeam(teamTextField.getText());
-            playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
-            //TODO IDK HOW TO SHOW IT IN TABLE
+        editPlayerBtn.setOnAction(e -> {
+            if (nameTextField.getText() != "") {
+
+                table.getSelectionModel().getSelectedItem().setName(nameTextField.getText());
+                table.getSelectionModel().getSelectedItem().setSurname(surnameTextField.getText());
+                table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
+                table.getSelectionModel().getSelectedItem().setTeam(teamTextField.getText());
+                playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
+                //TODO IDK HOW TO SHOW IT IN TABLE
+                //reset text fields after use
+                nameTextField.setText("");
+                surnameTextField.setText("");
+                nicknameTextField.setText("");
+                teamTextField.setText("");
+            }
+            else {
+                System.out.println("NAME FIELD CANT EMPTY");
+            }
 
         });
 
 
         //TOOL-VBOX
-        VBox toolVBox = new VBox(10, nicknameTextField, teamTextField, buttonBar);
+        VBox toolVBox = new VBox(10, nameTextField, surnameTextField, nicknameTextField, teamTextField, buttonBar);
         toolVBox.setPadding(new Insets(8));
 
 
@@ -119,8 +158,8 @@ public class Main extends Application {
 
 
 
-        Scene scene = new Scene(pane, 610, 400);
-        stage.setTitle("Player");
+        Scene scene = new Scene(pane, 800, 600);
+        stage.setTitle("COMP MANAGER");
         stage.setScene(scene);
         stage.show();
 
