@@ -7,12 +7,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonBar;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -69,36 +67,59 @@ public class Main extends Application {
         table.setItems(observableList);
 
 
+        //TEXT FIELDS
+        //nickname
+        TextField nicknameTextField = new TextField();
+
+        nicknameTextField.setPromptText("Nickname...");
+        //team
+        TextField teamTextField = new TextField();
+        teamTextField.setPromptText("Team...");
+
+
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
         //general dimensions
         buttonBar.setPadding(new Insets(8));
         //buttons
-        Button deletePlayerBtn = new Button("Delete Player");
+        Button deletePlayerBtn = new Button("Delete Selected");
         Button addPlayerBtn = new Button("Add New Player");
+        Button editPlayerBtn = new Button("Edit selected");
         //add buttons to bar
-        buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn);
+        buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn, editPlayerBtn);
         //add button functionality via Lambda expression
         deletePlayerBtn.setOnAction(e -> {  playerDAO.deletePlayer(table.getSelectionModel().getSelectedItem());
             table.getItems().remove(table.getSelectionModel().getSelectedItem());
+        });
+
+        addPlayerBtn.setOnAction(e -> { playerDAO.addPlayer(new Player(nicknameTextField.getText(), teamTextField.getText()));
+            table.getItems().add(new Player(nicknameTextField.getText(), teamTextField.getText()));
+        });
+
+        editPlayerBtn.setOnAction(e -> { table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
+            table.getSelectionModel().getSelectedItem().setTeam(teamTextField.getText());
+            playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
+            //TODO IDK HOW TO SHOW IT IN TABLE
 
         });
 
-        addPlayerBtn.setOnAction(e -> { playerDAO.addPlayer(new Player("bean", "beanTeam"));
-            table.getItems().add(new Player("bean", "beanTeam"));
 
-        });
+        //TOOL-VBOX
+        VBox toolVBox = new VBox(10, nicknameTextField, teamTextField, buttonBar);
+        toolVBox.setPadding(new Insets(8));
 
 
-        //adds table to AnchorPane and makes it dynamically sized
+        //ADD ELEMENTS TO PANE
         AnchorPane pane = new AnchorPane(table);
         pane.setTopAnchor(table, 0.0);
         pane.setBottomAnchor(table, 0.0);
         pane.setLeftAnchor(table, 0.0);
-        pane.setRightAnchor(table, 0.0);
-        pane.getChildren().add(buttonBar);
+        pane.getChildren().add(toolVBox);
+        pane.setRightAnchor(toolVBox, 0.0);
 
-        Scene scene = new Scene(pane, 500, 300);
+
+
+        Scene scene = new Scene(pane, 610, 400);
         stage.setTitle("Player");
         stage.setScene(scene);
         stage.show();
