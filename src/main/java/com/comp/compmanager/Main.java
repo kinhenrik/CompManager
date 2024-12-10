@@ -1,11 +1,14 @@
 package com.comp.compmanager;
 
-import com.comp.compmanager.DAO.playerDAO;
+import com.comp.compmanager.DAO.PlayerDAO;
 import com.comp.compmanager.entities.Player;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonBar;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -16,11 +19,13 @@ import java.io.IOException;
 import java.util.List;
 
 public class Main extends Application {
+
     @Override
     public void start(Stage stage) throws IOException {
 
+        /*
         //creates player and adds to DB
-        playerDAO playerDAO = new playerDAO();
+        PlayerDAO playerDAO = new PlayerDAO();
         Player spelare1 = new Player("Added player asd", "TestReam 7");
 
         //makes changes in TABLE
@@ -32,8 +37,14 @@ public class Main extends Application {
         System.out.println("Player with ID=" + playerFromDatabase.getId() + ": " + playerFromDatabase.getNickname());
 
         System.out.println("Number of players in database: " + playerDAO.getAllPlayers().size());
+        */
 
-        //JavaFX
+        PlayerDAO playerDAO = new PlayerDAO();
+
+        //JAVAFX
+
+
+        //TABLE
         TableView<Player> table = new TableView();
 
         //"ID" col getting id data
@@ -56,20 +67,40 @@ public class Main extends Application {
         ObservableList<Player> observableList = FXCollections.observableArrayList(players);
         table.setItems(observableList);
 
+
+        //BUTTON BAR
+        ButtonBar buttonBar = new ButtonBar();
+        //general dimensions
+        buttonBar.setPadding(new Insets(8));
+        //buttons
+        Button deletePlayerBtn = new Button("Delete Player");
+        Button addPlayerBtn = new Button("Add New Player");
+        //add buttons to bar
+        buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn);
+        //add button functionality via Lambda expression
+        deletePlayerBtn.setOnAction(e -> playerDAO.deletePlayer(players.get(0)));
+        addPlayerBtn.setOnAction(e -> System.out.println("add someone"));
+
+
         //adds table to AnchorPane and makes it dynamically sized
         AnchorPane pane = new AnchorPane(table);
         pane.setTopAnchor(table, 0.0);
         pane.setBottomAnchor(table, 0.0);
         pane.setLeftAnchor(table, 0.0);
         pane.setRightAnchor(table, 0.0);
+        pane.getChildren().add(buttonBar);
 
         Scene scene = new Scene(pane, 500, 300);
         stage.setTitle("Player");
         stage.setScene(scene);
         stage.show();
+
+
     }
+
 
     public static void main(String[] args) {
         launch();
     }
+
 }

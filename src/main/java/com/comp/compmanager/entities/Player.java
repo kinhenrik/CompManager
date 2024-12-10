@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Entity
 //NAME TABLE
 @Table(name = "players")
+
 public class Player {
 
 
@@ -18,17 +19,17 @@ public class Player {
     private int id;
 
     //Col-name, max-length, not null
-    @Column(name = "player_name", length = 20, nullable = false)
+    @Column(name = "player_name", length = 50, nullable = false)
     private String nickname;
 
-    @Column(name = "player_team", length = 30, nullable = false)
+    @Column(name = "player_team", length = 50, nullable = false)
     private String team;
 
-    //constructor
+    //Player constructor
     public Player(){}
-    public Player(String nickname, String lag) {
+    public Player(String nickname, String team) {
         this.nickname = nickname;
-        this.team = lag;
+        this.team = team;
     }
 
     //getters & setters
