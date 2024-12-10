@@ -41,6 +41,7 @@ public class Main extends Application {
 
         PlayerDAO playerDAO = new PlayerDAO();
 
+
         //JAVAFX
 
 
@@ -78,8 +79,15 @@ public class Main extends Application {
         //add buttons to bar
         buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn);
         //add button functionality via Lambda expression
-        deletePlayerBtn.setOnAction(e -> playerDAO.deletePlayer(players.get(0)));
-        addPlayerBtn.setOnAction(e -> System.out.println("add someone"));
+        deletePlayerBtn.setOnAction(e -> {  playerDAO.deletePlayer(table.getSelectionModel().getSelectedItem());
+            table.getItems().remove(table.getSelectionModel().getSelectedItem());
+
+        });
+
+        addPlayerBtn.setOnAction(e -> { playerDAO.addPlayer(new Player("bean", "beanTeam"));
+            table.getItems().add(new Player("bean", "beanTeam"));
+
+        });
 
 
         //adds table to AnchorPane and makes it dynamically sized
