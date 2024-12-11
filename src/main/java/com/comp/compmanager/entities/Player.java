@@ -9,7 +9,6 @@ import jakarta.persistence.*;
 
 public class Player {
 
-
     //Primary key
     @Id
     //Auto-increment
