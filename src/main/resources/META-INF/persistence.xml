@@ -8,13 +8,13 @@
         <properties>
             <!-- MySQL -->
             <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost/database_name"/>
+                      value="jdbc:mysql://localhost:3306/compdb"/>
 
             <!-- Credentials -->
             <property name="jakarta.persistence.jdbc.user"
-                      value="username"/>
+                      value="root"/>
             <property name="jakarta.persistence.jdbc.password"
-                      value="password"/>
+                      value="Cmorales11"/>
 
             <!-- Automatic schema export -->
             <property name="hibernate.hbm2ddl.auto"
