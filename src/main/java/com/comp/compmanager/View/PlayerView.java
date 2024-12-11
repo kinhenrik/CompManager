@@ -98,8 +98,8 @@ public class PlayerView {
 
             addPlayerBtn.setOnAction(e -> {
                 if (nameTextField.getText() != "") {
-                    playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), teamTextField.getText()));
-                    table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), teamTextField.getText()));
+                    //playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), teamTextField.getText()));
+                    //table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), teamTextField.getText()));
 
                     //reset text fields after use
                     nameTextField.setText("");
@@ -117,7 +117,7 @@ public class PlayerView {
                     table.getSelectionModel().getSelectedItem().setName(nameTextField.getText());
                     table.getSelectionModel().getSelectedItem().setSurname(surnameTextField.getText());
                     table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
-                    table.getSelectionModel().getSelectedItem().setTeam(teamTextField.getText());
+                    // todo table.getSelectionModel().getSelectedItem().setTeam(teamTextField.getText());
                     playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
                     //TODO IDK HOW TO SHOW IT IN TABLE
                     //reset text fields after use

@@ -12,6 +12,12 @@ insert into Teams (team_id, team_name) values (3, 'The Warriors');
 insert into Teams (team_id, team_name) values (4, 'The Ninjas');
 
 
+insert into players (player_name, player_surname, player_nickname, team_id) values ('name3', 'surname3', 'nickname3', 3);
+insert into players (player_name, player_surname, player_nickname, team_id) values ('name1', 'surname1', 'nickname1', 1);
+insert into players (player_name, player_surname, player_nickname, team_id) values ('name2', 'surname2', 'nickname2', 2);
+insert into players (player_name, player_surname, player_nickname, team_id) values ('name4', 'surname4', 'nickname4', 4);
+
+
 
 
 

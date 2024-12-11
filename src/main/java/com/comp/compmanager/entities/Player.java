@@ -25,12 +25,20 @@ public class Player {
     @Column(name = "player_nickname", length = 50, nullable = false)
     private String nickname;
 
-    @Column(name = "player_team", length = 50, nullable = false)
-    private String team;
+    //todo testing
+
+    // @Column(name = "player_team", length = 50, nullable = false)
+    //private String team;
+
+    //ForeignKey
+    @ManyToOne
+    @JoinColumn(name = "team_id", nullable = false) // team_id är kolumnen i Teams-tabellen som refererar till Games-tabellen
+    private Teams team; // Relationen till Games-objektet i Games/Matches classen
+
 
     //Player constructor
     public Player(){}
-    public Player(String name, String surname, String nickname, String team) {
+    public Player(String name, String surname, String nickname, Teams team) {
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
@@ -52,10 +60,12 @@ public class Player {
     public String getNickname() {return nickname;}
     public void setNickname(String nickname) { this.nickname = nickname; }
 
-    public String getTeam() {
+
+    //todo testing
+    public Teams getTeam() {
         return team;
     }
-    public void setTeam(String team) { this.team = team; }
+    public void setTeam(Teams team) { this.team = team; }
 
 
 }
