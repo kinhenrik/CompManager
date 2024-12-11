@@ -14,8 +14,8 @@ public class ViewManager {
 
     public ViewManager(Stage stage) {
         this.stage = stage;
-        this.root = new AnchorPane(); // Rotlayout för att växla innehåll
-        this.menuBar = createMenuBar(); // Skapa den konstanta menyn
+        this.root = new AnchorPane();
+        this.menuBar = createMenuBar();
         initializeRoot();
     }
 
@@ -81,7 +81,7 @@ public class ViewManager {
     // Starta scenen med huvudmenyn
     public void start() {
 
-        Scene scene = new Scene(root, 800, 600);
+        Scene scene = new Scene(root, 850, 600);
         stage.setScene(scene);
         stage.setTitle("CompManager");
         stage.show();

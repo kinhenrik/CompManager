@@ -84,6 +84,8 @@ public class AdminView {
         // Layout med VBox
         VBox vBox = new VBox(10, table, buttonBar);
         vBox.setPadding(new Insets(10));
+        vBox.setPrefWidth(820);
+        vBox.setPrefHeight(600);
         AnchorPane.setTopAnchor(vBox, 30.0);
         AnchorPane.setLeftAnchor(vBox, 10.0);
         AnchorPane.setRightAnchor(vBox, 10.0);

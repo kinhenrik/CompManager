@@ -6,7 +6,10 @@ insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, ad
 
 
 
-insert into Teams(team_id, team_name) values (1, 'Immortals');
+insert into Teams (team_id, team_name) values (1, 'The Immortals');
+insert into Teams (team_id, team_name) values (2, 'The Invincibles');
+insert into Teams (team_id, team_name) values (3, 'The Warriors');
+insert into Teams (team_id, team_name) values (4, 'The Ninjas');
 
 
 

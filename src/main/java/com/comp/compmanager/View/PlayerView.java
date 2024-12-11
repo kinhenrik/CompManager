@@ -130,8 +130,10 @@ public class PlayerView {
 //        VBox toolVBox = new VBox(10, nameTextField, surnameTextField, nicknameTextField, teamTextField, buttonBar);
 //        toolVBox.setPadding(new Insets(8));
 
-        VBox vBox = new VBox(10, nameTextField,surnameTextField, nicknameTextField, teamTextField, buttonBar);
+        VBox vBox = new VBox(10,table, nameTextField,surnameTextField, nicknameTextField, teamTextField, buttonBar);
         vBox.setPadding(new Insets(10));
+        vBox.setPrefWidth(820);
+        vBox.setPrefHeight(400);
         AnchorPane.setTopAnchor(vBox, 30.0);
         AnchorPane.setLeftAnchor(vBox, 10.0);
         AnchorPane.setRightAnchor(vBox, 10.0);
