@@ -14,6 +14,7 @@ public class ViewManager {
     private final Stage stage;
     private final AnchorPane root;
     private final MenuBar menuBar;
+    private TeamView teamView;
 
     public ViewManager(Stage stage) {
         this.stage = stage;
@@ -105,8 +106,12 @@ public class ViewManager {
     }
     // Skapa TeamView
     public void showTeamView() {
-        AnchorPane teamView = new TeamView(this).getView();
-        setView(teamView);
+//        AnchorPane teamView = new TeamView(this).getView();
+//        setView(teamView);
+        if (teamView == null) {
+            teamView = new TeamView(this);
+        }
+        setView(teamView.getView());
     }
 
     // Skapa PlayerView

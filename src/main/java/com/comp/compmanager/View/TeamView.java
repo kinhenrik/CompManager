@@ -72,6 +72,7 @@ public AnchorPane getView() {
 //      alert.showAndWait();
         }
     });
+
     // add/lägga till knapp för att lägga till nya Teams i tabellen och sen uppdatera tabellen samt en popupfönster
     addTeamsBtn.setOnAction(e -> {
     // Skapa en ny Stage för popup fönster
@@ -93,7 +94,7 @@ public AnchorPane getView() {
              if (!teamName.isEmpty()) {
     // Skapa ett nytt team-objekt och lägg till det i listan
                 Teams newTeam = new Teams();
-                newTeam.setName(teamName);
+                    newTeam.setName(teamName);
                     teamManagerDAO.addTeam(newTeam); // Lägg till i databasen
                     table.getItems().add(newTeam); // Uppdatera tabellen
                     popupStage.close(); // Stäng popupen
@@ -113,6 +114,7 @@ public AnchorPane getView() {
          popupStage.setScene(popupScene);
          popupStage.show();
         });
+
     // Edit knapp för att redigera befintliga Teams i tabellen och sen uppdatera tabellen samt en popupfönster
     editTeamsBtn.setOnAction(e -> {
         Teams selectedTeam = table.getSelectionModel().getSelectedItem();
