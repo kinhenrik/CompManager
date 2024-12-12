@@ -80,6 +80,10 @@ public class AdminView {
         });
         addPlayerBtn.setOnAction(e -> System.out.println("add someone"));
 
+        if (!viewManager.isAdmin()) {
+            buttonBar.setDisable(true);
+        }
+
 //
         // Layout med VBox
         VBox vBox = new VBox(10, table, buttonBar);

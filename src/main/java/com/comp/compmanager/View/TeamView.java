@@ -150,6 +150,9 @@ public AnchorPane getView() {
             popupStage.show();
 
     });
+    if (!viewManager.isAdmin()) {
+        buttonBar.setDisable(true);
+    }
 
     // Layout med VBox
     VBox vBox = new VBox(10, table, buttonBar);
