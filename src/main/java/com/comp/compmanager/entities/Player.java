@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 //CREATE TABLE
 @Entity
-//NAME TABLE
+//NAME TABLE    
 @Table(name = "players")
 
 public class Player {

@@ -36,9 +36,10 @@ public class ViewManager {
         MenuItem adminMenuItem = new MenuItem("Admin View");
         MenuItem teamMenuItem = new MenuItem("Team View");
         MenuItem playerMenuItem = new MenuItem("Player View");
+        MenuItem gamesMenuItem = new MenuItem("Games View");
 
         // Lägg till valen i menyn
-        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem);
+        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem);
         menuBar.getMenus().add(menu);
 
         // Koppla menyval till vyhanteraren
@@ -58,6 +59,10 @@ public class ViewManager {
     public void showAdminView() {
         AnchorPane adminView = new AdminView(this).getView();
         setView(adminView);
+    }
+    public void showGamesView() {
+        AnchorPane gamesView = new GamesView(this).getView();
+        setView(gamesView);
     }
     // Skapa TeamView
     public void showTeamView() {
