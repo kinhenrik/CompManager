@@ -48,8 +48,11 @@ public AnchorPane getView() {
 
     //BUTTON BAR
     ButtonBar buttonBar = new ButtonBar();
+    if (!viewManager.isAdmin()) {
+        buttonBar.setDisable(true);
+    }
     //general dimensions
-    buttonBar.setPadding(new Insets(8));
+    buttonBar.setPadding(new Insets(10));
     //buttons
     Button deleteTeamsBtn = new Button("Delete Team");
     Button addTeamsBtn = new Button("Add Team");
@@ -101,8 +104,8 @@ public AnchorPane getView() {
                 } else {
     // Om namnet är tomt, visa ett varningsmeddelande
                  System.out.println("Team name can't be empty!");
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Team name can't be empty!", ButtonType.OK);
-                    alert.showAndWait();
+//                Alert alert = new Alert(Alert.AlertType.WARNING, "Team name can't be empty!", ButtonType.OK);
+//                    alert.showAndWait();
              }
          });
 
@@ -139,8 +142,8 @@ public AnchorPane getView() {
             }else {
                 // Om namnet är tomt, visa ett varningsmeddelande
                 System.out.println("Textfield can't be empty!");
-                Alert alert = new Alert(Alert.AlertType.WARNING, "Textfield can't be empty!", ButtonType.OK);
-                alert.showAndWait();
+//                Alert alert = new Alert(Alert.AlertType.WARNING, "Textfield can't be empty!", ButtonType.OK);
+//                alert.showAndWait();
             }
         });
         popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
@@ -150,9 +153,6 @@ public AnchorPane getView() {
             popupStage.show();
 
     });
-    if (!viewManager.isAdmin()) {
-        buttonBar.setDisable(true);
-    }
 
     // Layout med VBox
     VBox vBox = new VBox(10, table, buttonBar);
