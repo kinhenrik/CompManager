@@ -1,10 +1,13 @@
 package com.comp.compmanager.View;
 
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 public class ViewManager {
@@ -24,6 +27,16 @@ public class ViewManager {
         AnchorPane.setTopAnchor(menuBar, 0.0);
         AnchorPane.setLeftAnchor(menuBar, 0.0);
         AnchorPane.setRightAnchor(menuBar, 0.0);
+
+//        Image backgroundImage = new Image(getClass().getResource("/images/bild2.png").toExternalForm());
+//        BackgroundImage bgImage = new BackgroundImage(
+//            backgroundImage,
+//            BackgroundRepeat.NO_REPEAT,
+//            BackgroundRepeat.NO_REPEAT,
+//            BackgroundPosition.CENTER,
+//        new BackgroundSize(100, 100, false, false, true, true)
+//        );
+//        root.setBackground(new Background(bgImage));
         root.getChildren().add(menuBar);
     }
 
@@ -52,6 +65,31 @@ public class ViewManager {
     // Skapa huvudmenyn
     public void showMainMenu() {
         AnchorPane mainMenu = new AnchorPane();
+
+        Label welcomeLabel = new Label("--- || Welcome to || ---");
+        welcomeLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: beige;");
+        // Placerering av etiketten i mitten av skärmen
+        AnchorPane.setTopAnchor(welcomeLabel, 80.0);
+        AnchorPane.setLeftAnchor(welcomeLabel, (stage.getWidth() - welcomeLabel.getWidth()) / 3);
+        AnchorPane.setRightAnchor(welcomeLabel, (stage.getWidth() - welcomeLabel.getWidth()) / 3);
+
+
+        // Ladda bilden
+        Image backgroundImage = new Image(getClass().getResource("/images/bild1.png").toExternalForm());
+        ImageView backgroundView = new ImageView(backgroundImage);
+
+        // Anpassa bildens egenskaper
+        backgroundView.setPreserveRatio(false);
+        backgroundView.setSmooth(true);
+        backgroundView.setFitWidth(stage.getWidth());
+        backgroundView.setFitHeight(stage.getHeight());
+
+        // Lägg till lyssnare för att hantera storleksändringar
+        stage.widthProperty().addListener((obs, oldVal, newVal) -> backgroundView.setFitWidth((double) newVal));
+        stage.heightProperty().addListener((obs, oldVal, newVal) -> backgroundView.setFitHeight((double) newVal));
+
+        // Lägg till bilden och labeln till AnchorPane
+        mainMenu.getChildren().addAll(backgroundView, welcomeLabel);
         setView(mainMenu);
     }
     // Skapa AdminView
