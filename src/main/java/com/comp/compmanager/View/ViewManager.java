@@ -28,15 +28,21 @@ public class ViewManager {
         AnchorPane.setLeftAnchor(menuBar, 0.0);
         AnchorPane.setRightAnchor(menuBar, 0.0);
 
-//        Image backgroundImage = new Image(getClass().getResource("/images/bild2.png").toExternalForm());
-//        BackgroundImage bgImage = new BackgroundImage(
-//            backgroundImage,
-//            BackgroundRepeat.NO_REPEAT,
-//            BackgroundRepeat.NO_REPEAT,
-//            BackgroundPosition.CENTER,
-//        new BackgroundSize(100, 100, false, false, true, true)
-//        );
-//        root.setBackground(new Background(bgImage));
+// Ladda bilden om man vill ha på alla skärmar/vy
+//        Image backgroundImage = new Image(getClass().getResource("/images/bild1.png").toExternalForm());
+//        ImageView backgroundView = new ImageView(backgroundImage);
+//
+//        // Anpassa bildens egenskaper
+//        backgroundView.setPreserveRatio(false);
+//        backgroundView.setSmooth(true);
+//        backgroundView.setFitWidth(stage.getWidth());
+//        backgroundView.setFitHeight(stage.getHeight());
+//
+//        // Lägg till lyssnare för att hantera storleksändringar
+//        stage.widthProperty().addListener((obs, oldVal, newVal) -> backgroundView.setFitWidth((double) newVal));
+//        stage.heightProperty().addListener((obs, oldVal, newVal) -> backgroundView.setFitHeight((double) newVal));
+//
+//      root.setBackground(new Background(backgroundView));
         root.getChildren().add(menuBar);
     }
 
