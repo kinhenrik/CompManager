@@ -69,8 +69,8 @@ public class AdminView {
         //general dimensions
         buttonBar.setPadding(new Insets(8));
         //buttons
-        Button deletePlayerBtn = new Button("Delete Player");
-        Button addPlayerBtn = new Button("Add Player");
+        Button deletePlayerBtn = new Button("Delete Admin");
+        Button addPlayerBtn = new Button("Add Admin");
         //add buttons to bar
         buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn);
         //add button functionality via Lambda expression
@@ -80,7 +80,11 @@ public class AdminView {
         });
         addPlayerBtn.setOnAction(e -> System.out.println("add someone"));
 
-//
+        //DISABLAR KNAPPAR OCH TEXTFIELDS OM MAN INTE ÄR ADMIN
+        if (!viewManager.isAdmin()) {
+            buttonBar.setDisable(true);
+        }
+
         // Layout med VBox
         VBox vBox = new VBox(10, table, buttonBar);
         vBox.setPadding(new Insets(10));

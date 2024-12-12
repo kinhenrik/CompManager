@@ -126,6 +126,15 @@ public class PlayerView {
 
         });
 
+        //DISABLAR KNAPPAR OCH TEXTFIELDS OM MAN INTE ÄR ADMIN
+        if (!viewManager.isAdmin()) {
+            nameTextField.setDisable(true);
+            surnameTextField.setDisable(true);
+            nicknameTextField.setDisable(true);
+            teamTextField.setDisable(true);
+            buttonBar.setDisable(true);
+        }
+
         //TOOL-VBOX
 //        VBox toolVBox = new VBox(10, nameTextField, surnameTextField, nicknameTextField, teamTextField, buttonBar);
 //        toolVBox.setPadding(new Insets(8));

@@ -61,6 +61,10 @@ public class TeamView {
         addTeamsBtn.setOnAction(e -> System.out.println("add someone"));
             teamManagerDAO.addTeam(teams.get(0));
             table.setItems(table.getItems());
+        //DISABLAR KNAPPAR OM MAN INTE ÄR ADMIN
+        if (!viewManager.isAdmin()) {
+            buttonBar.setDisable(true);
+        }
 
 
         // Layout med VBox
