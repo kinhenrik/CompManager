@@ -59,14 +59,15 @@ public class ViewManager {
         MenuItem adminMenuItem = new MenuItem("Admin View");
         MenuItem teamMenuItem = new MenuItem("Team View");
         MenuItem playerMenuItem = new MenuItem("Player View");
+        MenuItem gamesMenuItem = new MenuItem("Games View");
         MenuItem logOutMenuItem = new MenuItem("Log Out");
 
         // Lägg till valen i menyn
-        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem);
+        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem);
         userMenu.getItems().add(logOutMenuItem);
         menuBar.getMenus().addAll(menu ,userMenu);
 
-        // Koppla menyval till vyhanteraren
+        // Koppla menyval till vyhanteraren , skapad av henrik
         mainMenuItem.setOnAction(e -> {
             menu.setText("Select view");
             showMainView();
@@ -83,6 +84,11 @@ public class ViewManager {
             menu.setText("Player view");
             showPlayerView();
         });
+        gamesMenuItem.setOnAction(e -> {
+            menu.setText("Games view");
+            showGamesView();
+        });
+
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
             logOutMenuItem.setOnAction(e -> {
             showMainView();
@@ -95,7 +101,7 @@ public class ViewManager {
 
         return menuBar;
     }
-    // Skapa Login-view
+    // Skapa Login-view , skapad av henrik
     private VBox createLoginView() {
         Button adminButton = new Button("Login as admin");
         Button guestButton = new Button("Continue as guest");
@@ -194,6 +200,11 @@ public class ViewManager {
         AnchorPane.setLeftAnchor(newView, 0.0);
         AnchorPane.setRightAnchor(newView, 0.0);
         root.getChildren().add(newView);
+    }
+
+    public void showGamesView() {
+        AnchorPane gameView = new GamesView(this).getView();
+        setView(gameView);
     }
 
     // Starta scenen med huvudmenyn

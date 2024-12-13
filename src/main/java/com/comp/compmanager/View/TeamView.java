@@ -35,7 +35,7 @@ public AnchorPane getView() {
     TableColumn<Teams, Integer> id_col = new TableColumn<>("Team ID");
     id_col.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-    TableColumn<Teams, String> name_col = new TableColumn<>("Team Name");
+    TableColumn<Teams, String> name_col = new TableColumn<>("Team name");
     name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
 
     table.getColumns().addAll(id_col, name_col);

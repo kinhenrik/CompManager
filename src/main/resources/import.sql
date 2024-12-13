@@ -10,10 +10,15 @@ insert into Teams (team_id, team_name) values (1, 'The Immortals');
 insert into Teams (team_id, team_name) values (2, 'The Invincibles');
 insert into Teams (team_id, team_name) values (3, 'The Warriors');
 insert into Teams (team_id, team_name) values (4, 'The Ninjas');
+insert into Teams (team_id, team_name) values (5, 'Lions');
 
 
 
 
-
+insert into Games (game_id, game_name) values (1, 'Starcraft 2');
+insert into Games (game_id, game_name) values (2, 'Counterstrike Global Offensive');
+insert into Games (game_id, game_name) values (3, 'Dota 2');
+insert into Games (game_id, game_name) values (4, 'League of Legends');
+insert into Games (game_id, game_name) values (5, 'Rocket League');
 
 

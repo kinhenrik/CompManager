@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
     @Entity
     @Table(name = "Teams")
-public class Teams {
+    public class Teams {
 
     //primary key ,AUTO_INCREMENT, Kollumn i tabellen
     @Id

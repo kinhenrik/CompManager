@@ -30,7 +30,7 @@ public class AdminView {
         // Skapa en TableView
         TableView<Admin> table = new TableView<>();
 
-        TableColumn<Admin, String> id_col = new TableColumn<>("ID");
+        TableColumn<Admin, String> id_col = new TableColumn<>("Admin ID");
         id_col.setCellValueFactory(new PropertyValueFactory<>("id"));
 
         TableColumn<Admin, String> firstname_col = new TableColumn<>("First name");
