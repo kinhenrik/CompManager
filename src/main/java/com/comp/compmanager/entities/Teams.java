@@ -18,8 +18,8 @@ import jakarta.persistence.*;
 
     //foreign Key till spelet laget tävlar inom
 //    @ManyToOne
-//    @JoinColumn(name = "games_id", nullable = false) // game_id är kolumnen i Teams-tabellen som refererar till Games-tabellen
-//    private Games game; // Relationen till Games-objektet i Games/Matches classen
+//    @JoinColumn(name = "game_id", nullable = false) // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
+//    private Games game; // Team relationen till Games-objektet i Games tabellen
 
 
     public int getId() {
