@@ -66,75 +66,75 @@ public class GamesView {
         table.setItems(observableList);
 
 
-        //BUTTON BAR
-        ButtonBar buttonBar = new ButtonBar();
-        if (!viewManager.isAdmin()) {
-            buttonBar.setDisable(true);
-        }
-        //general dimensions
-        buttonBar.setPadding(new Insets(8));
-        //buttons
-        Button deleteGameBtn = new Button("Delete Game");
-        Button addGameBtn = new Button("Add Game");
-        //add buttons to bar
-        buttonBar.getButtons().addAll(deleteGameBtn, addGameBtn);
-        //add button functionality via Lambda expression
-        deleteGameBtn.setOnAction(e -> {
-             Games selectedGame = table.getSelectionModel().getSelectedItem();
-              if (selectedGame != null) {
-              gamesDAO.deleteGame(games.get(0));
-              table.getItems().remove(games.get(0));
-              } else {
-//          Visa ett varningsmeddelande om inget lag är valt
-              System.out.println("No game selected");
-              }
-        });
+//        //BUTTON BAR
+//        ButtonBar buttonBar = new ButtonBar();
+//        if (!viewManager.isAdmin()) {
+//            buttonBar.setDisable(true);
+//        }
+//        //general dimensions
+//        buttonBar.setPadding(new Insets(8));
+//        //buttons
+//        Button deleteGameBtn = new Button("Delete Game");
+//        Button addGameBtn = new Button("Add Game");
+//        //add buttons to bar
+//        buttonBar.getButtons().addAll(deleteGameBtn, addGameBtn);
+//        //add button functionality via Lambda expression
+//        deleteGameBtn.setOnAction(e -> {
+//             Games selectedGame = table.getSelectionModel().getSelectedItem();
+//              if (selectedGame != null) {
+//              gamesDAO.deleteGame(games.get(0));
+//              table.getItems().remove(games.get(0));
+//              } else {
+////          Visa ett varningsmeddelande om inget lag är valt
+//              System.out.println("No game selected");
+//              }
+//        });
+//
+//        // add/lägga till knapp för att lägga till nya Teams i tabellen och sen uppdatera tabellen samt en popupfönster
+//        addGameBtn.setOnAction(e -> {
+//            // Skapa en ny Stage för popup fönster
+//            Stage popupStage = new Stage();
+//            popupStage.setTitle("Add New Game");
+//
+//            // Skapa layout för popup
+//            VBox popupLayout = new VBox(10);
+//            popupLayout.setPadding(new Insets(15));
+//
+//            // Skapa input-fält för lagets namn
+//            Label nameLabel = new Label("Game Name:");
+//            TextField nameField = new TextField();
+//
+//            // Spara-knapp
+//            Button saveButton = new Button("Save");
+//            saveButton.setOnAction(event -> {
+//                String gameName = nameField.getText();
+//                if (!gameName.isEmpty()) {
+//                    // Skapa ett nytt team-objekt och lägg till det i listan
+//                    Games newGame = new Games();
+//                    newGame.setName(gameName);
+//                    GamesDAO.addGames(newGame); // Lägg till i databasen
+//                    table.getItems().add(newGame); // Uppdatera tabellen
+//                    popupStage.close(); // Stäng popupen
+//                } else {
+//                    // Om namnet är tomt, visa ett varningsmeddelande
+//                    System.out.println("Game name can't be empty!");
+////                Alert alert = new Alert(Alert.AlertType.WARNING, "Game name can't be empty!", ButtonType.OK);
+////                    alert.showAndWait();
+//                }
+//            });
 
-        // add/lägga till knapp för att lägga till nya Teams i tabellen och sen uppdatera tabellen samt en popupfönster
-        addGameBtn.setOnAction(e -> {
-            // Skapa en ny Stage för popup fönster
-            Stage popupStage = new Stage();
-            popupStage.setTitle("Add New Game");
-
-            // Skapa layout för popup
-            VBox popupLayout = new VBox(10);
-            popupLayout.setPadding(new Insets(15));
-
-            // Skapa input-fält för lagets namn
-            Label nameLabel = new Label("Game Name:");
-            TextField nameField = new TextField();
-
-            // Spara-knapp
-            Button saveButton = new Button("Save");
-            saveButton.setOnAction(event -> {
-                String gameName = nameField.getText();
-                if (!gameName.isEmpty()) {
-                    // Skapa ett nytt team-objekt och lägg till det i listan
-                    Games newGame = new Games();
-                    newGame.setName(gameName);
-                    GamesDAO.addGames(newGame); // Lägg till i databasen
-                    table.getItems().add(newGame); // Uppdatera tabellen
-                    popupStage.close(); // Stäng popupen
-                } else {
-                    // Om namnet är tomt, visa ett varningsmeddelande
-                    System.out.println("Game name can't be empty!");
-//                Alert alert = new Alert(Alert.AlertType.WARNING, "Game name can't be empty!", ButtonType.OK);
-//                    alert.showAndWait();
-                }
-            });
-
-            // Lägg till komponenter i layouten
-            popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
-
-            // Visa popup-rutan
-            Scene popupScene = new Scene(popupLayout, 300, 200);
-            popupStage.setScene(popupScene);
-            popupStage.show();
-        });
+//            // Lägg till komponenter i layouten
+//            popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
+//
+//            // Visa popup-rutan
+//            Scene popupScene = new Scene(popupLayout, 300, 200);
+//            popupStage.setScene(popupScene);
+//            popupStage.show();
+//        });
 
 
         // Layout med VBox
-        VBox vBox = new VBox(10, table, buttonBar);
+        VBox vBox = new VBox(10, table/*, buttonBar*/);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
         vBox.setPrefHeight(600);

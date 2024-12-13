@@ -4,21 +4,24 @@ insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, ad
 insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, admin_city, admin_country, admin_email) values ('Ludwig', 'Svensson', 'Lillesäter 10', '98316', 'Malmberget', 'Sweden', 'ludwig_s@hotmail.com');
 insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, admin_city, admin_country, admin_email) values ('Henrik', 'Kinnunen', 'Gammelekevägen 31', '74961', 'Örsundsbro', 'Sweden', 'henrik.kinnunen.java24@edu.edugrade.se');
 
+insert into players (player_name, player_surname, player_nickname) values ('Christoffer', 'Morales', 'BigPapi');
+insert into players (player_name, player_surname, player_nickname) values ('Martin', 'Andersson', 'ilMuro');
+insert into players (player_name, player_surname, player_nickname) values ('Michael', 'Dahl', 'Miklo');
+insert into players (player_name, player_surname, player_nickname) values ('Alexander', 'Riveros', 'ChuPapi');
+
+insert into Teams (team_name) values ( 'The Immortals');
+insert into Teams (team_name) values ( 'The Invincibles');
+insert into Teams (team_name) values ('The Warriors');
+insert into Teams (team_name) values ( 'The Ninjas');
+insert into Teams (team_name) values ( 'Lions');
 
 
-insert into Teams (team_id, team_name) values (1, 'The Immortals');
-insert into Teams (team_id, team_name) values (2, 'The Invincibles');
-insert into Teams (team_id, team_name) values (3, 'The Warriors');
-insert into Teams (team_id, team_name) values (4, 'The Ninjas');
-insert into Teams (team_id, team_name) values (5, 'Lions');
 
 
-
-
-insert into Games (game_id, game_name) values (1, 'Starcraft 2');
-insert into Games (game_id, game_name) values (2, 'Counterstrike Global Offensive');
-insert into Games (game_id, game_name) values (3, 'Dota 2');
-insert into Games (game_id, game_name) values (4, 'League of Legends');
-insert into Games (game_id, game_name) values (5, 'Rocket League');
+insert into Games (game_name) values ( 'Starcraft 2');
+insert into Games (game_name) values ( 'Counterstrike Global Offensive');
+insert into Games (game_name) values ( 'Dota 2');
+insert into Games (game_name) values ( 'League of Legends');
+insert into Games (game_name) values ( 'Rocket League');
 
 

@@ -2,6 +2,9 @@ package com.comp.compmanager.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 //CREATE TABLE
 @Entity
 //NAME TABLE
@@ -25,8 +28,12 @@ public class Player {
     @Column(name = "player_nickname", length = 50, nullable = false)
     private String nickname;
 
-    @Column(name = "player_team", length = 50, nullable = false)
-    private String team;
+    //testar koppla players till olika lag //christoffer
+    @OneToMany(mappedBy = "player", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<Teams> teams = new ArrayList<>();
+
+//    @Column(name = "player_team", length = 50, nullable = false)
+//    private String team;
 
     //Player constructor
     public Player(){}
@@ -34,7 +41,7 @@ public class Player {
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
-        this.team = team;
+//        this.team = team;
     }
 
     //GETTERS & SETTERS
@@ -52,10 +59,18 @@ public class Player {
     public String getNickname() {return nickname;}
     public void setNickname(String nickname) { this.nickname = nickname; }
 
-    public String getTeam() {
-        return team;
+    public List<Teams> getTeams() {
+        return teams;
     }
-    public void setTeam(String team) { this.team = team; }
+
+    public void setTeams(List<Teams> teams) {
+        this.teams = teams;
+    }
+
+//    public String getTeam() {
+//        return team;
+//    }
+//    public void setTeam(String team) { this.team = team; }
 
 
 }

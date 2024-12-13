@@ -16,6 +16,11 @@ import jakarta.persistence.*;
     @Column(name = "team_name", nullable = false, length = 100)
     private String name; // Lagets namn
 
+        //foreign key för att koppla spelare till olika team
+    @ManyToOne
+    @JoinColumn(name = "Player ID")
+    private Player player;
+
     //foreign Key till spelet laget tävlar inom
 //    @ManyToOne
 //    @JoinColumn(name = "game_id", nullable = false) // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
