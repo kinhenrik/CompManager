@@ -50,8 +50,11 @@ public class LoginView{
         cancelButton.setPrefWidth(80);
 
         loginButton.setOnAction(event -> {
-            viewManager.setAdmin(true);
-            stage.close();
+            // Gör så att dropdown måste ha ett value innan man trycker login
+            if (dropdown.getValue() != null) {
+                viewManager.setAdmin(true);
+                stage.close();
+            }
         });
 
         cancelButton.setOnAction(event -> {
@@ -70,6 +73,7 @@ public class LoginView{
         // Skapar dropdown list med data från admin-listan i databasen (måste vara en observableList)
         ObservableList<String> observableList = new AdminView(viewManager).adminList();
         dropdown = new ComboBox(observableList);
+        dropdown.setPromptText("Select admin...");
         dropdown.setPrefWidth(170);
 
         HBox dropdownBox = new HBox();
