@@ -14,10 +14,12 @@ import java.util.List;
 
 public class AdminView {
     private final ViewManager viewManager;
+    private AdminDAO adminDAO = new AdminDAO();
 
     public AdminView(ViewManager viewManager) {
         this.viewManager = viewManager;
     }
+
 
     public AnchorPane getView() {
         AnchorPane layout = new AnchorPane();
@@ -57,10 +59,7 @@ public class AdminView {
 
         table.getColumns().addAll(id_col, firstname_col, lastname_col, address_col, zip_col, city_col, country_col, email_col);
 
-        //adds all col data to ObservableList for JavaFX
-        AdminDAO adminDAO = new AdminDAO();
-        List<Admin> admins = adminDAO.getAllAdmins();
-        ObservableList<Admin> observableList = FXCollections.observableArrayList(admins);
+        ObservableList<Admin> observableList = adminList();
         table.setItems(observableList);
 
 
@@ -75,8 +74,8 @@ public class AdminView {
         buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn);
         //add button functionality via Lambda expression
         deletePlayerBtn.setOnAction(e -> {
-            adminDAO.deleteAdmin(admins.get(0));
-            table.getItems().remove(admins.get(0));
+            adminDAO.deleteAdmin(observableList.get(0));
+            table.getItems().remove(observableList.get(0));
         });
         addPlayerBtn.setOnAction(e -> System.out.println("add someone"));
 
@@ -99,6 +98,14 @@ public class AdminView {
 
         return layout;
     }
+
+    public ObservableList adminList() {
+        //Skapar en lista med alla admins från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
+        List<Admin> admins = adminDAO.getAllAdmins();
+        ObservableList<Admin> observableList = FXCollections.observableArrayList(admins);
+        return observableList;
+    }
+
 }
 
 

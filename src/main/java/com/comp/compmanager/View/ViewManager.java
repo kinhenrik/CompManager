@@ -90,11 +90,18 @@ public class ViewManager {
         guestButton.setPrefWidth(150);
 
         adminButton.setOnAction(event -> {
-            menuBar.setDisable(false);
-            isAdmin = true;
-            isGuest = false;
-            menuBar.getMenus().get(1).setText("Logged in as: Admin");
-            menuBar.getMenus().get(0).setText("Select view");
+            // Öppnar login-fönstret om man inte är admin
+            LoginView loginView = new LoginView(this);
+            if (!isAdmin) {
+                loginView.createLoginWindow();
+            }
+            // Aktiverar knappar och visar vem man är inloggad som
+            if (isAdmin) {
+                menuBar.setDisable(false);
+                isGuest = false;
+                menuBar.getMenus().get(1).setText("Logged in as: " + loginView.getDropdownValue());
+                menuBar.getMenus().get(0).setText("Select view");
+            }
         });
 
         guestButton.setOnAction(event -> {
