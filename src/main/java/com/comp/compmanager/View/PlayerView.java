@@ -111,7 +111,7 @@ public class PlayerView {
                 table.getSelectionModel().getSelectedItem().setName(nameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setSurname(surnameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
-//                table.getSelectionModel().getSelectedItem().setTeam(teamTextField.getText());
+                table.getSelectionModel().getSelectedItem().setTeam(teamTextField.getText());
                 playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
                 //TODO IDK HOW TO SHOW IT IN TABLE
                 //reset text fields after use
@@ -126,6 +126,7 @@ public class PlayerView {
 
         });
 
+        //DISABLAR KNAPPAR OCH TEXTFIELDS OM MAN INTE ÄR ADMIN
         if (!viewManager.isAdmin()) {
             nameTextField.setDisable(true);
             surnameTextField.setDisable(true);
