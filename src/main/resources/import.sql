@@ -7,7 +7,7 @@ insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, ad
 insert into players (player_name, player_surname, player_nickname) values ('Christoffer', 'Morales', 'BigPapi');
 insert into players (player_name, player_surname, player_nickname) values ('Martin', 'Andersson', 'ilMuro');
 insert into players (player_name, player_surname, player_nickname) values ('Michael', 'Dahl', 'Miklo');
-insert into players (player_name, player_surname, player_nickname) values ('Alexander', 'Riveros', 'ChuPapi');
+insert into players (player_name, player_surname, player_nickname) values ('Alexander', 'Rune', 'ChuPapi');
 insert into players (player_name, player_surname, player_nickname) values ('Thomas', 'Nilsson', 'Fantomen');
 
 insert into Teams (team_name, player_id/*, game_id*/) values ('The Immortals', 3);
@@ -22,5 +22,3 @@ insert into Games (game_name) values ( 'Counterstrike Global Offensive');
 insert into Games (game_name) values ( 'Dota 2');
 insert into Games (game_name) values ( 'League of Legends');
 insert into Games (game_name) values ( 'Rocket League');
-
-
