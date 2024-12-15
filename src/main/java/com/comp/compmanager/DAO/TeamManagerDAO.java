@@ -21,6 +21,7 @@ public class TeamManagerDAO {
             transaction.begin();
             manager.persist(team); // Spara laget i databasen
             transaction.commit();
+            System.out.println("New team added with id: " + team.getId() + " has been added in database.");
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());

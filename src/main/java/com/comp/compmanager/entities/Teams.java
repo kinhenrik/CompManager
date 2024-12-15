@@ -18,14 +18,27 @@ import jakarta.persistence.*;
 
         //foreign key för att koppla spelare till olika team
     @ManyToOne
-    @JoinColumn(name = "Player ID")
+    @JoinColumn(name = "player_id")
     private Player player;
 
     //foreign Key till spelet laget tävlar inom
 //    @ManyToOne
-//    @JoinColumn(name = "game_id", nullable = false) // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
-//    private Games game; // Team relationen till Games-objektet i Games tabellen
+//    @JoinColumn(name = "game_id") // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
+//    private Games games; // Team relationen till Games-objektet i Games tabellen
 
+//    public Games getGames() {
+//        return games;
+//    }
+//    public void setGame(Games games) {
+//        this.games = games;
+//    }
+
+    public Player getPlayer (){
+        return player;
+    }
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
 
     public int getId() {
         return id;
@@ -43,11 +56,4 @@ import jakarta.persistence.*;
         this.name = name;
     }
 
-//    public Games getGame() {
-//        return game;
-//    }
-//
-//    public void setGame(Games game) {
-//        this.game = game;
-//    }
 }

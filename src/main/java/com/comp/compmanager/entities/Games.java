@@ -1,6 +1,8 @@
 package com.comp.compmanager.entities;
 import jakarta.persistence.*;
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 // CREATE TABLE //
 @Entity//NAME TABLE
@@ -24,6 +26,11 @@ public class Games {
 
     @Column(name = "game_name", length = 50, nullable = false)
     private String name;
+
+//    @OneToMany(mappedBy = "games", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+//    private List<Teams> teams = new ArrayList<>();
+
+
 //    @Column(name = "match_date", length = 50, nullable = false)
 //    private Date matchdate;
 //
@@ -104,9 +111,14 @@ public class Games {
         this.name = name;
     }
 
-    public String getGames() {
-        return getGames();
-    }
+//    public List<Teams> getTeams() {
+//        return teams;
+//    }
+//
+//    public void setTeams(List<Teams> teams) {
+//        this.teams = teams;
+//    }
+
 }
 
 // här ska alla spel jag la till i mySQL vara.

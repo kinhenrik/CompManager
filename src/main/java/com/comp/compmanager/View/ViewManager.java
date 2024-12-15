@@ -71,22 +71,27 @@ public class ViewManager {
         mainMenuItem.setOnAction(e -> {
             menu.setText("Select view");
             showMainView();
+            System.out.println("You selected the main menu");
         });
         adminMenuItem.setOnAction(e -> {
             menu.setText("Admin view");
             showAdminView();
+            System.out.println("You selected the admin menu");
         });
         teamMenuItem.setOnAction(e -> {
             menu.setText("Team view");
             showTeamView();
+            System.out.println("You selected the team menu");
         });
         playerMenuItem.setOnAction(e -> {
             menu.setText("Player view");
             showPlayerView();
+            System.out.println("You selected the player menu");
         });
         gamesMenuItem.setOnAction(e -> {
             menu.setText("Games view");
             showGamesView();
+            System.out.println("You selected the games menu");
         });
 
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
@@ -96,6 +101,7 @@ public class ViewManager {
             isAdmin = false;
             isGuest = false;
             userMenu.setText("Not logged in");
+                System.out.println("not logged in");
             menu.setText("Select view");
         });
 
@@ -115,6 +121,7 @@ public class ViewManager {
             isGuest = false;
             menuBar.getMenus().get(1).setText("Logged in as: Admin");
             menuBar.getMenus().get(0).setText("Select view");
+            System.out.println("Logged in as: Admin");
         });
 
         guestButton.setOnAction(event -> {
@@ -123,6 +130,7 @@ public class ViewManager {
             isAdmin = false;
             menuBar.getMenus().get(1).setText("Logged in as: Guest");
             menuBar.getMenus().get(0).setText("Select view");
+            System.out.println("Logged in as: Guest");
         });
 
         VBox loginBox = new VBox(10);

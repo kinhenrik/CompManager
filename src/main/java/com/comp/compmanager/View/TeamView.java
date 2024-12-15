@@ -71,6 +71,7 @@ public AnchorPane getView() {
             teamManagerDAO.deleteTeam(selectedTeam);
     // Ta bort laget från tabellen
             table.getItems().remove(selectedTeam);
+            System.out.println("Team deleted!");
         } else {
     // Visa ett varningsmeddelande om inget lag är valt
         System.out.println("No team selected");
@@ -104,6 +105,7 @@ public AnchorPane getView() {
                     teamManagerDAO.addTeam(newTeam); // Lägg till i databasen
                     table.getItems().add(newTeam); // Uppdatera tabellen
                     popupStage.close(); // Stäng popupen
+                 System.out.println("New team added");
                 } else {
     // Om namnet är tomt, visa ett varningsmeddelande
                  System.out.println("Team name can't be empty!");
@@ -142,6 +144,7 @@ public AnchorPane getView() {
                 teamManagerDAO.updateTeam(selectedTeam);
                 table.refresh();
                 popupStage.close();
+                System.out.println("Team updated");
             }else {
                 // Om namnet är tomt, visa ett varningsmeddelande
                 System.out.println("Textfield can't be empty!");

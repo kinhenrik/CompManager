@@ -8,14 +8,13 @@ insert into players (player_name, player_surname, player_nickname) values ('Chri
 insert into players (player_name, player_surname, player_nickname) values ('Martin', 'Andersson', 'ilMuro');
 insert into players (player_name, player_surname, player_nickname) values ('Michael', 'Dahl', 'Miklo');
 insert into players (player_name, player_surname, player_nickname) values ('Alexander', 'Riveros', 'ChuPapi');
+insert into players (player_name, player_surname, player_nickname) values ('Thomas', 'Nilsson', 'Fantomen');
 
-insert into Teams (team_name) values ( 'The Immortals');
-insert into Teams (team_name) values ( 'The Invincibles');
-insert into Teams (team_name) values ('The Warriors');
-insert into Teams (team_name) values ( 'The Ninjas');
-insert into Teams (team_name) values ( 'Lions');
-
-
+insert into Teams (team_name, player_id/*, game_id*/) values ('The Immortals', 3);
+insert into Teams (team_name, player_id/*, game_id*/) values ('The Invincibles',5);
+insert into Teams (team_name, player_id/*, game_id*/) values ('The Warriors',1);
+insert into Teams (team_name, player_id/*, game_id*/) values ('The Ninjas',4);
+insert into Teams (team_name, player_id/*, game_id*/) values ('Lions',2);
 
 
 insert into Games (game_name) values ( 'Starcraft 2');
