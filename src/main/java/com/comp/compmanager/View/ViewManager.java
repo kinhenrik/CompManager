@@ -63,12 +63,12 @@ public class ViewManager {
         MenuItem teamMenuItem = new MenuItem("Team View");
         MenuItem playerMenuItem = new MenuItem("Player View");
         MenuItem gamesMenuItem = new MenuItem("Games View");
-        //MenuItem matchMenuItem = new MenuItem("Match View");
+        MenuItem matchMenuItem = new MenuItem("Match View");
         //Menyval för userMenu
         MenuItem logoutMenuItem = new MenuItem("Logout");
 
         // Lägg till valen i menyn
-        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem/*matchMenuItem*/);
+        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem,matchMenuItem);
         userMenu.getItems().addAll(logoutMenuItem);
         menuBar.getMenus().addAll(menu, userMenu);
 
@@ -76,33 +76,33 @@ public class ViewManager {
         mainMenuItem.setOnAction(e -> {
             menu.setText("Select view");
             showMainView();
-            System.out.println("You selected the main menu");
+            System.out.println("You selected the main view");
         });
         adminMenuItem.setOnAction(e -> {
             menu.setText("Admin view");
             showAdminView();
-            System.out.println("You selected the admin menu");
+            System.out.println("You selected the admin view");
         });
         teamMenuItem.setOnAction(e -> {
             menu.setText("Team view");
             showTeamView();
-            System.out.println("You selected the team menu");
+            System.out.println("You selected the team view");
         });
         playerMenuItem.setOnAction(e -> {
             menu.setText("Player view");
             showPlayerView();
-            System.out.println("You selected the player menu");
+            System.out.println("You selected the player view");
         });
         gamesMenuItem.setOnAction(e -> {
             menu.setText("Games view");
             showGamesView();
-            System.out.println("You selected the games menu");
+            System.out.println("You selected the games view");
         });
-//        matchMenuItem.setOnAction(e -> {
-//            menu.setText("Match view");
-//            showMatchView();
-//            System.out.println("You selected the match menu");
-//        });
+        matchMenuItem.setOnAction(e -> {
+            menu.setText("Match view");
+            showMatchView();
+            System.out.println("You selected the match view");
+        });
 
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
@@ -226,10 +226,10 @@ public class ViewManager {
         setView(gameView);
     }
     // Skapa MatchView
-//    public void showMatchView() {
-//       AnchorPane matchView = new MatchView(this).getView();
-//       setView(matchView);
-//    }
+    public void showMatchView() {
+       AnchorPane matchView = new MatchView(this).getView();
+       setView(matchView);
+    }
 
     // Ta bort allt under menyfältet och lägg till den nya vyn
     private void setView(AnchorPane newView) {

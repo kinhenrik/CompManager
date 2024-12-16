@@ -38,14 +38,8 @@ public class Player {
 //    @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL)
 //    private List<Matches> matchesAsPlayer2;
 //
-//    @OneToMany(mappedBy = "player3", cascade = CascadeType.ALL)
-//    private List<Matches> matchesAsPlayer3;
-//
-//    @OneToMany(mappedBy = "player4", cascade = CascadeType.ALL)
-//    private List<Matches> matchesAsPlayer4;
-//
-//    @OneToMany(mappedBy = "player5", cascade = CascadeType.ALL)
-//    private List<Matches> matchesAsPlayer5;
+//    @OneToMany(mappedBy = "winnerPlayer", cascade = CascadeType.ALL)
+//    private List<Matches> matchesWonPlayer;
 
 
 //    //testar koppla players till olika lag //christoffer
@@ -102,27 +96,12 @@ public class Player {
 //        this.matchesAsPlayer2 = matchesAsPlayer2;
 //    }
 //
-//    public List<Matches> getMatchesAsPlayer3() {
-//        return matchesAsPlayer3;
+//    public List<Matches> getMatchesWonPlayer() {
+//        return matchesWonPlayer;
 //    }
 //
-//    public void setMatchesAsPlayer3(List<Matches> matchesAsPlayer3) {
-//        this.matchesAsPlayer3 = matchesAsPlayer3;
+//    public void setMatchesWonPlayer(List<Matches> matchesWonPlayer) {
+//        this.matchesWonPlayer = matchesWonPlayer;
 //    }
-//
-//    public List<Matches> getMatchesAsPlayer4() {
-//        return matchesAsPlayer4;
-//    }
-//
-//    public void setMatchesAsPlayer4(List<Matches> matchesAsPlayer4) {
-//        this.matchesAsPlayer4 = matchesAsPlayer4;
-//    }
-//
-//    public List<Matches> getMatchesAsPlayer5() {
-//        return matchesAsPlayer5;
-//    }
-//
-//    public void setMatchesAsPlayer5(List<Matches> matchesAsPlayer5) {
-//        this.matchesAsPlayer5 = matchesAsPlayer5;
-//    }
+
 }
