@@ -17,7 +17,6 @@ public class ViewManager {
     private TeamView teamView;
     private boolean isAdmin = false;
     private boolean isGuest = true;
-    private ObservableList<String> filteredData;
 
     public ViewManager(Stage stage) {
         this.stage = stage;
@@ -62,11 +61,11 @@ public class ViewManager {
         MenuItem teamMenuItem = new MenuItem("Team View");
         MenuItem playerMenuItem = new MenuItem("Player View");
         MenuItem gamesMenuItem = new MenuItem("Games View");
-        MenuItem matchMenuItem = new MenuItem("Match View");
+        //MenuItem matchMenuItem = new MenuItem("Match View");
         MenuItem logOutMenuItem = new MenuItem("Log Out");
 
         // Lägg till valen i menyn
-        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem, matchMenuItem, logOutMenuItem);
+        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem/*, matchMenuItem*/, logOutMenuItem);
         userMenu.getItems().add(logOutMenuItem);
         menuBar.getMenus().addAll(menu ,userMenu);
 
@@ -96,11 +95,11 @@ public class ViewManager {
             showGamesView();
             System.out.println("You selected the games menu");
         });
-        matchMenuItem.setOnAction(e -> {
-            menu.setText("Match view");
-            showMatchView();
-            System.out.println("You selected the match menu");
-        });
+//        matchMenuItem.setOnAction(e -> {
+//            menu.setText("Match view");
+//            showMatchView();
+//            System.out.println("You selected the match menu");
+//        });
 
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
             logOutMenuItem.setOnAction(e -> {
@@ -221,11 +220,11 @@ public class ViewManager {
         AnchorPane gameView = new GamesView(this).getView();
         setView(gameView);
     }
-    // Skapa AdminView
-    public void showMatchView() {
-       AnchorPane matchView = new MatchView(this).getView();
-       setView(matchView);
-    }
+    // Skapa MatchView
+//    public void showMatchView() {
+//       AnchorPane matchView = new MatchView(this).getView();
+//       setView(matchView);
+//    }
 
     // Ta bort allt under menyfältet och lägg till den nya vyn
     private void setView(AnchorPane newView) {
