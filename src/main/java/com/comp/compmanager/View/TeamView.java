@@ -102,9 +102,12 @@ public AnchorPane getView() {
     // Skapa ett nytt team-objekt och lägg till det i listan
                 Teams newTeam = new Teams();
                     newTeam.setName(teamName);
-                    teamManagerDAO.addTeam(newTeam); // Lägg till i databasen
-                    table.getItems().add(newTeam); // Uppdatera tabellen
-                    popupStage.close(); // Stäng popupen
+                 // Lägg till i databasen
+                    teamManagerDAO.addTeam(newTeam);
+                 // Uppdatera tabellen
+                    table.getItems().add(newTeam);
+                 // Stäng popupen fönstret
+                    popupStage.close();
                  System.out.println("New team added");
                 } else {
     // Om namnet är tomt, visa ett varningsmeddelande
