@@ -4,7 +4,6 @@ module com.comp.compmanager{
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires mysql.connector.j;
-    requires transitive jakarta.transaction;
 
 
     opens com.comp.compmanager.entities to org.hibernate.orm.core, javafx.base;
