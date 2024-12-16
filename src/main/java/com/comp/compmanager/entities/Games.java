@@ -27,8 +27,56 @@ public class Games {
     @Column(name = "game_name", length = 50, nullable = false)
     private String name;
 
-//    @OneToMany(mappedBy = "games", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-//    private List<Teams> teams = new ArrayList<>();
+    @OneToMany(mappedBy = "games", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<Teams> teams = new ArrayList<>();
+
+    // match date, winner, match id, match type (lag mot lag/spelare mot spelare), player, lag, player_id 1-5. team_id 1-5.
+    // här ska alla spel jag la till i mySQL vara.
+
+//
+    //Games constructor
+    public Games() {}
+    public Games(String name) {
+        this.name = name;
+    }
+
+////gör klart denna idag. Kolla vad som behövs i DAO-klassen. Gör det imorgon om jag inte hinner idag.
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Teams> getTeams() {
+        return teams;
+    }
+
+    public void setTeams(List<Teams> teams) {
+        this.teams = teams;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+
+    //    @Override
+//    public String toString() {
+//        return "Game: " + name + " (ID: " + id + ")";
+//    }
+
+}
 
 
 //    @Column(name = "match_date", length = 50, nullable = false)
@@ -71,54 +119,3 @@ public class Games {
 //    @ManyToOne
 //    @JoinColumn(name = "winner_id", nullable = false)
 //    private Teams winner;
-
-
-
-
-
-
-    // match date, winner, match id, match type (lag mot lag/spelare mot spelare), player, lag, player_id 1-5. team_id 1-5.
-
-
-//
-//    //Games constructor
-//    public Games() {
-//    }
-//
-//    public Games(String name, String team) {
-//        this.name = name;
-//        this.team = team;
-//    }
-//
-//
-////gör klart denna idag. Kolla vad som behövs i DAO-klassen. Gör det imorgon om jag inte hinner idag.
-//
-
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-//    public List<Teams> getTeams() {
-//        return teams;
-//    }
-//
-//    public void setTeams(List<Teams> teams) {
-//        this.teams = teams;
-//    }
-
-}
-
-// här ska alla spel jag la till i mySQL vara.

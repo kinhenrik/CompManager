@@ -1,5 +1,7 @@
 package com.comp.compmanager.View;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -16,6 +18,7 @@ public class ViewManager {
     private TeamView teamView;
     private boolean isAdmin = false;
     private boolean isGuest = true;
+    private ObservableList<String> filteredData;
 
     public ViewManager(Stage stage) {
         this.stage = stage;
@@ -101,7 +104,7 @@ public class ViewManager {
             isAdmin = false;
             isGuest = false;
             userMenu.setText("Not logged in");
-                System.out.println("not logged in");
+                System.out.println("User logged out");
             menu.setText("Select view");
         });
 
@@ -145,6 +148,7 @@ public class ViewManager {
 
         return loginBox;
     }
+
 
     // Skapa huvudmenyn
     public void showMainView() {
@@ -221,6 +225,14 @@ public class ViewManager {
     public void showGamesView() {
         AnchorPane gameView = new GamesView(this).getView();
         setView(gameView);
+    }
+
+    public void setFilteredData(ObservableList<String> filteredData) {
+        this.filteredData = filteredData;
+    }
+
+    public ObservableList<String> getFilteredData() {
+        return filteredData;
     }
 
     // Starta scenen med huvudmenyn

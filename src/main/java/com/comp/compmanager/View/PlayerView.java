@@ -2,6 +2,7 @@ package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.PlayerDAO;
 import com.comp.compmanager.entities.Player;
+import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;

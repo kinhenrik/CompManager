@@ -14,7 +14,7 @@
             <property name="jakarta.persistence.jdbc.user"
                       value="root"/>
             <property name="jakarta.persistence.jdbc.password"
-                      value="Cmorales11"/>
+                      value="hejsan"/>
 
             <!-- Automatic schema export -->
             <property name="hibernate.hbm2ddl.auto"

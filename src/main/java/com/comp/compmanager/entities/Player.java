@@ -2,9 +2,6 @@ package com.comp.compmanager.entities;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
 //CREATE TABLE
 @Entity
 //NAME TABLE
@@ -28,20 +25,25 @@ public class Player {
     @Column(name = "player_nickname", length = 50, nullable = false)
     private String nickname;
 
-    //testar koppla players till olika lag //christoffer
-    @OneToMany(mappedBy = "player", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-    private List<Teams> teams = new ArrayList<>();
+    //foreign key för att koppla spelare till olika team .. test // christoffer
+    @ManyToOne
+    @JoinColumn(name = "team_id")
+    private Teams team;
+
+//    //testar koppla players till olika lag //christoffer
+//    @OneToMany(mappedBy = "player", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+//    private List<Teams> teams = new ArrayList<>();
 
 //    @Column(name = "player_team", length = 50, nullable = false)
 //    private String team;
 
     //Player constructor
     public Player(){}
-    public Player(String name, String surname, String nickname, String team) {
+    public Player(String name, String surname, String nickname, Teams team) {
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
-//        this.team = team;
+        this.team = team;
     }
 
     //GETTERS & SETTERS
@@ -59,18 +61,11 @@ public class Player {
     public String getNickname() {return nickname;}
     public void setNickname(String nickname) { this.nickname = nickname; }
 
-    public List<Teams> getTeams() {
-        return teams;
+    public Teams getTeam (){
+        return team;
     }
-
-    public void setTeams(List<Teams> teams) {
-        this.teams = teams;
+    public void setTeam(Teams team) {
+        this.team = team;
     }
-
-//    public String getTeam() {
-//        return team;
-//    }
-//    public void setTeam(String team) { this.team = team; }
-
 
 }

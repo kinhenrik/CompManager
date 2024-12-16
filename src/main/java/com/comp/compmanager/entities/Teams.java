@@ -2,8 +2,12 @@ package com.comp.compmanager.entities;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "Teams")
+
 public class Teams {
 
     //primary key ,AUTO_INCREMENT, Kollumn i tabellen
@@ -16,28 +20,35 @@ public class Teams {
     @Column(name = "team_name", nullable = false, length = 100)
     private String name; // Lagets namn
 
-    //foreign key för att koppla spelare till olika team
-    @ManyToOne
-    @JoinColumn(name = "player_id")
-    private Player player;
+    //testar koppla players till olika lag //christoffer
+    @OneToMany(mappedBy = "team", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    private List<Player> players = new ArrayList<>();
 
     //foreign Key till spelet laget tävlar inom
-//    @ManyToOne
-//    @JoinColumn(name = "game_id") // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
-//    private Games games; // Team relationen till Games-objektet i Games tabellen
+    @ManyToOne
+    @JoinColumn(name = "game_id") // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
+    private Games games; // Team relationen till Games-objektet i Games tabellen
 
-//    public Games getGames() {
-//        return games;
-//    }
-//    public void setGame(Games games) {
-//        this.games = games;
-//    }
 
-    public Player getPlayer (){
-        return player;
+    public Teams() {}
+    public Teams(String name, Games games) {
+        this.name = name;
+        this.games = games;
     }
-    public void setPlayer(Player player) {
-        this.player = player;
+
+    public Games getGames() {
+        return games;
+    }
+    public void setGame(Games games) {
+        this.games = games;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setPlayers(List<Player> players) {
+        this.players = players;
     }
 
     public int getId() {
@@ -55,5 +66,14 @@ public class Teams {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
+//    @Override
+//    public String toString() {
+//        return "Team: " + name + ", Game: " + (games != null ? games.getName() : "None");
+//    }
 
 }

@@ -38,10 +38,10 @@ public AnchorPane getView() {
     TableColumn<Teams, String> name_col = new TableColumn<>("Team name");
     name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-//    TableColumn<Teams, String> game_col = new TableColumn<>("Game name");
-//    game_col.setCellValueFactory(new PropertyValueFactory<>("game"));
+    TableColumn<Teams, String> games_col = new TableColumn<>("Game");
+    games_col.setCellValueFactory(new PropertyValueFactory<>("games"));
 
-    table.getColumns().addAll(id_col, name_col/*, game_col*/);
+    table.getColumns().addAll(id_col, name_col, games_col);
 
     // Lägg till data i tabellen
     TeamManagerDAO teamManagerDAO = new TeamManagerDAO();
