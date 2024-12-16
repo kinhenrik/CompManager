@@ -1,5 +1,6 @@
 package com.comp.compmanager.entities;
 
+import com.comp.compmanager.DAO.PlayerDAO;
 import jakarta.persistence.*;
 
 //CREATE TABLE
@@ -25,12 +26,8 @@ public class Player {
     @Column(name = "player_nickname", length = 50, nullable = false)
     private String nickname;
 
-    //todo testing
-
-    // @Column(name = "player_team", length = 50, nullable = false)
-    //private String team;
-
     //ForeignKey
+
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false) // team_id är kolumnen i Teams-tabellen som refererar till Games-tabellen
     private Teams team; // Relationen till Games-objektet i Games/Matches classen
@@ -61,7 +58,7 @@ public class Player {
     public void setNickname(String nickname) { this.nickname = nickname; }
 
 
-    //todo testing
+
     public Teams getTeam() {
         return team;
     }

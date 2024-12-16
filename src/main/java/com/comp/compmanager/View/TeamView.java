@@ -1,6 +1,7 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.TeamManagerDAO;
+import com.comp.compmanager.entities.Admin;
 import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,9 @@ import java.util.List;
 
 public class TeamView {
     private final ViewManager viewManager;
+
+
+    private TeamManagerDAO teamManagerDAO = new TeamManagerDAO();
 
     public TeamView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -38,11 +42,9 @@ public class TeamView {
 
         table.getColumns().addAll(id_col, name_col);
 
-        // Lägg till data i tabellen
-        TeamManagerDAO teamManagerDAO = new TeamManagerDAO();
-        List<Teams> teams = teamManagerDAO.getAllTeams();
-        ObservableList<Teams> observableList = FXCollections.observableArrayList(teams);
-        table.setItems(observableList);
+
+        ObservableList<Teams> teams = teamList();
+        table.setItems(teams);
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
@@ -81,4 +83,14 @@ public class TeamView {
 
         return layout;
     }
+
+
+
+    public ObservableList teamList() {
+        //Skapar en lista med alla admins från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
+        List<Teams> teams = teamManagerDAO.getAllTeams();
+        ObservableList<Teams> observableList = FXCollections.observableArrayList(teams);
+        return observableList;
+    }
+
 }
