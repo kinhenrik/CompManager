@@ -53,6 +53,8 @@ public class ViewManager {
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Select view");
+
+        //userMenu som man kan logga ut med
         Menu userMenu = new Menu("Not logged in");
 
         // Skapa menyval
@@ -62,12 +64,13 @@ public class ViewManager {
         MenuItem playerMenuItem = new MenuItem("Player View");
         MenuItem gamesMenuItem = new MenuItem("Games View");
         //MenuItem matchMenuItem = new MenuItem("Match View");
-        MenuItem logOutMenuItem = new MenuItem("Log Out");
+        //Menyval för userMenu
+        MenuItem logoutMenuItem = new MenuItem("Logout");
 
         // Lägg till valen i menyn
-        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem/*, matchMenuItem*/, logOutMenuItem);
-        userMenu.getItems().add(logOutMenuItem);
-        menuBar.getMenus().addAll(menu ,userMenu);
+        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem/*matchMenuItem*/);
+        userMenu.getItems().addAll(logoutMenuItem);
+        menuBar.getMenus().addAll(menu, userMenu);
 
         // Koppla menyval till vyhanteraren , skapad av henrik
         mainMenuItem.setOnAction(e -> {
@@ -102,13 +105,14 @@ public class ViewManager {
 //        });
 
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
-            logOutMenuItem.setOnAction(e -> {
+        //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
+        logoutMenuItem.setOnAction(e -> {
             showMainView();
             menuBar.setDisable(true);
             isAdmin = false;
             isGuest = false;
             userMenu.setText("Not logged in");
-                System.out.println("User logged out");
+            System.out.println("User logged out");
             menu.setText("Select view");
         });
 
