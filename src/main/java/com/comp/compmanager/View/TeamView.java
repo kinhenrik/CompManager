@@ -99,8 +99,8 @@ public AnchorPane getView() {
         saveButton.setOnAction(event -> {
          String teamName = nameField.getText();
              if (!teamName.isEmpty()) {
-    // Skapa ett nytt team-objekt och lägg till det i listan
-                Teams newTeam = new Teams();
+    // Skapa ett nytt team objekt och lägg till det i listan
+                 Teams newTeam = new Teams();
                     newTeam.setName(teamName);
                  // Lägg till i databasen
                     teamManagerDAO.addTeam(newTeam);

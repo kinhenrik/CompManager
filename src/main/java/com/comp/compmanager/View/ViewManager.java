@@ -1,6 +1,5 @@
 package com.comp.compmanager.View;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -63,10 +62,11 @@ public class ViewManager {
         MenuItem teamMenuItem = new MenuItem("Team View");
         MenuItem playerMenuItem = new MenuItem("Player View");
         MenuItem gamesMenuItem = new MenuItem("Games View");
+        MenuItem matchMenuItem = new MenuItem("Match View");
         MenuItem logOutMenuItem = new MenuItem("Log Out");
 
         // Lägg till valen i menyn
-        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem);
+        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem, matchMenuItem, logOutMenuItem);
         userMenu.getItems().add(logOutMenuItem);
         menuBar.getMenus().addAll(menu ,userMenu);
 
@@ -95,6 +95,11 @@ public class ViewManager {
             menu.setText("Games view");
             showGamesView();
             System.out.println("You selected the games menu");
+        });
+        matchMenuItem.setOnAction(e -> {
+            menu.setText("Match view");
+            showMatchView();
+            System.out.println("You selected the match menu");
         });
 
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
@@ -211,6 +216,17 @@ public class ViewManager {
         setView(playerView);
     }
 
+
+    public void showGamesView() {
+        AnchorPane gameView = new GamesView(this).getView();
+        setView(gameView);
+    }
+    // Skapa AdminView
+    public void showMatchView() {
+       AnchorPane matchView = new MatchView(this).getView();
+       setView(matchView);
+    }
+
     // Ta bort allt under menyfältet och lägg till den nya vyn
     private void setView(AnchorPane newView) {
 
@@ -222,18 +238,6 @@ public class ViewManager {
         root.getChildren().add(newView);
     }
 
-    public void showGamesView() {
-        AnchorPane gameView = new GamesView(this).getView();
-        setView(gameView);
-    }
-
-    public void setFilteredData(ObservableList<String> filteredData) {
-        this.filteredData = filteredData;
-    }
-
-    public ObservableList<String> getFilteredData() {
-        return filteredData;
-    }
 
     // Starta scenen med huvudmenyn
     public void start() {
