@@ -29,23 +29,23 @@ public class Teams {
     @JoinColumn(name = "game_id") // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
     private Games games; // Team relationen till Games-objektet i Games tabellen
 
-    @OneToMany(mappedBy = "team1", cascade = CascadeType.ALL)
-    private List<Matches> matchesAsTeam1;
-
-    @OneToMany(mappedBy = "team2", cascade = CascadeType.ALL)
-    private List<Matches> matchesAsTeam2;
-
-    @OneToMany(mappedBy = "team3", cascade = CascadeType.ALL)
-    private List<Matches> matchesAsTeam3;
-
-    @OneToMany(mappedBy = "team4", cascade = CascadeType.ALL)
-    private List<Matches> matchesAsTeam4;
-
-    @OneToMany(mappedBy = "team5", cascade = CascadeType.ALL)
-    private List<Matches> matchesAsTeam5;
-
-    @OneToMany(mappedBy = "winner", cascade = CascadeType.ALL)
-    private List<Matches> matchesWon;
+//    @OneToMany(mappedBy = "team1", cascade = CascadeType.ALL)
+//    private List<Matches> matchesAsTeam1;
+//
+//    @OneToMany(mappedBy = "team2", cascade = CascadeType.ALL)
+//    private List<Matches> matchesAsTeam2;
+//
+//    @OneToMany(mappedBy = "team3", cascade = CascadeType.ALL)
+//    private List<Matches> matchesAsTeam3;
+//
+//    @OneToMany(mappedBy = "team4", cascade = CascadeType.ALL)
+//    private List<Matches> matchesAsTeam4;
+//
+//    @OneToMany(mappedBy = "team5", cascade = CascadeType.ALL)
+//    private List<Matches> matchesAsTeam5;
+//
+//    @OneToMany(mappedBy = "winner", cascade = CascadeType.ALL)
+//    private List<Matches> matchesWon;
 
 
     public Teams() {}
@@ -85,53 +85,53 @@ public class Teams {
         this.name = name;
     }
 
-    public List<Matches> getMatchesAsTeam1() {
-        return matchesAsTeam1;
-    }
-
-    public void setMatchesAsTeam1(List<Matches> matchesAsTeam1) {
-        this.matchesAsTeam1 = matchesAsTeam1;
-    }
-
-    public List<Matches> getMatchesAsTeam2() {
-        return matchesAsTeam2;
-    }
-
-    public void setMatchesAsTeam2(List<Matches> matchesAsTeam2) {
-        this.matchesAsTeam2 = matchesAsTeam2;
-    }
-
-    public List<Matches> getMatchesAsTeam3() {
-        return matchesAsTeam3;
-    }
-
-    public void setMatchesAsTeam3(List<Matches> matchesAsTeam3) {
-        this.matchesAsTeam3 = matchesAsTeam3;
-    }
-
-    public List<Matches> getMatchesAsTeam4() {
-        return matchesAsTeam4;
-    }
-
-    public void setMatchesAsTeam4(List<Matches> matchesAsTeam4) {
-        this.matchesAsTeam4 = matchesAsTeam4;
-    }
-
-    public List<Matches> getMatchesAsTeam5() {
-        return matchesAsTeam5;
-    }
-
-    public void setMatchesAsTeam5(List<Matches> matchesAsTeam5) {
-        this.matchesAsTeam5 = matchesAsTeam5;
-    }
-
-    public List<Matches> getMatchesWon() {
-        return matchesWon;
-    }
-
-    public void setMatchesWon(List<Matches> matchesWon) {
-        this.matchesWon = matchesWon;
-    }
+//    public List<Matches> getMatchesAsTeam1() {
+//        return matchesAsTeam1;
+//    }
+//
+//    public void setMatchesAsTeam1(List<Matches> matchesAsTeam1) {
+//        this.matchesAsTeam1 = matchesAsTeam1;
+//    }
+//
+//    public List<Matches> getMatchesAsTeam2() {
+//        return matchesAsTeam2;
+//    }
+//
+//    public void setMatchesAsTeam2(List<Matches> matchesAsTeam2) {
+//        this.matchesAsTeam2 = matchesAsTeam2;
+//    }
+//
+//    public List<Matches> getMatchesAsTeam3() {
+//        return matchesAsTeam3;
+//    }
+//
+//    public void setMatchesAsTeam3(List<Matches> matchesAsTeam3) {
+//        this.matchesAsTeam3 = matchesAsTeam3;
+//    }
+//
+//    public List<Matches> getMatchesAsTeam4() {
+//        return matchesAsTeam4;
+//    }
+//
+//    public void setMatchesAsTeam4(List<Matches> matchesAsTeam4) {
+//        this.matchesAsTeam4 = matchesAsTeam4;
+//    }
+//
+//    public List<Matches> getMatchesAsTeam5() {
+//        return matchesAsTeam5;
+//    }
+//
+//    public void setMatchesAsTeam5(List<Matches> matchesAsTeam5) {
+//        this.matchesAsTeam5 = matchesAsTeam5;
+//    }
+//
+//    public List<Matches> getMatchesWon() {
+//        return matchesWon;
+//    }
+//
+//    public void setMatchesWon(List<Matches> matchesWon) {
+//        this.matchesWon = matchesWon;
+//    }
 
 
     @Override

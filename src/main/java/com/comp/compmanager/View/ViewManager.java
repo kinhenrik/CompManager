@@ -124,11 +124,12 @@ public class ViewManager {
 
         adminButton.setOnAction(event -> {
             // Öppnar login-fönstret om man inte är admin
+            // Aktiverar knappar och visar vem man är inloggad som
             LoginView loginView = new LoginView(this);
             if (!isAdmin) {
                 loginView.createLoginWindow();
             }
-            // Aktiverar knappar och visar vem man är inloggad som
+
             if (isAdmin) {
                 menuBar.setDisable(false);
                 isGuest = false;

@@ -32,20 +32,20 @@ public class Player {
     @JoinColumn(name = "team_id")
     private Teams team;
 
-    @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL)
-    private List<Matches> matchesAsPlayer1;
-
-    @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL)
-    private List<Matches> matchesAsPlayer2;
-
-    @OneToMany(mappedBy = "player3", cascade = CascadeType.ALL)
-    private List<Matches> matchesAsPlayer3;
-
-    @OneToMany(mappedBy = "player4", cascade = CascadeType.ALL)
-    private List<Matches> matchesAsPlayer4;
-
-    @OneToMany(mappedBy = "player5", cascade = CascadeType.ALL)
-    private List<Matches> matchesAsPlayer5;
+//    @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL)
+//    private List<Matches> matchesAsPlayer1;
+//
+//    @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL)
+//    private List<Matches> matchesAsPlayer2;
+//
+//    @OneToMany(mappedBy = "player3", cascade = CascadeType.ALL)
+//    private List<Matches> matchesAsPlayer3;
+//
+//    @OneToMany(mappedBy = "player4", cascade = CascadeType.ALL)
+//    private List<Matches> matchesAsPlayer4;
+//
+//    @OneToMany(mappedBy = "player5", cascade = CascadeType.ALL)
+//    private List<Matches> matchesAsPlayer5;
 
 
 //    //testar koppla players till olika lag //christoffer
@@ -86,43 +86,43 @@ public class Player {
         this.team = team;
     }
 
-    public List<Matches> getMatchesAsPlayer1() {
-        return matchesAsPlayer1;
-    }
-
-    public void setMatchesAsPlayer1(List<Matches> matchesAsPlayer1) {
-        this.matchesAsPlayer1 = matchesAsPlayer1;
-    }
-
-    public List<Matches> getMatchesAsPlayer2() {
-        return matchesAsPlayer2;
-    }
-
-    public void setMatchesAsPlayer2(List<Matches> matchesAsPlayer2) {
-        this.matchesAsPlayer2 = matchesAsPlayer2;
-    }
-
-    public List<Matches> getMatchesAsPlayer3() {
-        return matchesAsPlayer3;
-    }
-
-    public void setMatchesAsPlayer3(List<Matches> matchesAsPlayer3) {
-        this.matchesAsPlayer3 = matchesAsPlayer3;
-    }
-
-    public List<Matches> getMatchesAsPlayer4() {
-        return matchesAsPlayer4;
-    }
-
-    public void setMatchesAsPlayer4(List<Matches> matchesAsPlayer4) {
-        this.matchesAsPlayer4 = matchesAsPlayer4;
-    }
-
-    public List<Matches> getMatchesAsPlayer5() {
-        return matchesAsPlayer5;
-    }
-
-    public void setMatchesAsPlayer5(List<Matches> matchesAsPlayer5) {
-        this.matchesAsPlayer5 = matchesAsPlayer5;
-    }
+//    public List<Matches> getMatchesAsPlayer1() {
+//        return matchesAsPlayer1;
+//    }
+//
+//    public void setMatchesAsPlayer1(List<Matches> matchesAsPlayer1) {
+//        this.matchesAsPlayer1 = matchesAsPlayer1;
+//    }
+//
+//    public List<Matches> getMatchesAsPlayer2() {
+//        return matchesAsPlayer2;
+//    }
+//
+//    public void setMatchesAsPlayer2(List<Matches> matchesAsPlayer2) {
+//        this.matchesAsPlayer2 = matchesAsPlayer2;
+//    }
+//
+//    public List<Matches> getMatchesAsPlayer3() {
+//        return matchesAsPlayer3;
+//    }
+//
+//    public void setMatchesAsPlayer3(List<Matches> matchesAsPlayer3) {
+//        this.matchesAsPlayer3 = matchesAsPlayer3;
+//    }
+//
+//    public List<Matches> getMatchesAsPlayer4() {
+//        return matchesAsPlayer4;
+//    }
+//
+//    public void setMatchesAsPlayer4(List<Matches> matchesAsPlayer4) {
+//        this.matchesAsPlayer4 = matchesAsPlayer4;
+//    }
+//
+//    public List<Matches> getMatchesAsPlayer5() {
+//        return matchesAsPlayer5;
+//    }
+//
+//    public void setMatchesAsPlayer5(List<Matches> matchesAsPlayer5) {
+//        this.matchesAsPlayer5 = matchesAsPlayer5;
+//    }
 }
