@@ -120,12 +120,14 @@ public class PlayerView {
         editPlayerBtn.setOnAction(e -> {
             if (nameTextField.getText() != "") {
 
-                playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
+
 
                 table.getSelectionModel().getSelectedItem().setName(nameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setSurname(surnameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setTeam((Teams)teamsComboBox.getSelectionModel().getSelectedItem());
+
+                playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
 
                 //reset text fields after use
                 nameTextField.setText("");
