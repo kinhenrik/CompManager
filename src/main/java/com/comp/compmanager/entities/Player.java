@@ -26,7 +26,7 @@ public class Player {
     @Column(name = "player_nickname", length = 50, nullable = false)
     private String nickname;
 
-    //ForeignKey
+    //ForeignKeys
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false) // team_id är kolumnen i Teams-tabellen som refererar till Games-tabellen
     private Teams team; // Relationen till Games-objektet i Games/Matches classen
