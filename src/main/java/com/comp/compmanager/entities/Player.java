@@ -42,9 +42,7 @@ public class Player {
     }
 
     //GETTERS & SETTERS
-    public int getId() {
-        return id;
-    }
+    public int getId() {return id;}
     public void setId(int id) {this.id = id; }
 
     public String getName() {return name;}
@@ -56,11 +54,7 @@ public class Player {
     public String getNickname() {return nickname;}
     public void setNickname(String nickname) { this.nickname = nickname; }
 
-
-
-    public Teams getTeam() {
-        return team;
-    }
+    public Teams getTeam() {return team;}
     public void setTeam(Teams team) { this.team = team; }
 
 

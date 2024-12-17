@@ -7,12 +7,12 @@ import jakarta.persistence.*;
 public class Teams {
 
 
-        @Override
-        public String toString() {
-            return name;
-        }
+    @Override
+    public String toString() {
+        return name;
+    }
 
-        //primary key ,AUTO_INCREMENT, Kollumn i tabellen
+    //primary key ,AUTO_INCREMENT, Kollumn i tabellen
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "team_id")

@@ -1,71 +1,74 @@
 package com.comp.compmanager.DAO;
 
-import com.comp.compmanager.entities.Player;
+import com.comp.compmanager.entities.Games;
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
+public class GamesDAO {
 
-public class PlayerDAO {
-
-    //retrieve "myconfig" from persistence.xml
+    // Hämta konfigurationen från persistence.xml
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("myconfig");
 
-
-    //CREATE
-    public void addPlayer (Player player) {
+    // CREATE - Lägg till ett lag
+    public static boolean addGames(Games game) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            manager.persist(player);
+            manager.persist(game); // Spara laget i databasen
             transaction.commit();
+            return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
             if (manager != null && transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
+            return false;
         } finally {
             manager.close();
         }
     }
 
-    //GET
-    public Player getPlayerByID (int player_id) {
+    // READ - Hämta lag med ID
+    public Games getGamesByID(int game_id) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        Player playerToReturn = manager.find(Player.class, player_id);
+        Games gameToReturn = manager.find(Games.class, game_id); // Hämtar laget baserat på ID
         manager.close();
-        return playerToReturn;
+        return gameToReturn;
     }
 
-
-    public List<Player> getAllPlayers () {
+    // READ - Hämta alla lag
+    public static List<Games> getAllGames() {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        List<Player> listToReturn = new ArrayList<>();
+        List<Games> listToReturn = new ArrayList<>();
 
-        //Get all players from Table
-        TypedQuery<Player> result = manager.createQuery("FROM Player", Player.class);
-
+        // Hämta alla lag från Teams-tabellen
+        TypedQuery<Games> result = manager.createQuery("FROM Games", Games.class);
         listToReturn.addAll(result.getResultList());
+        manager.close();
         return listToReturn;
     }
 
-    //UPDATE
-    public void updatePlayer (Player playerToUpdate) {
+    // UPDATE - Uppdatera lag
+    public void updateGame(Games gameToUpdate) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
+
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            if (manager.contains(playerToUpdate)) {
-                manager.persist(playerToUpdate);
+
+            // Uppdaterar laget om det finns
+            if (manager.contains(gameToUpdate)) {
+                manager.persist(gameToUpdate); // Om objektet redan är i cache, persist
             } else {
-                Player updatedPlayer = manager.merge(playerToUpdate);
-                System.out.println("Player with ID=" + updatedPlayer.getId() + " has been updated.");
+                Games updatedGame = manager.merge(gameToUpdate); // Om inte, använd merge för att uppdatera
+                System.out.println("Game with ID = " + updatedGame.getId() + " has been updated.");
             }
-            manager.merge(playerToUpdate);
             transaction.commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -77,19 +80,21 @@ public class PlayerDAO {
         }
     }
 
-    //DELETE
-    public void deletePlayer (Player player) {
+    // DELETE - Ta bort lag
+    public void deleteGame(Games game) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
+
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            if (!manager.contains(player)) {
-                player = manager.merge(player);
+            // Om laget inte finns i EntityManager, gör merge för att få en referens
+            if (!manager.contains(game)) {
+                game = manager.merge(game);
             }
-            manager.remove(player);
+            manager.remove(game); // Ta bort laget från databasen
             transaction.commit();
-            System.out.println("Player with ID=" + player.getId() + " has been removed from database.");
+            System.out.println("Game with ID = " + game.getId() + " has been removed from database.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             if (manager != null && transaction != null && transaction.isActive()) {
@@ -99,5 +104,4 @@ public class PlayerDAO {
             manager.close();
         }
     }
-
 }
