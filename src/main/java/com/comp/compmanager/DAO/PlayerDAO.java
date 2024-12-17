@@ -40,6 +40,7 @@ public class PlayerDAO {
         return playerToReturn;
     }
 
+
     public List<Player> getAllPlayers () {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         List<Player> listToReturn = new ArrayList<>();

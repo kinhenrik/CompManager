@@ -1,8 +1,7 @@
 package com.comp.compmanager.entities;
 
+import com.comp.compmanager.DAO.PlayerDAO;
 import jakarta.persistence.*;
-
-import java.util.List;
 
 //CREATE TABLE
 @Entity
@@ -27,27 +26,11 @@ public class Player {
     @Column(name = "player_nickname", length = 50, nullable = false)
     private String nickname;
 
-    //foreign key för att koppla spelare till olika team .. test // christoffer
+    //ForeignKeys
     @ManyToOne
-    @JoinColumn(name = "team_id")
-    private Teams team;
+    @JoinColumn(name = "team_id", nullable = false) // team_id är kolumnen i Teams-tabellen som refererar till Games-tabellen
+    private Teams team; // Relationen till Games-objektet i Games/Matches classen
 
-//    @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL)
-//    private List<Matches> matchesAsPlayer1;
-//
-//    @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL)
-//    private List<Matches> matchesAsPlayer2;
-//
-//    @OneToMany(mappedBy = "winnerPlayer", cascade = CascadeType.ALL)
-//    private List<Matches> matchesWonPlayer;
-
-
-//    //testar koppla players till olika lag //christoffer
-//    @OneToMany(mappedBy = "player", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
-//    private List<Teams> teams = new ArrayList<>();
-
-//    @Column(name = "player_team", length = 50, nullable = false)
-//    private String team;
 
     //Player constructor
     public Player(){}
@@ -73,40 +56,12 @@ public class Player {
     public String getNickname() {return nickname;}
     public void setNickname(String nickname) { this.nickname = nickname; }
 
-    public Teams getTeam (){
+
+
+    public Teams getTeam() {
         return team;
     }
-    public void setTeam(Teams team) {
-        this.team = team;
-    }
-
-//    public List<Matches> getMatchesAsPlayer1() {
-//        return matchesAsPlayer1;
-//    }
-//
-//    public void setMatchesAsPlayer1(List<Matches> matchesAsPlayer1) {
-//        this.matchesAsPlayer1 = matchesAsPlayer1;
-//    }
-//
-//    public List<Matches> getMatchesAsPlayer2() {
-//        return matchesAsPlayer2;
-//    }
-//
-//    public void setMatchesAsPlayer2(List<Matches> matchesAsPlayer2) {
-//        this.matchesAsPlayer2 = matchesAsPlayer2;
-//    }
-//
-//    public List<Matches> getMatchesWonPlayer() {
-//        return matchesWonPlayer;
-//    }
-//
-//    public void setMatchesWonPlayer(List<Matches> matchesWonPlayer) {
-//        this.matchesWonPlayer = matchesWonPlayer;
-//    }
+    public void setTeam(Teams team) { this.team = team; }
 
 
-    @Override
-    public String toString() {
-        return name;
-    }
 }
