@@ -24,6 +24,7 @@ insert into players (player_name, player_surname, player_nickname, team_id)value
 insert into players (player_name, player_surname, player_nickname, team_id)values ('Thomas', 'Nilsson', 'Fantomen', 2);
 
 -- lagmatcher
+
 insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-01', 'T vs T', 1, 2, 1);
 insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-02', 'T vs T', 3, 4, 4);
 insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-03', 'T vs T', 2, 5, 5);
@@ -32,9 +33,9 @@ insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)val
 
 -- spelarmatcher
 
--- insert into Matches (match_date, match_type, player1_id, player2_id, winner_player)values ('2024-01-01', 'P vs P', 1, 2, 1);
--- insert into Matches (match_date, match_type, player1_id, player2_id, winner_player)values ('2024-01-02', 'P vs P', 2, 4, 2);
--- insert into Matches (match_date, match_type, player1_id, player2_id, winner_player)values ('2024-01-03', 'P vs P', 3, 5, 5);
--- insert into Matches (match_date, match_type, player1_id, player2_id, winner_player)values ('2024-01-04', 'P vs P', 4, 1, 4);
--- insert into Matches (match_date, match_type, player1_id, player2_id, winner_player)values ('2024-01-05', 'P vs P', 5, 3, 3);
---
+-- insert into PlayerMatches (playerMatch_date, playerMatch_type, player1_id, player2_id, winner_player)values ('2024-01-01', 'P vs P', 1, 2, 1);
+-- insert into PlayerMatches (playerMatch_date, playerMatch_type, player1_id, player2_id, winner_player)values ('2024-01-02', 'P vs P', 2, 4, 2);
+-- insert into PlayerMatches (playerMatch_date, playerMatch_type, player1_id, player2_id, winner_player)values ('2024-01-03', 'P vs P', 3, 5, 5);
+-- insert into PlayerMatches (playerMatch_date, playerMatch_type, player1_id, player2_id, winner_player)values ('2024-01-04', 'P vs P', 4, 1, 4);
+-- insert into PlayerMatches (playerMatch_date, playerMatch_type, player1_id, player2_id, winner_player)values ('2024-01-05', 'P vs P', 5, 3, 3);
+

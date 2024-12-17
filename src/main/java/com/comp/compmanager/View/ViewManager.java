@@ -1,6 +1,5 @@
 package com.comp.compmanager.View;
 
-import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -64,11 +63,12 @@ public class ViewManager {
         MenuItem playerMenuItem = new MenuItem("Player View");
         MenuItem gamesMenuItem = new MenuItem("Games View");
         MenuItem matchMenuItem = new MenuItem("Match View");
+//        MenuItem playerMatchMenuItem = new MenuItem("Player Match View");
         //Menyval för userMenu
         MenuItem logoutMenuItem = new MenuItem("Logout");
 
         // Lägg till valen i menyn
-        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem,matchMenuItem);
+        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem,matchMenuItem/*, playerMatchMenuItem*/);
         userMenu.getItems().addAll(logoutMenuItem);
         menuBar.getMenus().addAll(menu, userMenu);
 
@@ -103,9 +103,14 @@ public class ViewManager {
             showMatchView();
             System.out.println("You selected the match view");
         });
+//        playerMatchMenuItem.setOnAction(e -> {
+//            menu.setText("Player match view");
+//            showPlayerMatchView();
+//            System.out.println("You selected the player match view");
+//        });
 
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
-        //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
+
         logoutMenuItem.setOnAction(e -> {
             showMainView();
             menuBar.setDisable(true);
@@ -230,6 +235,12 @@ public class ViewManager {
        AnchorPane matchView = new MatchView(this).getView();
        setView(matchView);
     }
+//    // Skapa PlayerMatchView
+//    public void showPlayerMatchView() {
+//       AnchorPane playerMatchView = new PlayerMatchView(this).getView();
+//       setView(playerMatchView);
+//    }
+
 
     // Ta bort allt under menyfältet och lägg till den nya vyn
     private void setView(AnchorPane newView) {

@@ -2,7 +2,6 @@ package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.MatchesDAO;
 import com.comp.compmanager.entities.Matches;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -52,27 +51,41 @@ public class MatchView {
         TableColumn<Matches, String> team2Column = new TableColumn<>("Team 2");
         team2Column.setCellValueFactory(new PropertyValueFactory<>("team2"));
 
+        // Kolumn för Team & Winner
+        TableColumn<Matches, String> winnerTeamColumn = new TableColumn<>("Team Winner");
+        winnerTeamColumn.setCellValueFactory(new PropertyValueFactory<>("winnerTeam"));
+
+        // Liknande kolumner för Player
+        // Kolumner för Match ID
+//        TableColumn<Matches, Integer> idPlayerColumn = new TableColumn<>("Match ID");
+//        idPlayerColumn.setCellValueFactory(new PropertyValueFactory<>("matchId"));
+//
+//
+//        TableColumn<Matches, String> datePlayerColumn = new TableColumn<>("Date");
+//        datePlayerColumn.setCellValueFactory(new PropertyValueFactory<>("matchDate"));
+//
+//
 //        TableColumn<Matches, String> player1Column = new TableColumn<>("Player 1");
 //        player1Column.setCellValueFactory(new PropertyValueFactory<>("player1"));
 //
 //        TableColumn<Matches, String> player2Column = new TableColumn<>("Player 2");
 //        player2Column.setCellValueFactory(new PropertyValueFactory<>("player2"));
-
-        // Kolumn för Team Winner & Player Winner
-        TableColumn<Matches, String> winnerTeamColumn = new TableColumn<>("Team Winner");
-        winnerTeamColumn.setCellValueFactory(new PropertyValueFactory<>("winnerTeam"));
-
+//
+//
+//        TableColumn<Matches, String> typePlayerColumn = new TableColumn<>("Type");
+//        typePlayerColumn.setCellValueFactory(new PropertyValueFactory<>("matchType"));
+//
 //        TableColumn<Matches, String> winnerPlayerColumn = new TableColumn<>("Player Winner");
 //        winnerPlayerColumn.setCellValueFactory(new PropertyValueFactory<>("winnerPlayer"));
 
         // Lägg till kolumner i tabellen
         table.getColumns().addAll(idColumn, dateColumn, typeColumn,
-                team1Column, team2Column,/* player1Column, player2Column,*/
-                winnerTeamColumn/*, winnerPlayerColumn*/);
+                team1Column, team2Column, winnerTeamColumn
+                /*,idPlayerColumn,datePlayerColumn,typePlayerColumn, player2Column,winnerPlayerColumn*/);
 
         // Lägg till data i tabellen// Omvandla lista till ObservableList för JavaFX
-        MatchesDAO matchesDAO = new MatchesDAO();
-        List<Matches> matches = matchesDAO.getAllMatches();
+        MatchesDAO MatchesDAO = new MatchesDAO();
+        List<Matches> matches = MatchesDAO.getAllMatches();
         ObservableList<Matches> observableMatches = FXCollections.observableArrayList(matches);
         table.setItems(observableMatches);
 
@@ -96,10 +109,10 @@ public class MatchView {
             Matches selectedMatch = table.getSelectionModel().getSelectedItem();
             if (selectedMatch != null) {
                 // Ta bort laget från databasen
-                matchesDAO.deleteMatch(selectedMatch);
+                MatchesDAO.deleteMatch(selectedMatch);
                 // Ta bort laget från tabellen
                 table.getItems().remove(selectedMatch);
-                System.out.println("Team deleted!");
+                System.out.println("Match deleted!");
             } else {
                 // Visa ett varningsmeddelande om inget lag är valt
                 System.out.println("No team selected");
@@ -131,15 +144,15 @@ public class MatchView {
                     Matches newMatch = new Matches();
                     newMatch.setMatchType(matchName);
                     // Lägg till i databasen
-                    matchesDAO.addMatch(newMatch);
+                    MatchesDAO.addMatch(newMatch);
                     // Uppdatera tabellen
                     table.getItems().add(newMatch);
                     // Stäng popupen fönstret
                     popupStage.close();
-                    System.out.println("New team added");
+                    System.out.println("New match added");
                 } else {
                     // Om namnet är tomt, visa ett varningsmeddelande
-                    System.out.println("Team name can't be empty!");
+                    System.out.println("Match can't be empty!");
 //                Alert alert = new Alert(Alert.AlertType.WARNING, "Team name can't be empty!", ButtonType.OK);
 //                    alert.showAndWait();
                 }
@@ -159,7 +172,7 @@ public class MatchView {
             Matches selectedMatch = table.getSelectionModel().getSelectedItem();
 
             Stage popupStage = new Stage();
-            popupStage.setTitle("Edit Team");
+            popupStage.setTitle("Edit Match");
 
             VBox popupLayout = new VBox(10);
             popupLayout.setPadding(new Insets(15));

@@ -26,7 +26,7 @@ public class Matches {
     @ManyToOne
     @JoinColumn(name = "team2_id", nullable = false)
     private Teams team2;
-
+//
 //    @ManyToOne
 //    @JoinColumn(name = "player1_id", nullable = false)
 //    private Player player1;
@@ -90,7 +90,7 @@ public class Matches {
     public void setTeam2(Teams team2) {
         this.team2 = team2;
     }
-
+//
 //    public Player getPlayer1() {
 //        return player1;
 //    }
@@ -115,7 +115,7 @@ public class Matches {
     public void setWinnerTeam(Teams winnerTeam) {
         this.winnerTeam = winnerTeam;
     }
-
+//
 //    public Player getWinnerPlayer() {
 //        return winnerPlayer;
 //    }
@@ -123,4 +123,5 @@ public class Matches {
 //    public void setWinnerPlayer(Player winnerPlayer) {
 //        this.winnerPlayer = winnerPlayer;
 //    }
+
 }

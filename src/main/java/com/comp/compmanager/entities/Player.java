@@ -104,4 +104,9 @@ public class Player {
 //        this.matchesWonPlayer = matchesWonPlayer;
 //    }
 
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }
