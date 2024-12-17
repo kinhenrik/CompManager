@@ -118,10 +118,10 @@ public class Teams {
 //    }
 
 
-    @Override
-    public String toString() {
-        return name;
-    }
+//    @Override
+//    public String toString() {
+//        return name;
+//    }
 //    @Override
 //    public String toString() {
 //        return "Team: " + name + ", Game: " + (games != null ? games.getName() : "None");

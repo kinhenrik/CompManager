@@ -92,7 +92,8 @@ public class PlayerView {
         //add buttons to bar
         buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn, editPlayerBtn);
         //add button functionality via Lambda expression
-        deletePlayerBtn.setOnAction(e -> {  playerDAO.deletePlayer(table.getSelectionModel().getSelectedItem());
+        deletePlayerBtn.setOnAction(e -> {
+            playerDAO.deletePlayer(table.getSelectionModel().getSelectedItem());
             table.getItems().remove(table.getSelectionModel().getSelectedItem());
         });
 
@@ -100,7 +101,7 @@ public class PlayerView {
             if (nameTextField.getText() != "" ) {
 
                 playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
-                //able.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
+                //table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
                 table.getItems().clear();
                 table.getItems().addAll(playerDAO.getAllPlayers());
 
@@ -119,9 +120,6 @@ public class PlayerView {
 
         editPlayerBtn.setOnAction(e -> {
             if (nameTextField.getText() != "") {
-
-
-
                 table.getSelectionModel().getSelectedItem().setName(nameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setSurname(surnameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
