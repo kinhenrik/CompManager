@@ -12,7 +12,7 @@ public class TeamManagerDAO {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("myconfig");
 
     // CREATE - Lägg till ett lag
-    public boolean addTeam(Teams team) {
+    public static boolean addTeam(Teams team) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -35,7 +35,7 @@ public class TeamManagerDAO {
     }
 
     // READ - Hämta lag med ID
-    public Teams getTeamByID(int team_id) {
+    public static Teams getTeamByID(int team_id) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         Teams teamToReturn = manager.find(Teams.class, team_id); // Hämtar laget baserat på ID
         manager.close();
@@ -55,7 +55,7 @@ public class TeamManagerDAO {
     }
 
     // UPDATE - Uppdatera lag
-    public void updateTeam(Teams teamToUpdate) {
+    public static void updateTeam(Teams teamToUpdate) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -82,7 +82,7 @@ public class TeamManagerDAO {
     }
 
     // DELETE - Ta bort lag
-    public void deleteTeam(Teams team) {
+    public static void deleteTeam(Teams team) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 

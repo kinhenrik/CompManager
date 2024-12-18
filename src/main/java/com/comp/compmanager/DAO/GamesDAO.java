@@ -54,7 +54,7 @@ public class GamesDAO {
     }
 
     // UPDATE - Uppdatera lag
-    public void updateGame(Games gameToUpdate) {
+    public static void updateGame(Games gameToUpdate) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -81,7 +81,7 @@ public class GamesDAO {
     }
 
     // DELETE - Ta bort lag
-    public void deleteGame(Games game) {
+    public static void deleteGame(Games game) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 

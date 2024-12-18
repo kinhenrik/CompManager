@@ -1,7 +1,7 @@
 package com.comp.compmanager.View;
 import com.comp.compmanager.DAO.GamesDAO;
+import com.comp.compmanager.DAO.TeamManagerDAO;
 import com.comp.compmanager.entities.Games;
-import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -76,18 +76,25 @@ public class GamesView {
         //buttons
         Button deleteGameBtn = new Button("Delete Game");
         Button addGameBtn = new Button("Add Game");
+        Button editGameBtn = new Button("Edit Game");
         //add buttons to bar
-        buttonBar.getButtons().addAll(deleteGameBtn, addGameBtn);
+        buttonBar.getButtons().addAll(deleteGameBtn, addGameBtn, editGameBtn);
         //add button functionality via Lambda expression
         deleteGameBtn.setOnAction(e -> {
-             Games selectedGame = table.getSelectionModel().getSelectedItem();
-              if (selectedGame != null) {
-              gamesDAO.deleteGame(games.get(0));
-              table.getItems().remove(games.get(0));
-              } else {
-//          Visa ett varningsmeddelande om inget lag är valt
-              System.out.println("No game selected");
-              }
+            // Hämta det valda laget från tabellen
+            Games selectedGame = table.getSelectionModel().getSelectedItem();
+            if (selectedGame != null) {
+                // Ta bort laget från databasen
+                GamesDAO.deleteGame(selectedGame);
+                // Ta bort laget från tabellen
+                table.getItems().remove(selectedGame);
+                System.out.println("game deleted!");
+            } else {
+                // Visa ett varningsmeddelande om inget lag är valt
+                System.out.println("No game selected");
+//              Alert alert = new Alert(Alert.AlertType.WARNING, "No game selected for deletion!", ButtonType.OK);
+//              alert.showAndWait();
+            }
         });
 
         // add/lägga till knapp för att lägga till nya Teams i tabellen och sen uppdatera tabellen samt en popupfönster
@@ -132,6 +139,57 @@ public class GamesView {
             popupStage.show();
         });
 
+        // Knapp för att redigera ett befintligt spel
+        editGameBtn.setOnAction(e -> {
+            // Hämta det valda spelet från tabellen
+            Games selectedGame = table.getSelectionModel().getSelectedItem();
+            if (selectedGame != null) {
+                // Skapa en ny Stage för popup-fönster
+                Stage popupStage = new Stage();
+                popupStage.setTitle("Edit Game");
+
+                // Layout för popup
+                VBox popupLayout = new VBox(10);
+                popupLayout.setPadding(new Insets(15));
+
+                // Skapa input-fält för att redigera spel
+                Label nameLabel = new Label("Game Name:");
+                TextField nameField = new TextField(selectedGame.getName());
+
+                Button saveButton = new Button("Save");
+                saveButton.setOnAction(event -> {
+                    String updatedName = nameField.getText();
+                    if (!updatedName.isEmpty()) {
+                        // Uppdatera spelets namn
+                        selectedGame.setName(updatedName);
+                        // Uppdatera spelet i databasen
+                        GamesDAO.updateGame(selectedGame);
+                        // Uppdatera tabellen
+                        table.refresh();
+                        System.out.println("Game updated!");
+                        popupStage.close();
+                    } else {
+                        // Visa ett varningsmeddelande om fältet är tomt
+                        System.out.println("Game name can't be empty!");
+//                Alert alert = new Alert(Alert.AlertType.WARNING, "Game name can't be empty!", ButtonType.OK);
+//                alert.showAndWait();
+                    }
+                });
+
+                // Lägg till fält och knapp till popup-layout
+                popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
+
+                // Visa popup-fönstret
+                Scene popupScene = new Scene(popupLayout, 300, 200);
+                popupStage.setScene(popupScene);
+                popupStage.show();
+            } else {
+                // Visa ett varningsmeddelande om inget spel är valt
+                System.out.println("No game selected for editing!");
+//        Alert alert = new Alert(Alert.AlertType.WARNING, "No game selected for editing!", ButtonType.OK);
+//        alert.showAndWait();
+            }
+        });
 
         // Layout med VBox
         VBox vBox = new VBox(10, table, buttonBar);

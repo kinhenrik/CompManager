@@ -1,7 +1,10 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.MatchesDAO;
+import com.comp.compmanager.DAO.TeamManagerDAO;
 import com.comp.compmanager.entities.Matches;
+import com.comp.compmanager.entities.Player;
+import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -123,46 +126,69 @@ public class MatchView {
 
         // add/lägga till knapp för att lägga till nya natcher i tabellen och sen uppdatera tabellen samt en popupfönster
         addMatchBtn.setOnAction(e -> {
-            // Skapa en ny Stage för popup fönster
             Stage popupStage = new Stage();
             popupStage.setTitle("Add New Match");
 
-            // Skapa layout för popup
             VBox popupLayout = new VBox(10);
             popupLayout.setPadding(new Insets(15));
 
-            // Skapa input-fält för lagets namn
-            Label nameLabel = new Label("Match Name:");
-            TextField nameField = new TextField();
+            // Labels och TextFields för att lägga till en ny match
+            Label typeLabel = new Label("Match Type:");
+            TextField typeField = new TextField();
 
-            // Spara-knapp
-            Button saveButton = new Button("Save");
+            Label dateLabel = new Label("Match Date (YYYY-MM-DD):");
+            TextField dateField = new TextField();
+
+            Label team1Label = new Label("Team 1 ID:");
+            TextField team1Field = new TextField();
+
+            Label team2Label = new Label("Team 2 ID:");
+            TextField team2Field = new TextField();
+
+            Label winnerLabel = new Label("Winner Team ID:");
+            TextField winnerField = new TextField();
+
+            Button saveButton = new Button("Add Match");
             saveButton.setOnAction(event -> {
-                String matchName = nameField.getText();
-                if (!matchName.isEmpty()) {
-                    // Skapa ett nytt team objekt och lägg till det i listan
-                    Matches newMatch = new Matches();
-                    newMatch.setMatchType(matchName);
-                    // Lägg till i databasen
-                    MatchesDAO.addMatch(newMatch);
-                    // Uppdatera tabellen
-                    table.getItems().add(newMatch);
-                    // Stäng popupen fönstret
-                    popupStage.close();
-                    System.out.println("New match added");
-                } else {
-                    // Om namnet är tomt, visa ett varningsmeddelande
-                    System.out.println("Match can't be empty!");
-//                Alert alert = new Alert(Alert.AlertType.WARNING, "Team name can't be empty!", ButtonType.OK);
-//                    alert.showAndWait();
+                try {
+                    if (!typeField.getText().isEmpty() && !dateField.getText().isEmpty()) {
+                        Matches newMatch = new Matches();
+                        newMatch.setMatchType(typeField.getText());
+                        newMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
+
+                        Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
+                        Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
+                        Teams winnerTeam = TeamManagerDAO.getTeamByID(Integer.parseInt(winnerField.getText()));
+
+                        newMatch.setTeam1(team1);
+                        newMatch.setTeam2(team2);
+                        newMatch.setWinnerTeam(winnerTeam);
+
+                        MatchesDAO.addMatch(newMatch);
+                        table.getItems().add(newMatch); // Lägger till den nya matchen i tabellen
+                        table.refresh();
+
+                        popupStage.close();
+                        System.out.println("Match added successfully!");
+                    } else {
+                        System.out.println("Fields can't be empty!");
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    System.out.println("Error adding match. Check code");
                 }
             });
 
-            // Lägg till komponenter i layouten
-            popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
+            popupLayout.getChildren().addAll(
+                    typeLabel, typeField,
+                    dateLabel, dateField,
+                    team1Label, team1Field,
+                    team2Label, team2Field,
+                    winnerLabel, winnerField,
+                    saveButton
+            );
 
-            // Visa popup-rutan
-            Scene popupScene = new Scene(popupLayout, 300, 200);
+            Scene popupScene = new Scene(popupLayout, 400, 400);
             popupStage.setScene(popupScene);
             popupStage.show();
         });
@@ -171,38 +197,111 @@ public class MatchView {
         editMatchBtn.setOnAction(e -> {
             Matches selectedMatch = table.getSelectionModel().getSelectedItem();
 
-            Stage popupStage = new Stage();
-            popupStage.setTitle("Edit Match");
+            if (selectedMatch != null) { // Säkerställ att en match är vald
+                Stage popupStage = new Stage();
+                popupStage.setTitle("Edit Match");
 
-            VBox popupLayout = new VBox(10);
-            popupLayout.setPadding(new Insets(15));
+                VBox popupLayout = new VBox(10);
+                popupLayout.setPadding(new Insets(15));
 
-            Label nameLabel = new Label("Change new match:");
-            TextField nameField = new TextField();
+                // Labels och TextFields för att redigera matchens detaljer
+                Label typeLabel = new Label("Match Type:");
+                TextField typeField = new TextField(selectedMatch.getMatchType());
 
-            Button saveButton = new Button("Save");
-            saveButton.setOnAction(event -> {
-                String UpdateMatch = nameField.getText();
-                if (!UpdateMatch.isEmpty()) {
-                    selectedMatch.setMatchType(UpdateMatch);
-                    MatchesDAO.updateMatch(selectedMatch);
-                    table.refresh();
-                    popupStage.close();
-                    System.out.println("Match updated");
-                }else {
-                    // Om namnet är tomt, visa ett varningsmeddelande
-                    System.out.println("Textfield can't be empty!");
-//                Alert alert = new Alert(Alert.AlertType.WARNING, "Textfield can't be empty!", ButtonType.OK);
-//                alert.showAndWait();
-                }
-            });
-            popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
+                Label dateLabel = new Label("Match Date (YYYY-MM-DD):");
+                TextField dateField = new TextField(selectedMatch.getMatchDate().toString());
 
-            Scene popupScene = new Scene(popupLayout, 300, 200);
-            popupStage.setScene(popupScene);
-            popupStage.show();
+                Label team1Label = new Label("Team 1");
+                TextField team1Field = new TextField(String.valueOf(selectedMatch.getTeam1().getId()));
 
+                Label team2Label = new Label("Team 2:");
+                TextField team2Field = new TextField(String.valueOf(selectedMatch.getTeam2().getId()));
+
+                Label winnerLabel = new Label("Winner Team");
+                TextField winnerField = new TextField(String.valueOf(selectedMatch.getWinnerTeam().getId()));
+
+                Button saveButton = new Button("Save");
+                saveButton.setOnAction(event -> {
+                    try {
+                        // Kontrollera att fälten inte är tomma
+                        if (!typeField.getText().isEmpty() && !dateField.getText().isEmpty()) {
+                            selectedMatch.setMatchType(typeField.getText());
+                            selectedMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
+
+                            // Hämta spelare med hjälp av ID
+                            TeamManagerDAO TeamManagerDAO = new TeamManagerDAO();
+                            Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
+                            Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
+                            Teams winnerTeam = TeamManagerDAO.getTeamByID(Integer.parseInt(winnerField.getText()));
+
+                            selectedMatch.setTeam1(team1);
+                            selectedMatch.setTeam2(team2);
+                            selectedMatch.setWinnerTeam(winnerTeam);
+
+                            // Uppdatera matchen i databasen
+                            com.comp.compmanager.DAO.MatchesDAO.updateMatch(selectedMatch);
+                            table.refresh();
+
+                            System.out.println("Match updated successfully!");
+                            popupStage.close();
+                        } else {
+                            System.out.println("Fields can't be empty!");
+                        }
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        System.out.println("Error updating match. check code ");
+                    }
+                });
+
+                // Lägga till alla komponenter i layouten
+                popupLayout.getChildren().addAll(typeLabel, typeField, dateLabel, dateField,
+                        team1Label, team1Field, team2Label, team2Field,
+                        winnerLabel, winnerField, saveButton
+                );
+
+                Scene popupScene = new Scene(popupLayout, 400, 400);
+                popupStage.setScene(popupScene);
+                popupStage.show();
+            } else {
+                System.out.println("No match selected!");
+            }
         });
+
+//        editMatchBtn.setOnAction(e -> {
+//            Matches selectedMatch = table.getSelectionModel().getSelectedItem();
+//
+//            Stage popupStage = new Stage();
+//            popupStage.setTitle("Edit Match");
+//
+//            VBox popupLayout = new VBox(10);
+//            popupLayout.setPadding(new Insets(15));
+//
+//            Label nameLabel = new Label("Change new match:");
+//            TextField nameField = new TextField();
+//
+//            Button saveButton = new Button("Save");
+//            saveButton.setOnAction(event -> {
+//                String UpdateMatch = nameField.getText();
+//                if (!UpdateMatch.isEmpty()) {
+//                    selectedMatch.setMatchType(UpdateMatch);
+//                    MatchesDAO.updateMatch(selectedMatch);
+//                    table.refresh();
+//                    popupStage.close();
+//                    System.out.println("Match updated");
+//                }else {
+//                    // Om namnet är tomt, visa ett varningsmeddelande
+//                    System.out.println("Textfield can't be empty!");
+////                Alert alert = new Alert(Alert.AlertType.WARNING, "Textfield can't be empty!", ButtonType.OK);
+////                alert.showAndWait();
+//                }
+//            });
+//            popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
+//
+//            Scene popupScene = new Scene(popupLayout, 300, 200);
+//            popupStage.setScene(popupScene);
+//            popupStage.show();
+//
+//        });
 
         // Layout med VBox
         VBox vBox = new VBox(10, table, buttonBar);
