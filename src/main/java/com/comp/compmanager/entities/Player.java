@@ -1,6 +1,5 @@
 package com.comp.compmanager.entities;
 
-import com.comp.compmanager.DAO.PlayerDAO;
 import jakarta.persistence.*;
 
 //CREATE TABLE
