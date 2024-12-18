@@ -4,7 +4,9 @@ insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, ad
 insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, admin_city, admin_country, admin_email) values ('Ludwig', 'Svensson', 'Lillesäter 10', '98316', 'Malmberget', 'Sweden', 'ludwig_s@hotmail.com');
 insert into admins(admin_firstname, admin_lastname, admin_address, admin_zip, admin_city, admin_country, admin_email) values ('Henrik', 'Kinnunen', 'Gammelekevägen 31', '74961', 'Örsundsbro', 'Sweden', 'henrik.kinnunen.java24@edu.edugrade.se');
 
-
+insert into players (player_name, player_surname, player_nickname, player_team) values ('Test', 'Testsson', 'Testname', 'The Immortals');
+insert into players (player_name, player_surname, player_nickname, player_team) values ('Test2', 'Testsson2', 'Testname2', 'The Warriors');
+insert into players (player_name, player_surname, player_nickname, player_team) values ('Test3', 'Testsson3', 'Testname3', 'The Ninjas');
 
 insert into Teams (team_id, team_name) values (1, 'The Immortals');
 insert into Teams (team_id, team_name) values (2, 'The Invincibles');

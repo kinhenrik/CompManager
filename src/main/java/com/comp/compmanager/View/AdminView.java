@@ -5,9 +5,11 @@ import com.comp.compmanager.entities.Admin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -23,11 +25,6 @@ public class AdminView {
 
     public AnchorPane getView() {
         AnchorPane layout = new AnchorPane();
-
-        Label label = new Label("Admin View");
-        AnchorPane.setTopAnchor(label, 10.0);
-        AnchorPane.setLeftAnchor(label, 10.0);
-        layout.getChildren().add(label);
 
         // Skapa en TableView
         TableView<Admin> table = new TableView<>();
@@ -61,7 +58,7 @@ public class AdminView {
 
         ObservableList<Admin> observableList = adminList();
         table.setItems(observableList);
-
+        table.setItems(observableList);
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();

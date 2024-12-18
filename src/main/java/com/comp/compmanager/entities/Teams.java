@@ -45,4 +45,9 @@ public class Teams {
 //    public void setGame(Games game) {
 //        this.game = game;
 //    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

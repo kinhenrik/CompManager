@@ -10,10 +10,10 @@ public class Main extends Application {
     @Override
     public void start(Stage stage) {
 
-            ViewManager viewManager = new ViewManager(stage); // Skapa vyhanterare
-            viewManager.start();
+        ViewManager viewManager = new ViewManager(stage); // Skapa vyhanterare
+        viewManager.start();
 
-        }
+    }
 
     public static void main(String[] args) {
         launch();

@@ -1,6 +1,7 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.TeamManagerDAO;
+import com.comp.compmanager.entities.Admin;
 import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -14,6 +15,7 @@ import java.util.List;
 
 public class TeamView {
     private final ViewManager viewManager;
+    private TeamManagerDAO teamManagerDAO = new TeamManagerDAO();
 
     public TeamView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -80,5 +82,11 @@ public class TeamView {
         layout.getChildren().add(vBox);
 
         return layout;
+    }
+
+    public ObservableList teamList() {
+        List<Teams> teams = teamManagerDAO.getAllTeams();
+        ObservableList<Teams> observableList = FXCollections.observableArrayList(teams);
+        return observableList;
     }
 }

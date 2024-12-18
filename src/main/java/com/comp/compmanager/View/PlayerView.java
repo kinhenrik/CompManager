@@ -2,18 +2,22 @@ package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.PlayerDAO;
 import com.comp.compmanager.entities.Player;
+import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
 
 public class PlayerView {
     private final ViewManager viewManager;
+    private PlayerDAO playerDAO = new PlayerDAO();
 
     public PlayerView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -21,12 +25,6 @@ public class PlayerView {
 
     public AnchorPane getView() {
         AnchorPane layout = new AnchorPane();
-
-        Label label = new Label("Player View");
-        AnchorPane.setTopAnchor(label, 10.0);
-        AnchorPane.setLeftAnchor(label, 10.0);
-        layout.getChildren().add(label);
-
 
         //TABLE
         TableView<Player> table = new TableView();
@@ -59,6 +57,24 @@ public class PlayerView {
         List<Player> players = playerDAO.getAllPlayers();
         ObservableList<Player> observableList = FXCollections.observableArrayList(players);
         table.setItems(observableList);
+
+        //FILTER DROPDOWN
+        ComboBox filterDropdown = new ComboBox(new TeamView(viewManager).teamList());
+        Button resetButton = new Button("Reset");
+        filterDropdown.setPromptText("Filter by team...");
+        filterDropdown.setPrefWidth(170);
+        HBox dropdownBox = new HBox(10);
+        dropdownBox.setAlignment(Pos.CENTER_RIGHT);
+        dropdownBox.getChildren().addAll(filterDropdown, resetButton);
+        filterDropdown.setOnAction(e -> {
+            if (filterDropdown.getValue() != null) {
+                table.setItems(playerList((Teams)filterDropdown.getValue()));
+            }
+        });
+        resetButton.setOnAction(e -> {
+            filterDropdown.getSelectionModel().clearSelection();
+            table.setItems(observableList);
+        });
 
         //TEXT FIELDS
         //name
@@ -139,7 +155,7 @@ public class PlayerView {
 //        VBox toolVBox = new VBox(10, nameTextField, surnameTextField, nicknameTextField, teamTextField, buttonBar);
 //        toolVBox.setPadding(new Insets(8));
 
-        VBox vBox = new VBox(10,table, nameTextField,surnameTextField, nicknameTextField, teamTextField, buttonBar);
+        VBox vBox = new VBox(10, dropdownBox, table, nameTextField,surnameTextField, nicknameTextField, teamTextField, buttonBar);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
         vBox.setPrefHeight(400);
@@ -152,5 +168,11 @@ public class PlayerView {
 
         return layout;
 
+    }
+
+    public ObservableList playerList(Teams team) {
+        List<Player> player = playerDAO.getPlayerByTeam(team);
+        ObservableList<Player> observableList = FXCollections.observableArrayList(player);
+        return observableList;
     }
 }

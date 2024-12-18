@@ -1,6 +1,7 @@
 package com.comp.compmanager.DAO;
 
 import com.comp.compmanager.entities.Player;
+import com.comp.compmanager.entities.Teams;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,11 +34,16 @@ public class PlayerDAO {
     }
 
     //GET
-    public Player getPlayerByID (int player_id) {
+    public List<Player> getPlayerByTeam (Teams team) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        Player playerToReturn = manager.find(Player.class, player_id);
+        List<Player> listToReturn = new ArrayList<>();
+
+        TypedQuery<Player> result = manager.createQuery("FROM Player WHERE team = :teamName", Player.class);
+        result.setParameter("teamName", team.getName());
+
+        listToReturn.addAll(result.getResultList());
         manager.close();
-        return playerToReturn;
+        return listToReturn;
     }
 
     public List<Player> getAllPlayers () {
@@ -98,5 +104,6 @@ public class PlayerDAO {
             manager.close();
         }
     }
+
 
 }
