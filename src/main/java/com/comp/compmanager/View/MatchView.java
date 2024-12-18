@@ -138,7 +138,10 @@ public class MatchView {
 
             // Labels och TextFields för att lägga till en ny match
             Label typeLabel = new Label("Match Type:");
-            TextField typeField = new TextField();
+//            TextField typeField = new TextField();
+            ComboBox<String> matchTypeComboBox = new ComboBox<>();
+            matchTypeComboBox.getItems().addAll("T vs T", "P vs P");
+            matchTypeComboBox.setValue("T vs T");
 
             Label dateLabel = new Label("Match Date (YYYY-MM-DD):");
             TextField dateField = new TextField();
@@ -149,24 +152,24 @@ public class MatchView {
             Label team2Label = new Label("Team 2 ID:");
             TextField team2Field = new TextField();
 
-            Label winnerLabel = new Label("Winner Team ID:");
-            TextField winnerField = new TextField();
+//            Label winnerLabel = new Label("Winner Team ID:");
+//            TextField winnerField = new TextField();
 
             Button saveButton = new Button("Add Match");
             saveButton.setOnAction(event -> {
                 try {
-                    if (!typeField.getText().isEmpty() && !dateField.getText().isEmpty()) {
+                    if (!matchTypeComboBox.getValue().isEmpty() && !dateField.getText().isEmpty()) {
                         Matches newMatch = new Matches();
-                        newMatch.setMatchType(typeField.getText());
+                        newMatch.setMatchType(matchTypeComboBox.getValue());
                         newMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
 
                         Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
                         Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
-                        Teams winnerTeam = TeamManagerDAO.getTeamByID(Integer.parseInt(winnerField.getText()));
+//                        Teams winnerTeam = TeamManagerDAO.getTeamByID(Integer.parseInt(winnerField.getText()));
 
                         newMatch.setTeam1(team1);
                         newMatch.setTeam2(team2);
-                        newMatch.setWinnerTeam(winnerTeam);
+//                        newMatch.setWinnerTeam(winnerTeam);
 
                         MatchesDAO.addMatch(newMatch);
                         table.getItems().add(newMatch); // Lägger till den nya matchen i tabellen
@@ -183,12 +186,8 @@ public class MatchView {
                 }
             });
 
-            popupLayout.getChildren().addAll(
-                    typeLabel, typeField,
-                    dateLabel, dateField,
-                    team1Label, team1Field,
-                    team2Label, team2Field,
-                    winnerLabel, winnerField,
+            popupLayout.getChildren().addAll(typeLabel, matchTypeComboBox, dateLabel, dateField,
+                    team1Label, team1Field, team2Label, team2Field,
                     saveButton
             );
 
