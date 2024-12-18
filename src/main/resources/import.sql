@@ -25,11 +25,11 @@ insert into players (player_name, player_surname, player_nickname, team_id)value
 
 -- lagmatcher
 
-insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-01', 'T vs T', 1, 2, 1);
-insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-02', 'T vs T', 3, 4, 4);
-insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-03', 'T vs T', 2, 5, 5);
-insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-04', 'T vs T', 4, 1, 4);
-insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-05', 'T vs T', 5, 3, 3);
+insert into Matches (match_date, match_type, team1_id, team2_id)values ('2024-01-01', 'T vs T', 1, 2);
+insert into Matches (match_date, match_type, team1_id, team2_id)values ('2024-01-02', 'T vs T', 3, 4);
+insert into Matches (match_date, match_type, team1_id, team2_id)values ('2024-01-03', 'T vs T', 2, 5);
+insert into Matches (match_date, match_type, team1_id, team2_id)values ('2024-01-04', 'T vs T', 4, 1);
+insert into Matches (match_date, match_type, team1_id, team2_id)values ('2024-01-05', 'T vs T', 5, 3);
 
 -- spelarmatcher
 

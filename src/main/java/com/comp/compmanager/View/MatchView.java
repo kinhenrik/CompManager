@@ -54,6 +54,12 @@ public class MatchView {
         TableColumn<Matches, String> team2Column = new TableColumn<>("Team 2");
         team2Column.setCellValueFactory(new PropertyValueFactory<>("team2"));
 
+        TableColumn<Matches, Integer> team1ScoreColumn = new TableColumn<>("Team 1 Score");
+        team1ScoreColumn.setCellValueFactory(new PropertyValueFactory<>("team1Score"));
+
+        TableColumn<Matches, Integer> team2ScoreColumn = new TableColumn<>("Team 2 Score");
+        team2ScoreColumn.setCellValueFactory(new PropertyValueFactory<>("team2Score"));
+
         // Kolumn för Team & Winner
         TableColumn<Matches, String> winnerTeamColumn = new TableColumn<>("Team Winner");
         winnerTeamColumn.setCellValueFactory(new PropertyValueFactory<>("winnerTeam"));
@@ -83,7 +89,7 @@ public class MatchView {
 
         // Lägg till kolumner i tabellen
         table.getColumns().addAll(idColumn, dateColumn, typeColumn,
-                team1Column, team2Column, winnerTeamColumn
+                team1Column, team2Column,team1ScoreColumn,team2ScoreColumn, winnerTeamColumn
                 /*,idPlayerColumn,datePlayerColumn,typePlayerColumn, player2Column,winnerPlayerColumn*/);
 
         // Lägg till data i tabellen// Omvandla lista till ObservableList för JavaFX
@@ -104,8 +110,9 @@ public class MatchView {
         Button deleteMatchBtn = new Button("Delete Match");
         Button addMatchBtn = new Button("Add Match");
         Button editMatchBtn = new Button("Edit Match");
+        Button registerResultBtn = new Button("Register Results");
         //add buttons to bar
-        buttonBar.getButtons().addAll(deleteMatchBtn, addMatchBtn, editMatchBtn);
+        buttonBar.getButtons().addAll(deleteMatchBtn, addMatchBtn, editMatchBtn, registerResultBtn);
         //delete knapp för att ta bort lag från tabellen
         deleteMatchBtn.setOnAction(e -> {
             // Hämta det valda laget från tabellen
@@ -117,10 +124,7 @@ public class MatchView {
                 table.getItems().remove(selectedMatch);
                 System.out.println("Match deleted!");
             } else {
-                // Visa ett varningsmeddelande om inget lag är valt
-                System.out.println("No team selected");
-//              Alert alert = new Alert(Alert.AlertType.WARNING, "No team selected for deletion!", ButtonType.OK);
-//              alert.showAndWait();
+                System.out.println("No mactch selected");
             }
         });
 
@@ -267,41 +271,75 @@ public class MatchView {
             }
         });
 
-//        editMatchBtn.setOnAction(e -> {
-//            Matches selectedMatch = table.getSelectionModel().getSelectedItem();
-//
-//            Stage popupStage = new Stage();
-//            popupStage.setTitle("Edit Match");
-//
-//            VBox popupLayout = new VBox(10);
-//            popupLayout.setPadding(new Insets(15));
-//
-//            Label nameLabel = new Label("Change new match:");
-//            TextField nameField = new TextField();
-//
-//            Button saveButton = new Button("Save");
-//            saveButton.setOnAction(event -> {
-//                String UpdateMatch = nameField.getText();
-//                if (!UpdateMatch.isEmpty()) {
-//                    selectedMatch.setMatchType(UpdateMatch);
-//                    MatchesDAO.updateMatch(selectedMatch);
-//                    table.refresh();
-//                    popupStage.close();
-//                    System.out.println("Match updated");
-//                }else {
-//                    // Om namnet är tomt, visa ett varningsmeddelande
-//                    System.out.println("Textfield can't be empty!");
-////                Alert alert = new Alert(Alert.AlertType.WARNING, "Textfield can't be empty!", ButtonType.OK);
-////                alert.showAndWait();
-//                }
-//            });
-//            popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
-//
-//            Scene popupScene = new Scene(popupLayout, 300, 200);
-//            popupStage.setScene(popupScene);
-//            popupStage.show();
-//
-//        });
+        registerResultBtn.setOnAction(e -> {
+            // Hämta vald match från tabellen
+            Matches selectedMatch = table.getSelectionModel().getSelectedItem();
+
+            if (selectedMatch != null) {
+                // Skapa ett popup-fönster för att registrera resultat
+                Stage popupStage = new Stage();
+                popupStage.setTitle("Register Results");
+
+                VBox popupLayout = new VBox(10);
+                popupLayout.setPadding(new Insets(15));
+
+                // Labels och TextFields för att mata in resultaten
+                Label team1Label = new Label("Result for " + selectedMatch.getTeam1().getName() + ":");
+                TextField team1ScoreField = new TextField();
+
+                Label team2Label = new Label("Result for " + selectedMatch.getTeam2().getName() + ":");
+                TextField team2ScoreField = new TextField();
+
+                Button saveButton = new Button("Save Results");
+                saveButton.setOnAction(event -> {
+                    try {
+                        // Kontrollera så att fälten inte är tomma
+                        if (!team1ScoreField.getText().isEmpty() && !team2ScoreField.getText().isEmpty()) {
+                            int team1Score = Integer.parseInt(team1ScoreField.getText());
+                            int team2Score = Integer.parseInt(team2ScoreField.getText());
+
+                            // Uppdatera matchens resultat
+                            selectedMatch.setTeam1Score(team1Score);
+                            selectedMatch.setTeam2Score(team2Score);
+
+                            // visar vinnaren baserat på resultaten
+                            if (team1Score > team2Score) {
+                                selectedMatch.setWinnerTeam(selectedMatch.getTeam1());
+                            } else if (team2Score > team1Score) {
+                                selectedMatch.setWinnerTeam(selectedMatch.getTeam2());
+                            } else {
+                                selectedMatch.setWinnerTeam(null); // Oavgjort
+                                System.out.println("Equals");
+                            }
+
+                            // Uppdatera matchen i databasen
+                            MatchesDAO.updateMatch(selectedMatch);
+
+                            // Uppdatera tabellen
+                            table.refresh();
+
+                            System.out.println("Results registered successfully!");
+                            System.out.println("Result : " + selectedMatch.getTeam1().getName() + " " + selectedMatch.getTeam1Score() + " - " + selectedMatch.getTeam2Score() + " " + selectedMatch.getTeam2().getName());
+                            System.out.println("Congratulations for the winner team! : " + selectedMatch.getWinnerTeam());
+                            popupStage.close();
+                        } else {
+                            System.out.println("Scores can't be empty!");
+                        }
+                    } catch (NumberFormatException ex) {
+                        System.out.println("Invalid input! Scores must be numbers.");
+                    }
+                });
+
+                // Lägg till komponenter till layouten
+                popupLayout.getChildren().addAll(team1Label, team1ScoreField, team2Label, team2ScoreField, saveButton);
+
+                Scene popupScene = new Scene(popupLayout, 300, 200);
+                popupStage.setScene(popupScene);
+                popupStage.show();
+            } else {
+                System.out.println("No match selected!");
+            }
+        });
 
         // Layout med VBox
         VBox vBox = new VBox(10, table, buttonBar);

@@ -6,6 +6,8 @@ import java.util.Date;
 @Entity
 @Table(name = "Matches")
 public class Matches {
+//    private int team1Score;
+//    private int team2Score;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,6 +28,13 @@ public class Matches {
     @ManyToOne
     @JoinColumn(name = "team2_id", nullable = false)
     private Teams team2;
+
+    @Column(name = "team1_score", nullable = true)
+    private Integer team1Score;
+
+    @Column(name = "team2_score", nullable = true)
+    private Integer team2Score;
+
 //
 //    @ManyToOne
 //    @JoinColumn(name = "player1_id", nullable = false)
@@ -36,7 +45,7 @@ public class Matches {
 //    private Player player2;
 
     @ManyToOne
-    @JoinColumn(name = "winner_team", nullable = false)
+    @JoinColumn(name = "winner_team", nullable = true)
     private Teams winnerTeam;
 
 //    @ManyToOne
@@ -90,7 +99,33 @@ public class Matches {
     public void setTeam2(Teams team2) {
         this.team2 = team2;
     }
-//
+
+    public Teams getWinnerTeam() {
+        return winnerTeam;
+    }
+
+    public void setWinnerTeam(Teams winnerTeam) {
+        this.winnerTeam = winnerTeam;
+    }
+
+    public Integer getTeam1Score() {
+        return team1Score;
+    }
+
+    public void setTeam1Score(Integer team1Score) {
+        this.team1Score = team1Score;
+    }
+
+    public Integer getTeam2Score() {
+        return team2Score;
+    }
+
+    public void setTeam2Score(Integer team2Score) {
+        this.team2Score = team2Score;
+    }
+
+
+
 //    public Player getPlayer1() {
 //        return player1;
 //    }
@@ -107,14 +142,6 @@ public class Matches {
 //        this.player2 = player2;
 //    }
 
-
-    public Teams getWinnerTeam() {
-        return winnerTeam;
-    }
-
-    public void setWinnerTeam(Teams winnerTeam) {
-        this.winnerTeam = winnerTeam;
-    }
 //
 //    public Player getWinnerPlayer() {
 //        return winnerPlayer;

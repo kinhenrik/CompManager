@@ -75,8 +75,6 @@ public class TeamView {
             } else {
                 // Visa ett varningsmeddelande om inget lag är valt
                 System.out.println("No team selected");
-//              Alert alert = new Alert(Alert.AlertType.WARNING, "No team selected for deletion!", ButtonType.OK);
-//              alert.showAndWait();
             }
         });
 //            teamManagerDAO.deleteTeam(teams.get(0));

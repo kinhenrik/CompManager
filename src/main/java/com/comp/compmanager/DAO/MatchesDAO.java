@@ -59,14 +59,20 @@ public class MatchesDAO {
         try {
             transaction = manager.getTransaction();
             transaction.begin();
+            if (!manager.contains(match)) {
+                match = manager.merge(match);
+            }
+
             manager.merge(match);
             transaction.commit();
+            System.out.println("Match updated successfully!");
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
+            System.out.println("Failed to update match!, check code " + e.getMessage());
             return false;
         } finally {
             manager.close();

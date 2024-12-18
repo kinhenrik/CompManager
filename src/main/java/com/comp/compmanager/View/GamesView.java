@@ -92,8 +92,6 @@ public class GamesView {
             } else {
                 // Visa ett varningsmeddelande om inget lag är valt
                 System.out.println("No game selected");
-//              Alert alert = new Alert(Alert.AlertType.WARNING, "No game selected for deletion!", ButtonType.OK);
-//              alert.showAndWait();
             }
         });
 
@@ -125,8 +123,6 @@ public class GamesView {
                 } else {
                     // Om namnet är tomt, visa ett varningsmeddelande
                     System.out.println("Game name can't be empty!");
-//                Alert alert = new Alert(Alert.AlertType.WARNING, "Game name can't be empty!", ButtonType.OK);
-//                    alert.showAndWait();
                 }
             });
 
@@ -171,8 +167,6 @@ public class GamesView {
                     } else {
                         // Visa ett varningsmeddelande om fältet är tomt
                         System.out.println("Game name can't be empty!");
-//                Alert alert = new Alert(Alert.AlertType.WARNING, "Game name can't be empty!", ButtonType.OK);
-//                alert.showAndWait();
                     }
                 });
 
@@ -185,9 +179,8 @@ public class GamesView {
                 popupStage.show();
             } else {
                 // Visa ett varningsmeddelande om inget spel är valt
-                System.out.println("No game selected for editing!");
-//        Alert alert = new Alert(Alert.AlertType.WARNING, "No game selected for editing!", ButtonType.OK);
-//        alert.showAndWait();
+                System.out.println("No game selected for edit!");
+
             }
         });
 
