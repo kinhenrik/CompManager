@@ -2,6 +2,7 @@ package com.comp.compmanager.View;
 import com.comp.compmanager.DAO.GamesDAO;
 import com.comp.compmanager.DAO.TeamManagerDAO;
 import com.comp.compmanager.entities.Games;
+import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -117,7 +118,7 @@ public class GamesView {
                     // Skapa ett nytt team-objekt och lägg till det i listan
                     Games newGame = new Games();
                     newGame.setName(gameName);
-                    GamesDAO.addGames(newGame); // Lägg till i databasen
+                    GamesDAO.addGame(newGame); // Lägg till i databasen
                     table.getItems().add(newGame); // Uppdatera tabellen
                     popupStage.close(); // Stäng popupen
                 } else {
@@ -197,5 +198,11 @@ public class GamesView {
         layout.getChildren().add(vBox);
 
         return layout;
+    }
+    public ObservableList gamesObservableList() {
+        //Skapar en lista med alla admins från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
+        List<Games> game = GamesDAO.getAllGames();
+        ObservableList<Games> gamesObservableList = FXCollections.observableArrayList(game);
+        return gamesObservableList;
     }
 }

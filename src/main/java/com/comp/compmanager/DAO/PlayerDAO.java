@@ -78,7 +78,7 @@ public class PlayerDAO {
     }
 
     //DELETE
-    public void deletePlayer (Player player) {
+    public static void deletePlayer(Player player) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {

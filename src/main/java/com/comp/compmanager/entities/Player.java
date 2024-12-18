@@ -56,12 +56,9 @@ public class Player {
     public String getNickname() {return nickname;}
     public void setNickname(String nickname) { this.nickname = nickname; }
 
-
-
     public Teams getTeam() {
         return team;
     }
     public void setTeam(Teams team) { this.team = team; }
-
 
 }

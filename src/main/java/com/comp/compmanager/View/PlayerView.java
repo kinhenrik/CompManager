@@ -97,6 +97,7 @@ public class PlayerView {
             table.getItems().remove(table.getSelectionModel().getSelectedItem());
         });
 
+
         addPlayerBtn.setOnAction(e -> {
             if (nameTextField.getText() != "" ) {
 

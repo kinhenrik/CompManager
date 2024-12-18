@@ -1,6 +1,7 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.TeamManagerDAO;
+import com.comp.compmanager.entities.Games;
 import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -17,8 +18,8 @@ import java.util.List;
 public class TeamView {
     private final ViewManager viewManager;
 
-
     private TeamManagerDAO teamManagerDAO = new TeamManagerDAO();
+    private ComboBox gameComboBox;
 
     public TeamView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -41,10 +42,19 @@ public class TeamView {
         TableColumn<Teams, String> name_col = new TableColumn<>("Team Name");
         name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        table.getColumns().addAll(id_col, name_col);
+        TableColumn<Teams, String> game_col = new TableColumn<>("Game");
+        game_col.setCellValueFactory(new PropertyValueFactory<>("games"));
+
+        table.getColumns().addAll(id_col, name_col, game_col);
 
         ObservableList<Teams> teams = teamList();
         table.setItems(teams);
+
+        //DROP DOWN
+        ObservableList gamesObservableList = new GamesView(viewManager).gamesObservableList();
+        gameComboBox = new ComboBox(gamesObservableList);
+        gameComboBox.setPromptText("Game");
+
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
@@ -92,17 +102,20 @@ public class TeamView {
             Label nameLabel = new Label("Team Name:");
             TextField nameField = new TextField();
 
+            Label gameLabel = new Label("Game:");
+
             Button saveButton = new Button("Add Team");
             saveButton.setOnAction(event -> {
                 try {
-                    if (!nameField.getText().isEmpty()) {
+                    if (!nameField.getText().isEmpty() && gameComboBox.getValue() != null) {
                         Teams newTeam = new Teams();
                         newTeam.setName(nameField.getText());
+                        newTeam.setGames((Games) gameComboBox.getValue());
 
                         TeamManagerDAO.addTeam(newTeam); // Sparat team till databasen
                         table.getItems().add(newTeam); // Lägger till teamet i tabellen
+                        gameComboBox.setPromptText("Game");
                         table.refresh();
-
                         popupStage.close();
                         System.out.println("Team added successfully!");
                     } else {
@@ -114,9 +127,9 @@ public class TeamView {
                 }
             });
 
-            popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
+            popupLayout.getChildren().addAll(nameLabel, nameField,gameLabel,gameComboBox, saveButton);
 
-            Scene popupScene = new Scene(popupLayout, 300, 150);
+            Scene popupScene = new Scene(popupLayout, 300, 200);
             popupStage.setScene(popupScene);
             popupStage.show();
         });
@@ -135,13 +148,17 @@ public class TeamView {
             Label nameLabel = new Label("Team Name:");
             TextField nameField = new TextField(selectedTeam.getName());
 
+            Label gameLabel = new Label("Game:");
+
             Button saveButton = new Button("Save Changes");
             saveButton.setOnAction(event -> {
                 try {
-                    if (!nameField.getText().isEmpty()) {
+                    if (!nameField.getText().isEmpty() && gameComboBox.getValue() != null) {
                         selectedTeam.setName(nameField.getText());
+                        selectedTeam.setGames((Games) gameComboBox.getValue());
 
                         TeamManagerDAO.updateTeam(selectedTeam); // Uppdatera team i databasen
+                        gameComboBox.setPromptText("Game");
                         table.refresh(); // Uppdatera tabellen
                         popupStage.close();
                         System.out.println("Team updated successfully!");
@@ -154,9 +171,9 @@ public class TeamView {
                 }
             });
 
-            popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
+            popupLayout.getChildren().addAll(nameLabel, nameField, gameLabel, gameComboBox, saveButton);
 
-            Scene popupScene = new Scene(popupLayout, 300, 150);
+            Scene popupScene = new Scene(popupLayout, 300, 200);
             popupStage.setScene(popupScene);
             popupStage.show();
         } else {
@@ -183,6 +200,7 @@ public class TeamView {
 
         return layout;
     }
+
 
     public ObservableList teamList() {
         //Skapar en lista med alla admins från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista

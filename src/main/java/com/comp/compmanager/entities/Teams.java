@@ -57,7 +57,7 @@ public class Teams {
     public Games getGames() {
         return games;
     }
-    public void setGame(Games games) {
+    public void setGames(Games games) {
         this.games = games;
     }
 
@@ -108,6 +108,8 @@ public class Teams {
     public void setMatchesWonTeam(List<Matches> matchesWonTeam) {
         this.matchesWonTeam = matchesWonTeam;
     }
+
+
 
 //    public List<Matches> getMatchesWonPlayer() {
 //        return matchesWonPlayer;
