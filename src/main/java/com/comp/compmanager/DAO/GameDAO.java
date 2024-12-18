@@ -1,24 +1,27 @@
 package com.comp.compmanager.DAO;
 
-import com.comp.compmanager.entities.Admin;
+import com.comp.compmanager.entities.Game;
+
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class AdminDAO {
+public class GameDAO {
 
+    //retrieve "myconfig" from persistence.xml
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("myconfig");
 
+
     //CREATE
-    public void addAdmin (Admin admin) {
+    public void addGame (Game game) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            manager.persist(admin);
+            manager.persist(game);
             transaction.commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -31,37 +34,39 @@ public class AdminDAO {
     }
 
     //GET
-    public Admin getAdminByID (int admin_id) {
+    public Game getGameByID (int game_id) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        Admin adminToReturn = manager.find(Admin.class, admin_id);
+        Game gameToReturn = manager.find(Game.class, game_id);
         manager.close();
-        return adminToReturn;
+        return gameToReturn;
     }
 
-    public List<Admin> getAllAdmins () {
-        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        List<Admin> listToReturn = new ArrayList<>();
 
-        TypedQuery<Admin> result = manager.createQuery("FROM Admin", Admin.class);
+    public List<Game> getAllGames () {
+        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+        List<Game> listToReturn = new ArrayList<>();
+
+        //Get all games from Table
+        TypedQuery<Game> result = manager.createQuery("From Game", Game.class);
 
         listToReturn.addAll(result.getResultList());
         return listToReturn;
     }
 
     //UPDATE
-    public void updateAdmin (Admin adminToUpdate) {
+    public void updateGame (Game gameToUpdate) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            if (manager.contains(adminToUpdate)) {
-                manager.persist(adminToUpdate);
+            if (manager.contains(gameToUpdate)) {
+                manager.persist(gameToUpdate);
             } else {
-                Admin updatedAdmin = manager.merge(adminToUpdate);
-                System.out.println("Admin with ID=" + updatedAdmin.getId() + " has been updated.");
+                Game updatedGame = manager.merge(gameToUpdate);
+                System.out.println("Game with ID=" + updatedGame.getId() + " has been updated.");
             }
-            manager.merge(adminToUpdate);
+            manager.merge(gameToUpdate);
             transaction.commit();
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -74,18 +79,18 @@ public class AdminDAO {
     }
 
     //DELETE
-    public void deleteAdmin (Admin admin) {
+    public void deleteGame (Game game) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            if (!manager.contains(admin)) {
-                admin = manager.merge(admin);
+            if (!manager.contains(game)) {
+                game = manager.merge(game);
             }
-            manager.remove(admin);
+            manager.remove(game);
             transaction.commit();
-            System.out.println("Admin with ID=" + admin.getId() + " has been removed from database.");
+            System.out.println("Game with ID=" + game.getId() + " has been removed from database.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
             if (manager != null && transaction != null && transaction.isActive()) {

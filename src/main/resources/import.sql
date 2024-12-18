@@ -18,6 +18,12 @@ insert into players (player_name, player_surname, player_nickname, team_id) valu
 insert into players (player_name, player_surname, player_nickname, team_id) values ('name4', 'surname4', 'nickname4', 4);
 
 
+insert into Games (game_name) values ( 'Starcraft 2');
+insert into Games (game_name) values ( 'Counterstrike Global Offensive');
+insert into Games (game_name) values ( 'Dota 2');
+insert into Games (game_name) values ( 'League of Legends');
+insert into Games (game_name) values ( 'Rocket League');
+
 
 
 

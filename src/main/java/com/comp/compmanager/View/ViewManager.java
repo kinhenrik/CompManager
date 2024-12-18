@@ -43,11 +43,12 @@ public class ViewManager {
         MenuItem adminMenuItem = new MenuItem("Admin View");
         MenuItem teamMenuItem = new MenuItem("Team View");
         MenuItem playerMenuItem = new MenuItem("Player View");
+        MenuItem gameMenuItem = new MenuItem("Game View");
         //Menyval för userMenu
         MenuItem logoutMenuItem = new MenuItem("Logout");
 
         // Lägg till valen i menyn
-        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem);
+        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gameMenuItem);
         userMenu.getItems().addAll(logoutMenuItem);
         menuBar.getMenus().addAll(menu, userMenu);
 
@@ -67,6 +68,11 @@ public class ViewManager {
         playerMenuItem.setOnAction(e -> {
             menu.setText("Player view");
             showPlayerView();
+        });
+        gameMenuItem.setOnAction(e -> {
+            menu.setText("Game view");
+            showGameView();
+
         });
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
         logoutMenuItem.setOnAction(e -> {
@@ -149,6 +155,12 @@ public class ViewManager {
     public void showPlayerView() {
         AnchorPane playerView = new PlayerView(this).getView();
         setView(playerView);
+    }
+
+    // Skapa GameView
+    public void showGameView() {
+        AnchorPane gameView = new GameView(this).getView();
+        setView(gameView);
     }
 
     // Ta bort allt under menyfältet och lägg till den nya vyn
