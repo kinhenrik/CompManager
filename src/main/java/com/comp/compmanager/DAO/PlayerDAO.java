@@ -11,7 +11,6 @@ public class PlayerDAO {
     //retrieve "myconfig" from persistence.xml
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("myconfig");
 
-
     //CREATE
     public void addPlayer (Player player) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -39,7 +38,6 @@ public class PlayerDAO {
         manager.close();
         return playerToReturn;
     }
-
 
     public List<Player> getAllPlayers () {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -99,5 +97,4 @@ public class PlayerDAO {
             manager.close();
         }
     }
-
 }

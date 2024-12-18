@@ -11,7 +11,6 @@ public class GamesDAO {
     //retrieve "myconfig" from persistence.xml
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("myconfig");
 
-
     //CREATE
     public static void addGame(Games games) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -39,7 +38,6 @@ public class GamesDAO {
         manager.close();
         return gamesToReturn;
     }
-
 
     public static List<Games> getAllGames() {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();

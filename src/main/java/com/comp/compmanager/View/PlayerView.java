@@ -30,7 +30,6 @@ public class PlayerView {
         AnchorPane.setLeftAnchor(label, 10.0);
         layout.getChildren().add(label);
 
-
         //TABLE
         TableView<Player> table = new TableView();
 
@@ -74,12 +73,10 @@ public class PlayerView {
         TextField nicknameTextField = new TextField();
         nicknameTextField.setPromptText("Nickname...");
 
-
         //DROP DOWN
         ObservableList<Teams> teamsObservableList = new TeamView(viewManager).teamList();
         teamsComboBox = new ComboBox(teamsObservableList);
         teamsComboBox.setPromptText("Teams");
-
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
@@ -96,7 +93,6 @@ public class PlayerView {
             playerDAO.deletePlayer(table.getSelectionModel().getSelectedItem());
             table.getItems().remove(table.getSelectionModel().getSelectedItem());
         });
-
 
         addPlayerBtn.setOnAction(e -> {
             if (nameTextField.getText() != "" ) {
@@ -168,11 +164,6 @@ public class PlayerView {
         layout.getChildren().add(vBox);
 
         return layout;
-
-
-
     }
-
-
 }
 
