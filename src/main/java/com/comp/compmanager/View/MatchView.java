@@ -245,7 +245,7 @@ public class MatchView {
 //                Label winnerTeamLabel = new Label("Winner Team ID:");
 //                TextField winnerTeamField = new TextField();
 
-                //skapar en egen layout för edit team och dens innehåll
+                //skapar en egen layout för edit player och dens innehåll
                 VBox playerMatchLayout = new VBox(10);
                 Label player1Label = new Label("Player 1 ID:");
                 TextField player1Field = new TextField();
