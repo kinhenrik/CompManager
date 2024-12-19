@@ -143,13 +143,11 @@ public class MatchView {
 
             Label team1Label = new Label("Team 1 ID:");
             TextField team1Field = new TextField();
-
             Label team2Label = new Label("Team 2 ID:");
             TextField team2Field = new TextField();
 
             Label player1Label = new Label("Player 1 ID:");
             TextField player1Field = new TextField();
-
             Label player2Label = new Label("Player 2 ID:");
             TextField player2Field = new TextField();
 
@@ -159,8 +157,8 @@ public class MatchView {
             player2Label.setVisible(false);
             player2Field.setVisible(false);
             //här är funtion för ändring av visual
-            matchTypeComboBox.setOnAction(event -> {
 
+            matchTypeComboBox.setOnAction(event -> {
                 boolean isTeamMatch = matchTypeComboBox.getValue().equals("T vs T");
                 team1Label.setVisible(isTeamMatch);
                 team1Field.setVisible(isTeamMatch);
@@ -224,78 +222,128 @@ public class MatchView {
         // Edit knapp för att redigera befintliga matcher i tabellen och sen uppdatera tabellen samt en popupfönster
         editMatchBtn.setOnAction(e -> {
             Matches selectedMatch = table.getSelectionModel().getSelectedItem();
-            if (selectedMatch != null) { // Säkerställ att en match är vald
+
+            if (selectedMatch != null) { // Kontrollera att en match är vald
                 Stage popupStage = new Stage();
                 popupStage.setTitle("Edit Match");
 
-                VBox popupLayout = new VBox(15);
+                VBox popupLayout = new VBox(10);
                 popupLayout.setPadding(new Insets(15));
 
-                // Labels och TextFields för att redigera matchens detaljer
-                Label typeLabel = new Label("Match Type:");
-                TextField typeField = new TextField(selectedMatch.getMatchType());
+                TextField typeField = new TextField(selectedMatch.getMatchType()); // matchtyp
 
                 Label dateLabel = new Label("Match Date (YYYY-MM-DD):");
                 TextField dateField = new TextField(selectedMatch.getMatchDate().toString());
 
+                //skapar en egen layout för edit team och den innehåll
+                VBox teamMatchLayout = new VBox(10);
                 Label team1Label = new Label("Team 1 ID:");
-                TextField team1Field = new TextField(String.valueOf(selectedMatch.getTeam1().getId()));
-
+                TextField team1Field = new TextField();
                 Label team2Label = new Label("Team 2 ID:");
-                TextField team2Field = new TextField(String.valueOf(selectedMatch.getTeam2().getId()));
+                TextField team2Field = new TextField();
+                Label winnerTeamLabel = new Label("Winner Team ID:");
+                TextField winnerTeamField = new TextField();
 
+                //skapar en egen layout för edit team och dens innehåll
+                VBox playerMatchLayout = new VBox(10);
                 Label player1Label = new Label("Player 1 ID:");
-                TextField player1Field = new TextField(String.valueOf(selectedMatch.getPlayer1().getId()));
-
+                TextField player1Field = new TextField();
                 Label player2Label = new Label("Player 2 ID:");
-                TextField player2Field = new TextField(String.valueOf(selectedMatch.getPlayer2().getId()));
+                TextField player2Field = new TextField();
+                Label winnerPlayerLabel = new Label("Winner Player ID:");
+                TextField winnerPlayerField = new TextField();
 
+                // Om matchtyp är T vs T visas endast team layout annars visas player layout
+                boolean isTeamMatch = "T vs T".equals(selectedMatch.getMatchType());
+                team1Label.setVisible(isTeamMatch);
+                team1Field.setVisible(isTeamMatch);
+                team2Label.setVisible(isTeamMatch);
+                team2Field.setVisible(isTeamMatch);
+                winnerTeamLabel.setVisible(isTeamMatch);
+                winnerTeamField.setVisible(isTeamMatch);
+
+                player1Label.setVisible(!isTeamMatch);
+                player1Field.setVisible(!isTeamMatch);
+                player2Label.setVisible(!isTeamMatch);
+                player2Field.setVisible(!isTeamMatch);
+                winnerPlayerLabel.setVisible(!isTeamMatch);
+                winnerPlayerField.setVisible(!isTeamMatch);
+
+                if (isTeamMatch) {
+                    team1Field.setText(String.valueOf(selectedMatch.getTeam1().getId()));
+                    team2Field.setText(String.valueOf(selectedMatch.getTeam2().getId()));
+                    winnerTeamField.setText(selectedMatch.getWinnerTeam() != null ? String.valueOf(selectedMatch.getWinnerTeam().getId()) : "");
+                } else {
+                    player1Field.setText(String.valueOf(selectedMatch.getPlayer1().getId()));
+                    player2Field.setText(String.valueOf(selectedMatch.getPlayer2().getId()));
+                    winnerPlayerField.setText(selectedMatch.getWinnerPlayer() != null ? String.valueOf(selectedMatch.getWinnerPlayer().getId()) : "");
+
+                }
+
+                // Spara-knapp
                 Button saveButton = new Button("Save");
                 saveButton.setOnAction(event -> {
                     try {
-                        // Kontrollera att fälten inte är tomma
                         if (!typeField.getText().isEmpty() && !dateField.getText().isEmpty()) {
                             selectedMatch.setMatchType(typeField.getText());
                             selectedMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
 
-                            // Hämta Teams via ID
-                            if (typeField.getText().equals("T vs T")) {
-                                TeamManagerDAO TeamManagerDAO = new TeamManagerDAO();
-                                Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
-                                Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
+                            if ("T vs T".equals(typeField.getText())) {
+                                TeamManagerDAO teamManagerDAO = new TeamManagerDAO();
+                                Teams team1 = teamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
+                                Teams team2 = teamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
+                                Teams winnerTeam = teamManagerDAO.getTeamByID(Integer.parseInt(winnerPlayerField.getText()));
 
                                 selectedMatch.setTeam1(team1);
                                 selectedMatch.setTeam2(team2);
+                                selectedMatch.setWinnerTeam(winnerTeam);
 
-                            }else if (typeField.getText().equals("P vs P")) {
-                                Player player1 = PlayerDAO.getPlayerByID(Integer.parseInt(player1Field.getText()));
-                                Player player2 = PlayerDAO.getPlayerByID(Integer.parseInt(player2Field.getText()));
+                                // Rensar spelarinformation för lagmatcher
+                                selectedMatch.setPlayer1(null);
+                                selectedMatch.setPlayer2(null);
+
+                            } else if ("P vs P".equals(typeField.getText())) {
+                                PlayerDAO playerDAO = new PlayerDAO();
+                                Player player1 = playerDAO.getPlayerByID(Integer.parseInt(player1Field.getText()));
+                                Player player2 = playerDAO.getPlayerByID(Integer.parseInt(player2Field.getText()));
+                                Player winnerPlayer = playerDAO.getPlayerByID(Integer.parseInt(winnerPlayerField.getText()));
+
                                 selectedMatch.setPlayer1(player1);
                                 selectedMatch.setPlayer2(player2);
-                            }
+                                selectedMatch.setWinnerPlayer(winnerPlayer);
 
+                                // Rensar laginformation för spelarmatcher
+                                selectedMatch.setTeam1(null);
+                                selectedMatch.setTeam2(null);
+                                selectedMatch.setWinnerTeam(null);
+                                selectedMatch.setWinnerPlayer(null);
+                            }
 
                             // Uppdatera matchen i databasen
                             MatchesDAO.updateMatch(selectedMatch);
                             table.refresh();
-
-                            System.out.println("Match updated successfully!");
                             popupStage.close();
+                            System.out.println("Match updated successfully!");
                         } else {
                             System.out.println("Fields can't be empty!");
                         }
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        System.out.println("Error updating match. check code ");
+                        System.out.println("Error updating match. Check code.");
                     }
                 });
+                popupLayout.getChildren().addAll(dateLabel,dateField);
 
-                // Lägga till alla komponenter i layouten
-                popupLayout.getChildren().addAll(typeLabel, typeField, dateLabel, dateField,
-                        team1Label, team1Field, team2Label, team2Field,
-                        player1Label,player1Field,player2Label,player2Field,
-                        saveButton
-                );
+                //if sats för att visa rätt popuplayout efter val av matchtyp
+                if (isTeamMatch){
+                    teamMatchLayout.getChildren().addAll(team1Label,team1Field,team2Label,team2Field,winnerTeamLabel,winnerTeamField);
+                    popupLayout.getChildren().add(teamMatchLayout);
+                } else {
+                    playerMatchLayout.getChildren().addAll(player1Label,player1Field,player2Label,player2Field,winnerTeamLabel,winnerTeamField);
+                    popupLayout.getChildren().add(playerMatchLayout);
+                }
+
+                popupLayout.getChildren().add(saveButton);
 
                 Scene popupScene = new Scene(popupLayout, 400, 400);
                 popupStage.setScene(popupScene);
@@ -306,11 +354,11 @@ public class MatchView {
         });
 
         registerResultBtn.setOnAction(e -> {
-            // Hämta vald match från tabellen
+            // Hämta vald match från tabellen som man väljer
             Matches selectedMatch = table.getSelectionModel().getSelectedItem();
 
             if (selectedMatch != null) {
-                // Skapa ett popup-fönster för att registrera resultat
+                // Skapar ett popup-layout
                 Stage popupStage = new Stage();
                 popupStage.setTitle("Register Results");
 
@@ -318,54 +366,111 @@ public class MatchView {
                 popupLayout.setPadding(new Insets(15));
 
                 // Labels och TextFields för att mata in resultaten
-                Label team1Label = new Label("Result for " + selectedMatch.getTeam1().getName() + ":");
-                TextField team1ScoreField = new TextField();
+                Label team1Label, team2Label, player1Label, player2Label;
+                TextField team1ScoreField, team2ScoreField, player1ScoreField, player2ScoreField;
+                // if else sats vald matchtyp och vad som ska visas
+                if (selectedMatch.getMatchType().equals("T vs T")) {
+                    // För lagmatch (T vs T)
+                    team1Label = new Label("Result for " + selectedMatch.getTeam1().getName() + ":");
+                    team1ScoreField = new TextField();
 
-                Label team2Label = new Label("Result for " + selectedMatch.getTeam2().getName() + ":");
-                TextField team2ScoreField = new TextField();
+                    team2Label = new Label("Result for " + selectedMatch.getTeam2().getName() + ":");
+                    team2ScoreField = new TextField();
+
+                    player1Label = null;
+                    player2Label = null;
+                    player1ScoreField = null;
+                    player2ScoreField = null;
+                } else {
+                    // För spelar-match (P vs P)
+                    player1Label = new Label("Result for " + selectedMatch.getPlayer1().getNickname() + ":");
+                    player1ScoreField = new TextField();
+
+                    player2Label = new Label("Result for " + selectedMatch.getPlayer2().getNickname() + ":");
+                    player2ScoreField = new TextField();
+
+                    team1Label = null;
+                    team2Label = null;
+                    team1ScoreField = null;
+                    team2ScoreField = null;
+                }
 
                 Button saveButton = new Button("Save Results");
                 saveButton.setOnAction(event -> {
                     try {
-                        // Kontrollera så att fälten inte är tomma
-                        if (!team1ScoreField.getText().isEmpty() && !team2ScoreField.getText().isEmpty()) {
-                            int team1Score = Integer.parseInt(team1ScoreField.getText());
-                            int team2Score = Integer.parseInt(team2ScoreField.getText());
+                        if (selectedMatch.getMatchType().equals("T vs T")) {
+                            // Kontrollera att fälten inte är tomma för lagmatch
+                       if (!team1ScoreField.getText().isEmpty() && !team2ScoreField.getText().isEmpty()) {
+                           int team1Score = Integer.parseInt(team1ScoreField.getText());
+                           int team2Score = Integer.parseInt(team2ScoreField.getText());
+                         // Uppdaterar matchens resultat för lag
+                         selectedMatch.setTeam1Score(team1Score);
+                         selectedMatch.setTeam2Score(team2Score);
 
-                            // Uppdatera matchens resultat
-                            selectedMatch.setTeam1Score(team1Score);
-                            selectedMatch.setTeam2Score(team2Score);
-
-                            // visar vinnaren baserat på resultaten
-                            if (team1Score > team2Score) {
-                                selectedMatch.setWinnerTeam(selectedMatch.getTeam1());
-                            } else if (team2Score > team1Score) {
-                                selectedMatch.setWinnerTeam(selectedMatch.getTeam2());
-                            } else {
-                                selectedMatch.setWinnerTeam(null); // Oavgjort
-                                System.out.println("Equals");
-                            }
-
-                            // Uppdatera matchen i databasen
-                            MatchesDAO.updateMatch(selectedMatch);
-
-                            // Uppdatera tabellen
-                            table.refresh();
-
-                            System.out.println("Results registered successfully!");
-                            System.out.println("Result : " + selectedMatch.getTeam1().getName() + " " + selectedMatch.getTeam1Score() + " - " + selectedMatch.getTeam2Score() + " " + selectedMatch.getTeam2().getName());
-                            System.out.println("Congratulations for the winner team! : " + selectedMatch.getWinnerTeam());
-                            popupStage.close();
+                       // Visa vinnaren baserat på resultaten
+                          if (team1Score > team2Score) {
+                              selectedMatch.setWinnerTeam(selectedMatch.getTeam1());
+                          } else if (team2Score > team1Score) {
+                              selectedMatch.setWinnerTeam(selectedMatch.getTeam2());
+                          } else {
+                               selectedMatch.setWinnerTeam(null); // Oavgjort
+                          }
+                       }
                         } else {
-                            System.out.println("Scores can't be empty!");
+                    // Kontrollerar att fälten inte är tomma för spelarmatch
+                        if (!player1ScoreField.getText().isEmpty() && !player2ScoreField.getText().isEmpty()) {
+                            int player1Score = Integer.parseInt(player1ScoreField.getText());
+                            int player2Score = Integer.parseInt(player2ScoreField.getText());
+
+                       // Uppdaterar matchens resultat för spelare
+                             selectedMatch.setPlayer1Score(player1Score);
+                             selectedMatch.setPlayer2Score(player2Score);
+
+                        // Visar vinnaren baserat på resultaten
+                        if (player1Score > player2Score) {
+                            selectedMatch.setWinnerPlayer(selectedMatch.getPlayer1());
+                        } else if (player2Score > player1Score) {
+                            selectedMatch.setWinnerPlayer(selectedMatch.getPlayer2());
+                        } else {
+                            selectedMatch.setWinnerPlayer(null); // Oavgjort
                         }
-                    } catch (NumberFormatException ex) {
-                        System.out.println("Invalid input! Scores must be numbers.");
+                     }
+                    }
+                 // Uppdaterar matchen i databasen
+                    MatchesDAO.updateMatch(selectedMatch);
+
+                 // Uppdaterar tabellen
+                    table.refresh();
+                    System.out.println("Results registered successfully!");
+                    if (selectedMatch.getMatchType().equals("T vs T")) {
+                        System.out.println("Result: " + selectedMatch.getTeam1().getName() + " " + selectedMatch.getTeam1Score() + " - " + selectedMatch.getTeam2Score() + " " + selectedMatch.getTeam2().getName());
+                    if (selectedMatch.getWinnerTeam() != null) {
+                        System.out.println("Congratulations for the winner team: " + selectedMatch.getWinnerTeam().getName());
+                    } else {
+                        System.out.println("No winner: Draw");
+                    }
+                    } else if (selectedMatch.getMatchType().equals("P vs P")) {
+                        System.out.println("Result: " + selectedMatch.getPlayer1().getNickname() + " " + selectedMatch.getPlayer1Score() + " - " + selectedMatch.getPlayer2Score() + " " + selectedMatch.getPlayer2().getNickname());
+                    if (selectedMatch.getWinnerPlayer() != null) {
+                        System.out.println("Congratulations for the winner player: " + selectedMatch.getWinnerPlayer().getNickname());
+                    } else {
+                         System.out.println("No winner: Draw");
+                    }
+                }
+
+                    popupStage.close();
+
+                } catch (NumberFormatException ex) {
+                      System.out.println("Invalid input! Scores must be numbers.");
                     }
                 });
 
-                // Lägg till komponenter till layouten
-                popupLayout.getChildren().addAll(team1Label, team1ScoreField, team2Label, team2ScoreField, saveButton);
+                // Lägg till komponenterna i layouten beroende på matchtyp
+                if (selectedMatch.getMatchType().equals("T vs T")) {
+                    popupLayout.getChildren().addAll(team1Label, team1ScoreField, team2Label, team2ScoreField, saveButton);
+                } else {
+                    popupLayout.getChildren().addAll(player1Label, player1ScoreField, player2Label, player2ScoreField, saveButton);
+                }
 
                 Scene popupScene = new Scene(popupLayout, 300, 200);
                 popupStage.setScene(popupScene);
