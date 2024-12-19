@@ -141,7 +141,7 @@ public class GamesView {
             // Hämta det valda spelet från tabellen
             Games selectedGame = table.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
-                // Skapa en ny Stage för popup-fönster
+                // Skapa en ny Stage för popup fönster
                 Stage popupStage = new Stage();
                 popupStage.setTitle("Edit Game");
 
@@ -149,7 +149,7 @@ public class GamesView {
                 VBox popupLayout = new VBox(10);
                 popupLayout.setPadding(new Insets(15));
 
-                // Skapa input-fält för att redigera spel
+                // Skapa fält för att redigera spel
                 Label nameLabel = new Label("Game Name:");
                 TextField nameField = new TextField(selectedGame.getName());
 
@@ -185,7 +185,7 @@ public class GamesView {
             }
         });
 
-        // Layout med VBox
+        // Layout
         VBox vBox = new VBox(10, table, buttonBar);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
