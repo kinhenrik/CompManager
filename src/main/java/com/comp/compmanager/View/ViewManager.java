@@ -172,7 +172,7 @@ public class ViewManager {
         AnchorPane.setLeftAnchor(loginView, 0.0);
         AnchorPane.setRightAnchor(loginView, 0.0);
 
-        Label welcomeLabel = new Label("--- || Welcome to || ---");
+        Label welcomeLabel = new Label("--- || Welcome to Piper Games || ---");
         welcomeLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: beige;");
         // Placerering av etiketten i mitten av skärmen
         AnchorPane.setTopAnchor(welcomeLabel, 80.0);
@@ -245,7 +245,7 @@ public class ViewManager {
     // Starta scenen med huvudmenyn
     public void start() {
 
-        Scene scene = new Scene(root, 850, 600);
+        Scene scene = new Scene(root, 1125, 700);
         stage.setScene(scene);
         stage.setTitle("CompManager");
         stage.show();
