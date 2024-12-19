@@ -51,14 +51,14 @@ public class MatchView {
         TableColumn<Matches, String> team1Column = new TableColumn<>("Team 1");
         team1Column.setCellValueFactory(new PropertyValueFactory<>("team1"));
 
-        TableColumn<Matches, String> team2Column = new TableColumn<>("Team 2");
-        team2Column.setCellValueFactory(new PropertyValueFactory<>("team2"));
-
         TableColumn<Matches, Integer> team1ScoreColumn = new TableColumn<>("Team 1 Score");
         team1ScoreColumn.setCellValueFactory(new PropertyValueFactory<>("team1Score"));
 
         TableColumn<Matches, Integer> team2ScoreColumn = new TableColumn<>("Team 2 Score");
         team2ScoreColumn.setCellValueFactory(new PropertyValueFactory<>("team2Score"));
+
+        TableColumn<Matches, String> team2Column = new TableColumn<>("Team 2");
+        team2Column.setCellValueFactory(new PropertyValueFactory<>("team2"));
 
         // Kolumn för Team & Winner
         TableColumn<Matches, String> winnerTeamColumn = new TableColumn<>("Team Winner");
@@ -89,7 +89,7 @@ public class MatchView {
 
         // Lägg till kolumner i tabellen
         table.getColumns().addAll(idColumn, dateColumn, typeColumn,
-                team1Column, team2Column,team1ScoreColumn,team2ScoreColumn, winnerTeamColumn
+                team1Column,team1ScoreColumn,team2ScoreColumn, team2Column, winnerTeamColumn
                 /*,idPlayerColumn,datePlayerColumn,typePlayerColumn, player2Column,winnerPlayerColumn*/);
 
         // Lägg till data i tabellen// Omvandla lista till ObservableList för JavaFX
@@ -97,7 +97,6 @@ public class MatchView {
         List<Matches> matches = MatchesDAO.getAllMatches();
         ObservableList<Matches> observableMatches = FXCollections.observableArrayList(matches);
         table.setItems(observableMatches);
-
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
@@ -152,27 +151,23 @@ public class MatchView {
             Label team2Label = new Label("Team 2 ID:");
             TextField team2Field = new TextField();
 
-//            Label winnerLabel = new Label("Winner Team ID:");
-//            TextField winnerField = new TextField();
-
             Button saveButton = new Button("Add Match");
             saveButton.setOnAction(event -> {
+                Matches selectedMatch = new Matches();
                 try {
                     if (!matchTypeComboBox.getValue().isEmpty() && !dateField.getText().isEmpty()) {
-                        Matches newMatch = new Matches();
-                        newMatch.setMatchType(matchTypeComboBox.getValue());
-                        newMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
+                        selectedMatch.setMatchType(matchTypeComboBox.getValue());
+                        selectedMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
 
+                        //hämtar teams via ID
                         Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
                         Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
-//                        Teams winnerTeam = TeamManagerDAO.getTeamByID(Integer.parseInt(winnerField.getText()));
 
-                        newMatch.setTeam1(team1);
-                        newMatch.setTeam2(team2);
-//                        newMatch.setWinnerTeam(winnerTeam);
+                        selectedMatch.setTeam1(team1);
+                        selectedMatch.setTeam2(team2);
 
-                        MatchesDAO.addMatch(newMatch);
-                        table.getItems().add(newMatch); // Lägger till den nya matchen i tabellen
+                        MatchesDAO.addMatch(selectedMatch);
+                        table.getItems().add(selectedMatch);// Lägger till den nya matchen i tabellen
                         table.refresh();
 
                         popupStage.close();
@@ -209,7 +204,10 @@ public class MatchView {
 
                 // Labels och TextFields för att redigera matchens detaljer
                 Label typeLabel = new Label("Match Type:");
-                TextField typeField = new TextField(selectedMatch.getMatchType());
+//                TextField typeField = new TextField(selectedMatch.getMatchType());
+                ComboBox<String> matchTypeComboBox = new ComboBox<>();
+                matchTypeComboBox.getItems().addAll("T vs T", "P vs P");
+                matchTypeComboBox.setValue("T vs T");
 
                 Label dateLabel = new Label("Match Date (YYYY-MM-DD):");
                 TextField dateField = new TextField(selectedMatch.getMatchDate().toString());
@@ -220,29 +218,25 @@ public class MatchView {
                 Label team2Label = new Label("Team 2:");
                 TextField team2Field = new TextField(String.valueOf(selectedMatch.getTeam2().getId()));
 
-                Label winnerLabel = new Label("Winner Team");
-                TextField winnerField = new TextField(String.valueOf(selectedMatch.getWinnerTeam().getId()));
-
                 Button saveButton = new Button("Save");
                 saveButton.setOnAction(event -> {
                     try {
                         // Kontrollera att fälten inte är tomma
-                        if (!typeField.getText().isEmpty() && !dateField.getText().isEmpty()) {
-                            selectedMatch.setMatchType(typeField.getText());
+                        if (!matchTypeComboBox.getValue().isEmpty() && !dateField.getText().isEmpty()) {
+                            selectedMatch.setMatchType(matchTypeComboBox.getValue());
                             selectedMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
 
-                            // Hämta spelare med hjälp av ID
+                            // Hämta Teams via ID
                             TeamManagerDAO TeamManagerDAO = new TeamManagerDAO();
                             Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
                             Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
-                            Teams winnerTeam = TeamManagerDAO.getTeamByID(Integer.parseInt(winnerField.getText()));
+;
 
                             selectedMatch.setTeam1(team1);
                             selectedMatch.setTeam2(team2);
-                            selectedMatch.setWinnerTeam(winnerTeam);
 
                             // Uppdatera matchen i databasen
-                            com.comp.compmanager.DAO.MatchesDAO.updateMatch(selectedMatch);
+                            MatchesDAO.updateMatch(selectedMatch);
                             table.refresh();
 
                             System.out.println("Match updated successfully!");
@@ -257,9 +251,8 @@ public class MatchView {
                 });
 
                 // Lägga till alla komponenter i layouten
-                popupLayout.getChildren().addAll(typeLabel, typeField, dateLabel, dateField,
-                        team1Label, team1Field, team2Label, team2Field,
-                        winnerLabel, winnerField, saveButton
+                popupLayout.getChildren().addAll(typeLabel, matchTypeComboBox, dateLabel, dateField,
+                        team1Label, team1Field, team2Label, team2Field, saveButton
                 );
 
                 Scene popupScene = new Scene(popupLayout, 400, 400);
