@@ -44,7 +44,7 @@ public class PlayerDAO {
         return listToReturn;
     }
     //GET
-    public Player getPlayerByID (int player_id) {
+    public static Player getPlayerByID(int player_id) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         Player playerToReturn = manager.find(Player.class, player_id);
         manager.close();
