@@ -109,17 +109,22 @@ public class PlayerView {
         Button editPlayerBtn = new Button("Edit selected");
         //add buttons to bar
         buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn, editPlayerBtn);
-        //add button functionality via Lambda expression
+        //add delete / add / edit buttons and actions
+
         deletePlayerBtn.setOnAction(e -> {
-            playerDAO.deletePlayer(table.getSelectionModel().getSelectedItem());
-            table.getItems().remove(table.getSelectionModel().getSelectedItem());
+            Player selectedPlayer = table.getSelectionModel().getSelectedItem();
+            if (selectedPlayer != null) {
+                playerDAO.deletePlayer(selectedPlayer); // Använder den justerade delete-metoden
+                observableList.remove(selectedPlayer); // Uppdatera tabellen
+                table.refresh(); // Uppdatera GUI:t
+            }
         });
 
         addPlayerBtn.setOnAction(e -> {
             if (nameTextField.getText() != "" ) {
 
                 playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
-                //table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
+                table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
                 table.getItems().clear();
                 table.getItems().addAll(playerDAO.getAllPlayers());
 
@@ -128,8 +133,8 @@ public class PlayerView {
                 surnameTextField.setText("");
                 nicknameTextField.setText("");
                 teamsComboBox.setPromptText("Teams");
-            }
-            else {
+
+            }else {
                 System.out.println("NAME FIELD CANT EMPTY");
             }
 
@@ -186,7 +191,6 @@ public class PlayerView {
 
         return layout;
     }
-
 
     public ObservableList playerList(Teams team) {
         //Skapar en lista med alla players från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
