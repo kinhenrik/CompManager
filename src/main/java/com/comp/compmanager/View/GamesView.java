@@ -38,25 +38,6 @@ public class GamesView {
 
         TableColumn<Games, String> name_col = new TableColumn<>("Game name");
         name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
-//
-//        TableColumn<Games, String> lastname_col = new TableColumn<>("Last name");
-//        lastname_col.setCellValueFactory(new PropertyValueFactory<>("lastname"));
-//
-//        TableColumn<Games, String> address_col = new TableColumn<>("Address");
-//        address_col.setCellValueFactory(new PropertyValueFactory<>("address"));
-//
-//        TableColumn<Games, String> zip_col = new TableColumn<>("ZIP-code");
-//        zip_col.setCellValueFactory(new PropertyValueFactory<>("zipcode"));
-//
-//        TableColumn<Games, String> city_col = new TableColumn<>("City");
-//        city_col.setCellValueFactory(new PropertyValueFactory<>("city"));
-//
-//        TableColumn<Games, String> country_col = new TableColumn<>("Country");
-//        country_col.setCellValueFactory(new PropertyValueFactory<>("country"));
-//
-//        TableColumn<Games, String> email_col = new TableColumn<>("E-mail");
-//        email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
-
 
         table.getColumns().addAll(id_col, name_col);
 
@@ -65,7 +46,6 @@ public class GamesView {
         List<Games> games = gamesDAO.getAllGames();
         ObservableList<Games> observableList = FXCollections.observableArrayList(games);
         table.setItems(observableList);
-
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
