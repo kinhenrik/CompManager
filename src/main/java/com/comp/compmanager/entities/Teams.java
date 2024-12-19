@@ -28,15 +28,13 @@ public class Teams {
     @JoinColumn(name = "game_id") // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
     private Games games; // Team relationen till Games-objektet i Games tabellen
 
-    //------- FK till matches - teams --------
-
-    @OneToMany(mappedBy = "team1", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team1", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Matches> matchesAsTeam1;
 
-    @OneToMany(mappedBy = "team2", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team2", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Matches> matchesAsTeam2;
 
-    @OneToMany(mappedBy = "winnerTeam", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "winnerTeam", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Matches> matchesWonTeam;
 
     public Teams() {}
@@ -104,7 +102,6 @@ public class Teams {
     public String toString() {
         return name;
     }
-
 
 
 }

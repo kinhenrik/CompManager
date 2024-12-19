@@ -13,7 +13,7 @@ public class PlayerDAO {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("myconfig");
 
     //CREATE
-    public void addPlayer (Player player) {
+    public void addPlayer(Player player) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -31,6 +31,7 @@ public class PlayerDAO {
             manager.close();
         }
     }
+
     //GET
     public static List<Player> getPlayerByTeam(Teams team) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -43,6 +44,7 @@ public class PlayerDAO {
         manager.close();
         return listToReturn;
     }
+
     //GET
     public static Player getPlayerByID(int player_id) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -51,7 +53,7 @@ public class PlayerDAO {
         return playerToReturn;
     }
 
-    public List<Player> getAllPlayers () {
+    public List<Player> getAllPlayers() {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         List<Player> listToReturn = new ArrayList<>();
 
@@ -63,7 +65,7 @@ public class PlayerDAO {
     }
 
     //UPDATE
-    public void updatePlayer (Player playerToUpdate) {
+    public void updatePlayer(Player playerToUpdate) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {
@@ -94,15 +96,23 @@ public class PlayerDAO {
         try {
             transaction = manager.getTransaction();
             transaction.begin();
+
+            // Ta bort spelaren från sitt lag
+            Teams team = player.getTeam();
+            if (team != null) {
+                team.getPlayers().remove(player);
+                manager.merge(team); // Uppdatera laget i databasen
+            }
+
             if (!manager.contains(player)) {
                 player = manager.merge(player);
             }
-            manager.remove(player);
+            manager.remove(player); // Markera spelaren för borttagning
             transaction.commit();
             System.out.println("Player with ID=" + player.getId() + " has been removed from database.");
         } catch (Exception e) {
             System.out.println(e.getMessage());
-            if (manager != null && transaction != null && transaction.isActive()) {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
         } finally {

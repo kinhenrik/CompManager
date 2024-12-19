@@ -121,18 +121,31 @@ public class PlayerView {
         });
 
         addPlayerBtn.setOnAction(e -> {
-            if (nameTextField.getText() != "" ) {
+            if (!nameTextField.getText().isEmpty()) {
+                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue());
+                playerDAO.addPlayer(newPlayer);
+                observableList.add(newPlayer); // Lägg till spelaren i tabellen
+                newPlayer.getTeam().getPlayers().add(newPlayer); // Uppdatera lagets lista
+                nameTextField.clear();
+                surnameTextField.clear();
+                nicknameTextField.clear();
+                teamsComboBox.getSelectionModel().clearSelection();
+                table.refresh();
 
-                playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
-                table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
-                table.getItems().clear();
-                table.getItems().addAll(playerDAO.getAllPlayers());
 
-                //reset text fields after use
-                nameTextField.setText("");
-                surnameTextField.setText("");
-                nicknameTextField.setText("");
-                teamsComboBox.setPromptText("Teams");
+
+//            if (nameTextField.getText() != "" ) {
+//
+//                playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
+//                table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
+//                table.getItems().clear();
+//                table.getItems().addAll(playerDAO.getAllPlayers());
+//
+//                //reset text fields after use
+//                nameTextField.setText("");
+//                surnameTextField.setText("");
+//                nicknameTextField.setText("");
+//                teamsComboBox.setPromptText("Teams");
 
             }else {
                 System.out.println("NAME FIELD CANT EMPTY");

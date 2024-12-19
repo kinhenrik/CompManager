@@ -33,15 +33,15 @@ public class Player {
     @JoinColumn(name = "team_id", nullable = false) // team_id är kolumnen i Teams-tabellen som refererar till Games-tabellen
     private Teams team; // Relationen till Games-objektet i Games/Matches classen
 
-    //----------FK till player - matches hopefully christoffer-------------
+    //----------FK till player / matches hopefully christoffer-------------
 
-    @OneToMany(mappedBy = "player1", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "player1", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Matches> matchesAsPlayer1;
 
-    @OneToMany(mappedBy = "player2", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "player2", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Matches> matchesAsPlayer2;
 
-    @OneToMany(mappedBy = "winnerPlayer", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "winnerPlayer", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Matches> matchesWonAsPlayer;
 
     //Player constructor
