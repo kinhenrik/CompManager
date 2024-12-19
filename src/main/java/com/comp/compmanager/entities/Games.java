@@ -71,9 +71,4 @@ public class Games {
         return name;
     }
 
-    //    @Override
-//    public String toString() {
-//        return "Game: " + name + " (ID: " + id + ")";
-//    }
-
 }

@@ -189,6 +189,7 @@ public class PlayerView {
 
 
     public ObservableList playerList(Teams team) {
+        //Skapar en lista med alla players från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
         List<Player> player = PlayerDAO.getPlayerByTeam(team);
         ObservableList<Player> observableList = FXCollections.observableArrayList(player);
         return observableList;

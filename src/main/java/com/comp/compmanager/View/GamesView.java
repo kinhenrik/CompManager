@@ -200,7 +200,7 @@ public class GamesView {
         return layout;
     }
     public ObservableList gamesObservableList() {
-        //Skapar en lista med alla admins från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
+        //Skapar en lista med alla games från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
         List<Games> game = GamesDAO.getAllGames();
         ObservableList<Games> gamesObservableList = FXCollections.observableArrayList(game);
         return gamesObservableList;

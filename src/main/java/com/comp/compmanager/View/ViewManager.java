@@ -48,7 +48,7 @@ public class ViewManager {
 //      root.setBackground(new Background(backgroundView));
         root.getChildren().add(menuBar);
     }
-
+ // skapar menyvall taben
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Select view");
@@ -63,13 +63,15 @@ public class ViewManager {
         MenuItem playerMenuItem = new MenuItem("Player View");
         MenuItem gamesMenuItem = new MenuItem("Games View");
         MenuItem matchMenuItem = new MenuItem("Match View");
-//        MenuItem playerMatchMenuItem = new MenuItem("Player Match View");
+
         //Menyval för userMenu
         MenuItem logoutMenuItem = new MenuItem("Logout");
 
         // Lägg till valen i menyn
-        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem,matchMenuItem/*, playerMatchMenuItem*/);
+        menu.getItems().addAll(mainMenuItem, adminMenuItem, teamMenuItem, playerMenuItem, gamesMenuItem,matchMenuItem);
+        // Lägg till valen för logga ut
         userMenu.getItems().addAll(logoutMenuItem);
+        //visar båda meny tabs
         menuBar.getMenus().addAll(menu, userMenu);
 
         // Koppla menyval till vyhanteraren , skapad av henrik
@@ -105,7 +107,6 @@ public class ViewManager {
         });
 
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
-
         logoutMenuItem.setOnAction(e -> {
             showMainView();
             menuBar.setDisable(true);

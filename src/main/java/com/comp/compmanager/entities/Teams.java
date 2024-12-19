@@ -28,6 +28,8 @@ public class Teams {
     @JoinColumn(name = "game_id") // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
     private Games games; // Team relationen till Games-objektet i Games tabellen
 
+    //------- FK till matches - teams --------
+
     @OneToMany(mappedBy = "team1", cascade = CascadeType.ALL)
     private List<Matches> matchesAsTeam1;
 
@@ -36,10 +38,6 @@ public class Teams {
 
     @OneToMany(mappedBy = "winnerTeam", cascade = CascadeType.ALL)
     private List<Matches> matchesWonTeam;
-
-//    @OneToMany(mappedBy = "winnerPlayer", cascade = CascadeType.ALL)
-//    private List<Matches> matchesWonPlayer;
-
 
     public Teams() {}
     public Teams(String name, Games games) {
@@ -102,28 +100,11 @@ public class Teams {
         this.matchesWonTeam = matchesWonTeam;
     }
 
-
-
-//    public List<Matches> getMatchesWonPlayer() {
-//        return matchesWonPlayer;
-//    }
-//
-//    public void setMatchesWonPlayer(List<Matches> matchesWonPlayer) {
-//        this.matchesWonPlayer = matchesWonPlayer;
-//    }
-
     @Override
     public String toString() {
         return name;
     }
 
-//    @Override
-//    public String toString() {
-//        return name;
-//    }
-//    @Override
-//    public String toString() {
-//        return "Team: " + name + ", Game: " + (games != null ? games.getName() : "None");
-//    }
+
 
 }
