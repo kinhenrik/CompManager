@@ -220,6 +220,7 @@ public class MatchView {
         });
 
         // Edit knapp för att redigera befintliga matcher i tabellen och sen uppdatera tabellen samt en popupfönster
+        // finns två olika funktiner för edit match med winner eller utan winner i layouten
         editMatchBtn.setOnAction(e -> {
             Matches selectedMatch = table.getSelectionModel().getSelectedItem();
 
