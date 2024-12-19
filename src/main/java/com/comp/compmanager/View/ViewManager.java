@@ -103,11 +103,6 @@ public class ViewManager {
             showMatchView();
             System.out.println("You selected the match view");
         });
-//        playerMatchMenuItem.setOnAction(e -> {
-//            menu.setText("Player match view");
-//            showPlayerMatchView();
-//            System.out.println("You selected the player match view");
-//        });
 
         //Hoppar tillbaka till mainView och disablar menyn när man loggar ut
 
@@ -235,12 +230,6 @@ public class ViewManager {
        AnchorPane matchView = new MatchView(this).getView();
        setView(matchView);
     }
-//    // Skapa PlayerMatchView
-//    public void showPlayerMatchView() {
-//       AnchorPane playerMatchView = new PlayerMatchView(this).getView();
-//       setView(playerMatchView);
-//    }
-
 
     // Ta bort allt under menyfältet och lägg till den nya vyn
     private void setView(AnchorPane newView) {
@@ -252,7 +241,6 @@ public class ViewManager {
         AnchorPane.setRightAnchor(newView, 0.0);
         root.getChildren().add(newView);
     }
-
 
     // Starta scenen med huvudmenyn
     public void start() {
