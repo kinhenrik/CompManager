@@ -241,8 +241,8 @@ public class MatchView {
                 TextField team1Field = new TextField();
                 Label team2Label = new Label("Team 2 ID:");
                 TextField team2Field = new TextField();
-                Label winnerTeamLabel = new Label("Winner Team ID:");
-                TextField winnerTeamField = new TextField();
+//                Label winnerTeamLabel = new Label("Winner Team ID:");
+//                TextField winnerTeamField = new TextField();
 
                 //skapar en egen layout för edit team och dens innehåll
                 VBox playerMatchLayout = new VBox(10);
@@ -250,8 +250,8 @@ public class MatchView {
                 TextField player1Field = new TextField();
                 Label player2Label = new Label("Player 2 ID:");
                 TextField player2Field = new TextField();
-                Label winnerPlayerLabel = new Label("Winner Player ID:");
-                TextField winnerPlayerField = new TextField();
+//                Label winnerPlayerLabel = new Label("Winner Player ID:");
+//                TextField winnerPlayerField = new TextField();
 
                 // Om matchtyp är T vs T visas endast team layout annars visas player layout
                 boolean isTeamMatch = "T vs T".equals(selectedMatch.getMatchType());
@@ -259,24 +259,24 @@ public class MatchView {
                 team1Field.setVisible(isTeamMatch);
                 team2Label.setVisible(isTeamMatch);
                 team2Field.setVisible(isTeamMatch);
-                winnerTeamLabel.setVisible(isTeamMatch);
-                winnerTeamField.setVisible(isTeamMatch);
+//                winnerTeamLabel.setVisible(isTeamMatch);
+//                winnerTeamField.setVisible(isTeamMatch);
 
                 player1Label.setVisible(!isTeamMatch);
                 player1Field.setVisible(!isTeamMatch);
                 player2Label.setVisible(!isTeamMatch);
                 player2Field.setVisible(!isTeamMatch);
-                winnerPlayerLabel.setVisible(!isTeamMatch);
-                winnerPlayerField.setVisible(!isTeamMatch);
+//                winnerPlayerLabel.setVisible(!isTeamMatch);
+//                winnerPlayerField.setVisible(!isTeamMatch);
 
                 if (isTeamMatch) {
                     team1Field.setText(String.valueOf(selectedMatch.getTeam1().getId()));
                     team2Field.setText(String.valueOf(selectedMatch.getTeam2().getId()));
-                    winnerTeamField.setText(selectedMatch.getWinnerTeam() != null ? String.valueOf(selectedMatch.getWinnerTeam().getId()) : "");
+//                    winnerTeamField.setText(selectedMatch.getWinnerTeam() != null ? String.valueOf(selectedMatch.getWinnerTeam().getId()) : "");
                 } else {
                     player1Field.setText(String.valueOf(selectedMatch.getPlayer1().getId()));
                     player2Field.setText(String.valueOf(selectedMatch.getPlayer2().getId()));
-                    winnerPlayerField.setText(selectedMatch.getWinnerPlayer() != null ? String.valueOf(selectedMatch.getWinnerPlayer().getId()) : "");
+//                    winnerPlayerField.setText(selectedMatch.getWinnerPlayer() != null ? String.valueOf(selectedMatch.getWinnerPlayer().getId()) : "");
 
                 }
 
@@ -291,11 +291,11 @@ public class MatchView {
                                 TeamManagerDAO teamManagerDAO = new TeamManagerDAO();
                                 Teams team1 = teamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
                                 Teams team2 = teamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
-                                Teams winnerTeam = teamManagerDAO.getTeamByID(Integer.parseInt(winnerPlayerField.getText()));
+//                                Teams winnerTeam = teamManagerDAO.getTeamByID(Integer.parseInt(winnerTeamField.getText()));
 
                                 selectedMatch.setTeam1(team1);
                                 selectedMatch.setTeam2(team2);
-                                selectedMatch.setWinnerTeam(winnerTeam);
+//                                selectedMatch.setWinnerTeam(winnerTeam);
 
                                 // Rensar spelarinformation för lagmatcher
                                 selectedMatch.setPlayer1(null);
@@ -305,17 +305,16 @@ public class MatchView {
                                 PlayerDAO playerDAO = new PlayerDAO();
                                 Player player1 = playerDAO.getPlayerByID(Integer.parseInt(player1Field.getText()));
                                 Player player2 = playerDAO.getPlayerByID(Integer.parseInt(player2Field.getText()));
-                                Player winnerPlayer = playerDAO.getPlayerByID(Integer.parseInt(winnerPlayerField.getText()));
+//                                Player winnerPlayer = playerDAO.getPlayerByID(Integer.parseInt(winnerPlayerField.getText()));
 
                                 selectedMatch.setPlayer1(player1);
                                 selectedMatch.setPlayer2(player2);
-                                selectedMatch.setWinnerPlayer(winnerPlayer);
+//                                selectedMatch.setWinnerPlayer(winnerPlayer);
 
                                 // Rensar laginformation för spelarmatcher
                                 selectedMatch.setTeam1(null);
                                 selectedMatch.setTeam2(null);
-                                selectedMatch.setWinnerTeam(null);
-                                selectedMatch.setWinnerPlayer(null);
+//                                selectedMatch.setWinnerTeam(null);
                             }
 
                             // Uppdatera matchen i databasen
@@ -335,10 +334,10 @@ public class MatchView {
 
                 //if sats för att visa rätt popuplayout efter val av matchtyp
                 if (isTeamMatch){
-                    teamMatchLayout.getChildren().addAll(team1Label,team1Field,team2Label,team2Field,winnerTeamLabel,winnerTeamField);
+                    teamMatchLayout.getChildren().addAll(team1Label,team1Field,team2Label,team2Field/*,winnerTeamLabel,winnerTeamField*/);
                     popupLayout.getChildren().add(teamMatchLayout);
                 } else {
-                    playerMatchLayout.getChildren().addAll(player1Label,player1Field,player2Label,player2Field,winnerTeamLabel,winnerTeamField);
+                    playerMatchLayout.getChildren().addAll(player1Label,player1Field,player2Label,player2Field/*,winnerPlayerLabel,winnerPlayerField*/);
                     popupLayout.getChildren().add(playerMatchLayout);
                 }
 
