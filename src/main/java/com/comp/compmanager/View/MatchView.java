@@ -280,7 +280,6 @@ public class MatchView {
 
                 }
 
-                // Spara-knapp
                 Button saveButton = new Button("Save");
                 saveButton.setOnAction(event -> {
                     try {
