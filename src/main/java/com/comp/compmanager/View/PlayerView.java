@@ -1,8 +1,10 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.PlayerDAO;
+import com.comp.compmanager.entities.Games;
 import com.comp.compmanager.entities.Player;
 import com.comp.compmanager.entities.Teams;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -19,6 +21,7 @@ public class PlayerView {
 
     private final ViewManager viewManager;
     private ComboBox teamsComboBox;
+    private ComboBox gamesComboBox;
 
     public PlayerView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -55,8 +58,13 @@ public class PlayerView {
         TableColumn<Player, String> team_column = new TableColumn<>("Team");
         team_column.setCellValueFactory(new PropertyValueFactory<>("team"));
 
+        //"Game" col getting game data
+        TableColumn<Player, String> game_column = new TableColumn<>("Game");
+        //game_column.setCellValueFactory(new PropertyValueFactory<>("games"));
+        game_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGame().getName()));
+
         //combine all cols
-        table.getColumns().addAll(id_column, name_column, surname_column, nickname_column, team_column);
+        table.getColumns().addAll(id_column, name_column, surname_column, nickname_column, team_column, game_column);
 
         //adds all col data to ObservableList for JavaFX
         PlayerDAO playerDAO = new PlayerDAO();
@@ -95,9 +103,16 @@ public class PlayerView {
         nicknameTextField.setPromptText("Nickname...");
 
         //DROP DOWN
+        //teams
         ObservableList<Teams> teamsObservableList = new TeamView(viewManager).teamList();
         teamsComboBox = new ComboBox(teamsObservableList);
         teamsComboBox.setPromptText("Teams");
+        //games
+        ObservableList gamesObservableList = new TeamView(viewManager).teamList();
+        gamesComboBox = new ComboBox(gamesObservableList);
+        gamesComboBox.setPromptText("Games");
+
+
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
@@ -122,7 +137,7 @@ public class PlayerView {
 
         addPlayerBtn.setOnAction(e -> {
             if (!nameTextField.getText().isEmpty()) {
-                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue());
+                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue(), (Games) gamesComboBox.getValue());
                 playerDAO.addPlayer(newPlayer);
                 observableList.add(newPlayer); // Lägg till spelaren i tabellen
                 newPlayer.getTeam().getPlayers().add(newPlayer); // Uppdatera lagets lista
@@ -131,21 +146,6 @@ public class PlayerView {
                 nicknameTextField.clear();
                 teamsComboBox.getSelectionModel().clearSelection();
                 table.refresh();
-
-
-
-//            if (nameTextField.getText() != "" ) {
-//
-//                playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
-//                table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
-//                table.getItems().clear();
-//                table.getItems().addAll(playerDAO.getAllPlayers());
-//
-//                //reset text fields after use
-//                nameTextField.setText("");
-//                surnameTextField.setText("");
-//                nicknameTextField.setText("");
-//                teamsComboBox.setPromptText("Teams");
 
             }else {
                 System.out.println("NAME FIELD CANT EMPTY");
@@ -187,11 +187,8 @@ public class PlayerView {
             buttonBar.setDisable(true);
         }
 
-        //TOOL-VBOX
-//        VBox toolVBox = new VBox(10, nameTextField, surnameTextField, nicknameTextField, teamTextField, buttonBar);
-//        toolVBox.setPadding(new Insets(8));
 
-        VBox vBox = new VBox(10,dropdownBox, table, nameTextField,surnameTextField, nicknameTextField, teamsComboBox/*teamTextField,*/ , buttonBar);
+        VBox vBox = new VBox(10,dropdownBox, table, nameTextField,surnameTextField, nicknameTextField, teamsComboBox, gamesComboBox, buttonBar);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
         vBox.setPrefHeight(400);
