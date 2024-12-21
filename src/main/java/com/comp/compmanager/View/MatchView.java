@@ -50,7 +50,6 @@ public class MatchView {
 
         // Kolumn för Game i tabellen
         TableColumn<Matches, String> gameColumn = new TableColumn<>("Game");
-//        gameColumn.setCellValueFactory(new PropertyValueFactory<>("matchGame"));
         gameColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getGame().getName()));
 
@@ -124,6 +123,8 @@ public class MatchView {
                 // Ta bort laget från tabellen
                 table.getItems().remove(selectedMatch);
                 System.out.println("Match deleted!");
+                table.refresh();
+
             } else {
                 System.out.println("No mactch selected");
             }

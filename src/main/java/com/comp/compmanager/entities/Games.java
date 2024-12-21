@@ -23,7 +23,7 @@ public class Games {
     private List<Teams> teams = new ArrayList<>();
 
     // relation till Matches
-    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "game", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
     private List<Matches> matches = new ArrayList<>();
 
     // match date, winner, match id, match type (lag mot lag/spelare mot spelare), player, lag, player_id 1-5. team_id 1-5.
@@ -58,9 +58,12 @@ public class Games {
         this.teams = teams;
     }
 
+    public List<Matches> getMatches() {return matches;}
+
+    public void setMatches(List<Matches> matches) {this.matches = matches;}
+
     @Override
     public String toString() {
         return name;
     }
-
 }
