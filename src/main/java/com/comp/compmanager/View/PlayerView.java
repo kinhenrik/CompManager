@@ -73,16 +73,16 @@ public class PlayerView {
         table.setItems(observableList);
 
         //FILTER DROPDOWN
-        ComboBox filterDropdown = new ComboBox(new TeamView(viewManager).teamList());
+        ComboBox filterDropdown = new ComboBox(new GamesView(viewManager).gamesObservableList());
         Button resetButton = new Button("Reset");
-        filterDropdown.setPromptText("Filter by team...");
+        filterDropdown.setPromptText("Filter by game...");
         filterDropdown.setPrefWidth(170);
         HBox dropdownBox = new HBox(10);
         dropdownBox.setAlignment(Pos.CENTER_RIGHT);
         dropdownBox.getChildren().addAll(filterDropdown, resetButton);
         filterDropdown.setOnAction(e -> {
             if (filterDropdown.getValue() != null) {
-                table.setItems(playerList((Teams)filterDropdown.getValue()));
+                table.setItems(playerList((Games)filterDropdown.getValue()));
             }
         });
         resetButton.setOnAction(e -> {
@@ -183,7 +183,6 @@ public class PlayerView {
             nameTextField.setDisable(true);
             surnameTextField.setDisable(true);
             nicknameTextField.setDisable(true);
-            //teamTextField.setDisable(true);
             buttonBar.setDisable(true);
         }
 
@@ -202,9 +201,9 @@ public class PlayerView {
         return layout;
     }
 
-    public ObservableList playerList(Teams team) {
+    public ObservableList playerList(Games game) {
         //Skapar en lista med alla players från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
-        List<Player> player = PlayerDAO.getPlayerByTeam(team);
+        List<Player> player = PlayerDAO.getPlayerByGame(game);
         ObservableList<Player> observableList = FXCollections.observableArrayList(player);
         return observableList;
     }
