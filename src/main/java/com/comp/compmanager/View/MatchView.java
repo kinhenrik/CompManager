@@ -50,7 +50,6 @@ public class MatchView {
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("matchType"));
 
         // Kolumn för Game i tabellen
-        // Kolumn för Game Name
         TableColumn<Matches, String> gameColumn = new TableColumn<>("Game");
 //        gameColumn.setCellValueFactory(new PropertyValueFactory<>("matchGame"));
         gameColumn.setCellValueFactory(cellData ->
