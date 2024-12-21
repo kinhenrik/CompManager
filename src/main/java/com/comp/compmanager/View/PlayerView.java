@@ -21,7 +21,6 @@ public class PlayerView {
 
     private final ViewManager viewManager;
     private ComboBox teamsComboBox;
-    private ComboBox gamesComboBox;
 
     public PlayerView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -60,8 +59,7 @@ public class PlayerView {
 
         //"Game" col getting game data
         TableColumn<Player, String> game_column = new TableColumn<>("Game");
-        //game_column.setCellValueFactory(new PropertyValueFactory<>("games"));
-        game_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGame().getName()));
+        game_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeam().getGames().toString()));
 
         //combine all cols
         table.getColumns().addAll(id_column, name_column, surname_column, nickname_column, team_column, game_column);
@@ -107,11 +105,6 @@ public class PlayerView {
         ObservableList<Teams> teamsObservableList = new TeamView(viewManager).teamList();
         teamsComboBox = new ComboBox(teamsObservableList);
         teamsComboBox.setPromptText("Teams");
-        //games
-        ObservableList gamesObservableList = new TeamView(viewManager).teamList();
-        gamesComboBox = new ComboBox(gamesObservableList);
-        gamesComboBox.setPromptText("Games");
-
 
 
         //BUTTON BAR
@@ -137,7 +130,7 @@ public class PlayerView {
 
         addPlayerBtn.setOnAction(e -> {
             if (!nameTextField.getText().isEmpty()) {
-                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue(), (Games) gamesComboBox.getValue());
+                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue());
                 playerDAO.addPlayer(newPlayer);
                 observableList.add(newPlayer); // Lägg till spelaren i tabellen
                 newPlayer.getTeam().getPlayers().add(newPlayer); // Uppdatera lagets lista
@@ -145,6 +138,7 @@ public class PlayerView {
                 surnameTextField.clear();
                 nicknameTextField.clear();
                 teamsComboBox.getSelectionModel().clearSelection();
+                teamsComboBox.setPromptText("Teams");
                 table.refresh();
 
             }else {
@@ -184,10 +178,11 @@ public class PlayerView {
             surnameTextField.setDisable(true);
             nicknameTextField.setDisable(true);
             buttonBar.setDisable(true);
+            teamsComboBox.setDisable(true);
         }
 
 
-        VBox vBox = new VBox(10,dropdownBox, table, nameTextField,surnameTextField, nicknameTextField, teamsComboBox, gamesComboBox, buttonBar);
+        VBox vBox = new VBox(10,dropdownBox, table, nameTextField,surnameTextField, nicknameTextField, teamsComboBox, buttonBar);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
         vBox.setPrefHeight(400);

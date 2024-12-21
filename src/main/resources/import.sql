@@ -17,11 +17,11 @@ insert into Teams (team_name, game_id) values ('The Ninjas',3);
 insert into Teams (team_name, game_id) values ('Lions',1);
 
 
-insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Christoffer', 'Morales', 'BigPapi', 4, 1);
-insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Martin', 'Andersson', 'ilMuro', 1, 2);
-insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Michael', 'Dahl', 'Miklo', 3, 3);
-insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Alexander', 'Rune', 'ChuPapi', 5, 2);
-insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Thomas', 'Nilsson', 'Fantomen', 2, 1);
+insert into players (player_name, player_surname, player_nickname, team_id)values ('Christoffer', 'Morales', 'BigPapi', 4);
+insert into players (player_name, player_surname, player_nickname, team_id)values ('Martin', 'Andersson', 'ilMuro', 1);
+insert into players (player_name, player_surname, player_nickname, team_id)values ('Michael', 'Dahl', 'Miklo', 3);
+insert into players (player_name, player_surname, player_nickname, team_id)values ('Alexander', 'Rune', 'ChuPapi', 5);
+insert into players (player_name, player_surname, player_nickname, team_id)values ('Thomas', 'Nilsson', 'Fantomen', 2);
 
 -- lagmatcher
 
