@@ -71,7 +71,7 @@ public class LoginView{
 
     public HBox createDropdown() {
         // Skapar dropdown list med data från admin-listan i databasen (måste vara en observableList)
-        ObservableList<String> observableList = new AdminView(viewManager).adminList();
+        ObservableList observableList = new AdminView(viewManager).adminList();
         dropdown = new ComboBox(observableList);
         dropdown.setPromptText("Select admin...");
         dropdown.setPrefWidth(170);

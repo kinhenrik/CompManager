@@ -16,8 +16,9 @@ import javafx.scene.layout.VBox;
 import java.util.List;
 
 public class PlayerView {
+
     private final ViewManager viewManager;
-    private PlayerDAO playerDAO = new PlayerDAO();
+    private ComboBox teamsComboBox;
 
     public PlayerView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -25,6 +26,11 @@ public class PlayerView {
 
     public AnchorPane getView() {
         AnchorPane layout = new AnchorPane();
+
+        Label label = new Label("Player View");
+        AnchorPane.setTopAnchor(label, 10.0);
+        AnchorPane.setLeftAnchor(label, 10.0);
+        layout.getChildren().add(label);
 
         //TABLE
         TableView<Player> table = new TableView();
@@ -76,6 +82,7 @@ public class PlayerView {
             table.setItems(observableList);
         });
 
+
         //TEXT FIELDS
         //name
         TextField nameTextField = new TextField();
@@ -86,9 +93,11 @@ public class PlayerView {
         //nickname
         TextField nicknameTextField = new TextField();
         nicknameTextField.setPromptText("Nickname...");
-        //team
-        TextField teamTextField = new TextField();
-        teamTextField.setPromptText("Team...");
+
+        //DROP DOWN
+        ObservableList<Teams> teamsObservableList = new TeamView(viewManager).teamList();
+        teamsComboBox = new ComboBox(teamsObservableList);
+        teamsComboBox.setPromptText("Teams");
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
@@ -100,45 +109,72 @@ public class PlayerView {
         Button editPlayerBtn = new Button("Edit selected");
         //add buttons to bar
         buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn, editPlayerBtn);
-        //add button functionality via Lambda expression
-        deletePlayerBtn.setOnAction(e -> {  playerDAO.deletePlayer(table.getSelectionModel().getSelectedItem());
-            table.getItems().remove(table.getSelectionModel().getSelectedItem());
+        //add delete / add / edit buttons and actions
+
+        deletePlayerBtn.setOnAction(e -> {
+            Player selectedPlayer = table.getSelectionModel().getSelectedItem();
+            if (selectedPlayer != null) {
+                playerDAO.deletePlayer(selectedPlayer); // Använder den justerade delete-metoden
+                observableList.remove(selectedPlayer); // Uppdatera tabellen
+                table.refresh(); // Uppdatera GUI:t
+            }
         });
 
         addPlayerBtn.setOnAction(e -> {
-            if (nameTextField.getText() != "" ) {
-                playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), teamTextField.getText()));
-                table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), teamTextField.getText()));
+            if (!nameTextField.getText().isEmpty()) {
+                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue());
+                playerDAO.addPlayer(newPlayer);
+                observableList.add(newPlayer); // Lägg till spelaren i tabellen
+                newPlayer.getTeam().getPlayers().add(newPlayer); // Uppdatera lagets lista
+                nameTextField.clear();
+                surnameTextField.clear();
+                nicknameTextField.clear();
+                teamsComboBox.getSelectionModel().clearSelection();
+                table.refresh();
 
-                //reset text fields after use
-                nameTextField.setText("");
-                surnameTextField.setText("");
-                nicknameTextField.setText("");
-                teamTextField.setText("");
-            }
-            else {
+
+
+//            if (nameTextField.getText() != "" ) {
+//
+//                playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
+//                table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
+//                table.getItems().clear();
+//                table.getItems().addAll(playerDAO.getAllPlayers());
+//
+//                //reset text fields after use
+//                nameTextField.setText("");
+//                surnameTextField.setText("");
+//                nicknameTextField.setText("");
+//                teamsComboBox.setPromptText("Teams");
+
+            }else {
                 System.out.println("NAME FIELD CANT EMPTY");
             }
+
+            table.refresh();
         });
 
         editPlayerBtn.setOnAction(e -> {
             if (nameTextField.getText() != "") {
-
                 table.getSelectionModel().getSelectedItem().setName(nameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setSurname(surnameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
-                table.getSelectionModel().getSelectedItem().setTeam(teamTextField.getText());
+                table.getSelectionModel().getSelectedItem().setTeam((Teams)teamsComboBox.getSelectionModel().getSelectedItem());
+
                 playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
-                //TODO IDK HOW TO SHOW IT IN TABLE
+
                 //reset text fields after use
                 nameTextField.setText("");
                 surnameTextField.setText("");
                 nicknameTextField.setText("");
-                teamTextField.setText("");
+                teamsComboBox.setPromptText("Teams");
+
             }
             else {
                 System.out.println("NAME FIELD CANT EMPTY");
             }
+
+            table.refresh();
 
         });
 
@@ -147,7 +183,7 @@ public class PlayerView {
             nameTextField.setDisable(true);
             surnameTextField.setDisable(true);
             nicknameTextField.setDisable(true);
-            teamTextField.setDisable(true);
+            //teamTextField.setDisable(true);
             buttonBar.setDisable(true);
         }
 
@@ -155,7 +191,7 @@ public class PlayerView {
 //        VBox toolVBox = new VBox(10, nameTextField, surnameTextField, nicknameTextField, teamTextField, buttonBar);
 //        toolVBox.setPadding(new Insets(8));
 
-        VBox vBox = new VBox(10, dropdownBox, table, nameTextField,surnameTextField, nicknameTextField, teamTextField, buttonBar);
+        VBox vBox = new VBox(10,dropdownBox, table, nameTextField,surnameTextField, nicknameTextField, teamsComboBox/*teamTextField,*/ , buttonBar);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
         vBox.setPrefHeight(400);
@@ -167,12 +203,13 @@ public class PlayerView {
         layout.getChildren().add(vBox);
 
         return layout;
-
     }
 
     public ObservableList playerList(Teams team) {
-        List<Player> player = playerDAO.getPlayerByTeam(team);
+        //Skapar en lista med alla players från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
+        List<Player> player = PlayerDAO.getPlayerByTeam(team);
         ObservableList<Player> observableList = FXCollections.observableArrayList(player);
         return observableList;
     }
 }
+

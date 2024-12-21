@@ -1,6 +1,7 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.AdminDAO;
+import com.comp.compmanager.DAO.PlayerDAO;
 import com.comp.compmanager.entities.Admin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -65,16 +66,15 @@ public class AdminView {
         //general dimensions
         buttonBar.setPadding(new Insets(8));
         //buttons
-        Button deletePlayerBtn = new Button("Delete Admin");
-        Button addPlayerBtn = new Button("Add Admin");
+        Button deleteAdminBtn = new Button("Delete Admin");
+        Button addAdminBtn = new Button("Add Admin");
         //add buttons to bar
-        buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn);
+        buttonBar.getButtons().addAll(deleteAdminBtn, addAdminBtn);
         //add button functionality via Lambda expression
-        deletePlayerBtn.setOnAction(e -> {
-            adminDAO.deleteAdmin(observableList.get(0));
-            table.getItems().remove(observableList.get(0));
+        deleteAdminBtn.setOnAction(e -> {  AdminDAO.deleteAdmin(table.getSelectionModel().getSelectedItem());
+            table.getItems().remove(table.getSelectionModel().getSelectedItem());
         });
-        addPlayerBtn.setOnAction(e -> System.out.println("add someone"));
+        addAdminBtn.setOnAction(e -> System.out.println("add someone"));
 
         //DISABLAR KNAPPAR OCH TEXTFIELDS OM MAN INTE ÄR ADMIN
         if (!viewManager.isAdmin()) {
