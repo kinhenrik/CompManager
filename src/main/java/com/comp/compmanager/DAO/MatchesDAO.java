@@ -39,41 +39,29 @@ public class MatchesDAO {
             transaction = manager.getTransaction();
             transaction.begin();
 
-            // Kontrollera att 'game' är korrekt instansierad (och inte null)
-            if (match.getGame() == null) {
-                throw new IllegalArgumentException("The game for the match cannot be null.");
-            }
-            // Merge the 'game' entity if not already managed
-            if (!manager.contains(match.getGame())) {
-                match.setGame(manager.merge(match.getGame())); // Om game är transient eller inte finns i sessionen, merge den
-            }
-
-            // Hantera lag
-            if (match.getTeam1() != null && !manager.contains(match.getTeam1())) {
-                match.setTeam1(manager.merge(match.getTeam1()));  // Merge team1 om det inte redan finns
-            }
-            if (match.getTeam2() != null && !manager.contains(match.getTeam2())) {
-                match.setTeam2(manager.merge(match.getTeam2()));  // Merge team2 om det inte redan finns
-            }
-            if (match.getWinnerTeam() != null && !manager.contains(match.getWinnerTeam())) {
-                match.setWinnerTeam(manager.merge(match.getWinnerTeam()));  // Merge winnerTeam om det inte redan finns
-            }
-
-            // Hantera spelare
-            if (match.getPlayer1() != null && !manager.contains(match.getPlayer1())) {
-                match.setPlayer1(manager.merge(match.getPlayer1()));  // Merge player1 om det inte redan finns
-            }
-            if (match.getPlayer2() != null && !manager.contains(match.getPlayer2())) {
-                match.setPlayer2(manager.merge(match.getPlayer2()));  // Merge player2 om det inte redan finns
-            }
-            if (match.getWinnerPlayer() != null && !manager.contains(match.getWinnerPlayer())) {
-                match.setWinnerPlayer(manager.merge(match.getWinnerPlayer()));  // Merge winnerPlayer om det inte redan finns
+            // Tilldela spelet baserat på lag eller spelare
+            if (match.getTeam1() != null && match.getTeam2() != null) {
+                if (match.getTeam1().getGames() != null && match.getTeam2().getGames() != null &&
+                        match.getTeam1().getGames().equals(match.getTeam2().getGames())) {
+                    match.setGame(match.getTeam1().getGames());
+                } else {
+                    throw new IllegalArgumentException("Error: Teams must be associated with the same game.");
+                }
+            } else if (match.getPlayer1() != null && match.getPlayer2() != null) {
+                if (match.getPlayer1().getGames() != null && match.getPlayer2().getGames() != null &&
+                        match.getPlayer1().getGames().equals(match.getPlayer2().getGames())) {
+                    match.setGame(match.getPlayer1().getGames());
+                } else {
+                    throw new IllegalArgumentException("Error: Players must be associated with the same game.");
+                }
+            } else {
+                throw new IllegalArgumentException("Error: Match must have valid teams or players.");
             }
 
-            // Persistera matchen
+            // Spara matchen
             manager.persist(match);
             transaction.commit();
-            System.out.println("Match with ID=" + match.getMatchId() + " has been added to the database.");
+            System.out.println("Match added successfully!");
         } catch (Exception e) {
             e.printStackTrace();
             if (transaction != null && transaction.isActive()) {
@@ -83,6 +71,8 @@ public class MatchesDAO {
             manager.close();
         }
     }
+
+
 //    public void addMatch(Matches match) {
 //        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
 //        EntityTransaction transaction = null;
@@ -154,6 +144,13 @@ public class MatchesDAO {
         try {
             transaction = manager.getTransaction();
             transaction.begin();
+
+
+            // Kontrollera att spelet är satt
+            if (match.getGame() == null) {
+                throw new IllegalArgumentException("Game is required for the match.");
+            }
+
             if (!manager.contains(match)) {
                 match = manager.merge(match);
             }

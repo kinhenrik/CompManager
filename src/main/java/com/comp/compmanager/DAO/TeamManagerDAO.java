@@ -71,6 +71,7 @@ public class TeamManagerDAO {
                 System.out.println("Team with ID = " + updatedTeam.getId() + " has been updated.");
             }
             transaction.commit();
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             if (manager != null && transaction != null && transaction.isActive()) {

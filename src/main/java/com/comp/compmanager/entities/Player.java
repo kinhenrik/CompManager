@@ -76,7 +76,7 @@ public class Player {
     }
     public void setTeam(Teams team) { this.team = team; }
 
-    public Games getGame() {
+    public Games getGames() {
         return games;
     }
 

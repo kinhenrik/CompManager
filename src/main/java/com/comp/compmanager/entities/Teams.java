@@ -20,7 +20,7 @@ public class Teams {
     private String name; // Lagets namn
 
     //testar koppla players till olika lag //christoffer
-    @OneToMany(mappedBy = "team", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "team", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Player> players = new ArrayList<>();
 
     //foreign Key till spelet laget tävlar inom
