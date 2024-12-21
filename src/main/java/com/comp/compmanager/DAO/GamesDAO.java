@@ -32,11 +32,13 @@ public class GamesDAO {
     }
 
     //GET
-    public Games getGamesByID (int game_id) {
+    public static Games getGamesById(int game_id) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        Games gamesToReturn = manager.find(Games.class, game_id);
-        manager.close();
-        return gamesToReturn;
+        try {
+            return manager.find(Games.class, game_id);
+        } finally {
+            manager.close();
+        }
     }
 
     public static List<Games> getAllGames() {

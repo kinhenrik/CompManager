@@ -180,40 +180,84 @@ public class MatchView {
             saveButton.setOnAction(event -> {
                 Matches selectedMatch = new Matches();
                 try {
-                    String matchType = matchTypeComboBox.getValue();
                     if (!matchTypeComboBox.getValue().isEmpty() && !dateField.getText().isEmpty()) {
                         selectedMatch.setMatchType(matchTypeComboBox.getValue());
                         selectedMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
 
-                        //hämtar teams via ID
-                        if (matchType.equals("T vs T")) {
-                        Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
-                        Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
+                        if (matchTypeComboBox.equals("T vs T")) {
 
-                        selectedMatch.setTeam1(team1);
-                        selectedMatch.setTeam2(team2);
+                            Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
+                            Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
 
-                        } else if (matchType.equals("P vs P")) {
+                            selectedMatch.setTeam1(team1);
+                            selectedMatch.setTeam2(team2);
+
+                            // Rensar spelarinformation för lagmatcher
+
+                            selectedMatch.setPlayer1(null);
+                            selectedMatch.setPlayer2(null);
+
+                        } else if (matchTypeComboBox.equals("P vs P")) {
                             Player player1 = PlayerDAO.getPlayerByID(Integer.parseInt(player1Field.getText()));
                             Player player2 = PlayerDAO.getPlayerByID(Integer.parseInt(player2Field.getText()));
+
                             selectedMatch.setPlayer1(player1);
                             selectedMatch.setPlayer2(player2);
+
+                            // Rensar laginformation för spelarmatcher
+                            selectedMatch.setTeam1(null);
+                            selectedMatch.setTeam2(null);
                         }
 
+                        // Uppdatera matchen i databasen
                         MatchesDAO.addMatch(selectedMatch);
-                        table.getItems().addAll(selectedMatch);// Lägger till den nya matchen i tabellen
+                        table.getItems().addAll(selectedMatch);
                         table.refresh();
-
                         popupStage.close();
-                        System.out.println("Match added successfully!");
+                        System.out.println("Match updated successfully!");
                     } else {
                         System.out.println("Fields can't be empty!");
                     }
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    System.out.println("Error adding match. Check code");
+                    System.out.println("Error updating match. Check code.");
                 }
             });
+//                try {
+//                    String matchType = matchTypeComboBox.getValue();
+//                    if (!matchTypeComboBox.getValue().isEmpty() && !dateField.getText().isEmpty()) {
+//                        selectedMatch.setMatchType(matchTypeComboBox.getValue());
+//                        selectedMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
+//
+//                        //hämtar teams via ID
+//                        if (matchType.equals("T vs T")) {
+//                        Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
+//                        Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
+//
+//                        selectedMatch.setTeam1(team1);
+//                        selectedMatch.setTeam2(team2);
+//
+//                        } else if (matchType.equals("P vs P")) {
+//                            Player player1 = PlayerDAO.getPlayerByID(Integer.parseInt(player1Field.getText()));
+//                            Player player2 = PlayerDAO.getPlayerByID(Integer.parseInt(player2Field.getText()));
+//                            selectedMatch.setPlayer1(player1);
+//                            selectedMatch.setPlayer2(player2);
+//                        }
+//
+//                        MatchesDAO.addMatch(selectedMatch);
+//                        table.getItems().addAll(selectedMatch);// Lägger till den nya matchen i tabellen
+//                        table.refresh();
+//
+//                        popupStage.close();
+//                        System.out.println("Match added successfully!");
+//                    } else {
+//                        System.out.println("Fields can't be empty!");
+//                    }
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                    System.out.println("Error adding match. Check code");
+//                }
+//            });
 
             popupLayout.getChildren().addAll(typeLabel, matchTypeComboBox, dateLabel, dateField,
                     team1Label, team1Field, team2Label, team2Field,
@@ -284,21 +328,22 @@ public class MatchView {
                             selectedMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
 
                             if ("T vs T".equals(typeField.getText())) {
-                                TeamManagerDAO teamManagerDAO = new TeamManagerDAO();
-                                Teams team1 = teamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
-                                Teams team2 = teamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
+
+                                Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
+                                Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
 
                                 selectedMatch.setTeam1(team1);
                                 selectedMatch.setTeam2(team2);
 
                                 // Rensar spelarinformation för lagmatcher
+
                                 selectedMatch.setPlayer1(null);
                                 selectedMatch.setPlayer2(null);
 
                             } else if ("P vs P".equals(typeField.getText())) {
-                                PlayerDAO playerDAO = new PlayerDAO();
-                                Player player1 = playerDAO.getPlayerByID(Integer.parseInt(player1Field.getText()));
-                                Player player2 = playerDAO.getPlayerByID(Integer.parseInt(player2Field.getText()));
+
+                                Player player1 = PlayerDAO.getPlayerByID(Integer.parseInt(player1Field.getText()));
+                                Player player2 = PlayerDAO.getPlayerByID(Integer.parseInt(player2Field.getText()));
 
                                 selectedMatch.setPlayer1(player1);
                                 selectedMatch.setPlayer2(player2);
