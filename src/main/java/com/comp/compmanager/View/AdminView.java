@@ -1,6 +1,7 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.AdminDAO;
+import com.comp.compmanager.DAO.PlayerDAO;
 import com.comp.compmanager.entities.Admin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -73,9 +74,8 @@ public class AdminView {
         //add buttons to bar
         buttonBar.getButtons().addAll(deleteAdminBtn, addAdminBtn);
         //add button functionality via Lambda expression
-        deleteAdminBtn.setOnAction(e -> {
-            adminDAO.deleteAdmin(observableList.get(0));
-            table.getItems().remove(observableList.get(0));
+        deleteAdminBtn.setOnAction(e -> {  AdminDAO.deleteAdmin(table.getSelectionModel().getSelectedItem());
+            table.getItems().remove(table.getSelectionModel().getSelectedItem());
         });
         addAdminBtn.setOnAction(e -> System.out.println("add someone"));
 

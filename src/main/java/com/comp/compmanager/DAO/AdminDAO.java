@@ -74,7 +74,7 @@ public class AdminDAO {
     }
 
     //DELETE
-    public void deleteAdmin (Admin admin) {
+    public static void deleteAdmin(Admin admin) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {
