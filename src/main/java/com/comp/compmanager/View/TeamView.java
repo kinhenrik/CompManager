@@ -55,7 +55,6 @@ public class TeamView {
         gameComboBox = new ComboBox(gamesObservableList);
         gameComboBox.setPromptText("Game");
 
-
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
 
@@ -87,10 +86,6 @@ public class TeamView {
                 System.out.println("No team selected");
             }
         });
-//            teamManagerDAO.deleteTeam(teams.get(0));
-//            table.getItems().remove(teams.get(0));
-//        });
-
 
         addTeamsBtn.setOnAction(e -> {
             Stage popupStage = new Stage();
@@ -180,10 +175,6 @@ public class TeamView {
             System.out.println("No team selected!");
         }
     });
-
-//                System.out.println("add someone"));
-//            teamManagerDAO.addTeam(teams.get(0));
-//            table.setItems(table.getItems());
 
         // Layout med VBox
         VBox vBox = new VBox(10, table, buttonBar);

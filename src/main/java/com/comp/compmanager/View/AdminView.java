@@ -1,7 +1,6 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.AdminDAO;
-import com.comp.compmanager.DAO.PlayerDAO;
 import com.comp.compmanager.entities.Admin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -21,14 +20,8 @@ public class AdminView {
         this.viewManager = viewManager;
     }
 
-
     public AnchorPane getView() {
         AnchorPane layout = new AnchorPane();
-
-        Label label = new Label("Admin View");
-        AnchorPane.setTopAnchor(label, 10.0);
-        AnchorPane.setLeftAnchor(label, 10.0);
-        layout.getChildren().add(label);
 
         // Skapa en TableView
         TableView<Admin> table = new TableView<>();
@@ -62,6 +55,31 @@ public class AdminView {
 
         ObservableList<Admin> observableList = adminList();
         table.setItems(observableList);
+        table.setItems(observableList);
+
+
+        //TEXT FIELDS
+        //name
+        TextField nameTextField = new TextField();
+        nameTextField.setPromptText("Name...");
+        //surname
+        TextField surnameTextField = new TextField();
+        surnameTextField.setPromptText("Surname...");
+        //address
+        TextField addressTextField = new TextField();
+        addressTextField.setPromptText("Address...");
+        //address
+        TextField zipcodeTextField = new TextField();
+        zipcodeTextField.setPromptText("Zip-code...");
+        //city
+        TextField cityTextField = new TextField();
+        cityTextField.setPromptText("City...");
+        //country
+        TextField countryTextField = new TextField();
+        countryTextField.setPromptText("Country...");
+        //email
+        TextField emailTextField = new TextField();
+        emailTextField.setPromptText("E-mail...");
 
 
         //BUTTON BAR
@@ -69,23 +87,83 @@ public class AdminView {
         //general dimensions
         buttonBar.setPadding(new Insets(8));
         //buttons
-        Button deleteAdminBtn = new Button("Delete Admin");
-        Button addAdminBtn = new Button("Add Admin");
+        Button deleteAdminBtn = new Button("Delete Selected");
+        Button addAdminBtn = new Button("Add New Admin");
+        Button editAdminBtn = new Button("Edit selected");
         //add buttons to bar
-        buttonBar.getButtons().addAll(deleteAdminBtn, addAdminBtn);
-        //add button functionality via Lambda expression
-        deleteAdminBtn.setOnAction(e -> {  AdminDAO.deleteAdmin(table.getSelectionModel().getSelectedItem());
-            table.getItems().remove(table.getSelectionModel().getSelectedItem());
+        buttonBar.getButtons().addAll(deleteAdminBtn, addAdminBtn, editAdminBtn);
+
+        deleteAdminBtn.setOnAction(e -> {
+            Admin selectedAdmin = table.getSelectionModel().getSelectedItem();
+            if (selectedAdmin != null) {
+                adminDAO.deleteAdmin(selectedAdmin); // Använder den justerade delete-metoden
+                observableList.remove(selectedAdmin); // Uppdatera tabellen
+                table.refresh(); // Uppdatera GUI:t
+            }
         });
-        addAdminBtn.setOnAction(e -> System.out.println("add someone"));
+
+        addAdminBtn.setOnAction(e -> {
+            if (!nameTextField.getText().isEmpty()) {
+                Admin newAdmin = new Admin(nameTextField.getText(), surnameTextField.getText(), addressTextField.getText(), Integer.parseInt(zipcodeTextField.getText()), cityTextField.getText(), countryTextField.getText(), emailTextField.getText());
+                adminDAO.addAdmin(newAdmin);
+                observableList.add(newAdmin); // Lägg till spelaren i tabellen
+                nameTextField.clear();
+                surnameTextField.clear();
+                addressTextField.clear();
+                zipcodeTextField.clear();
+                cityTextField.clear();
+                countryTextField.clear();
+                emailTextField.clear();
+                table.refresh();
+
+            } else {
+                System.out.println("NAME FIELD CANT EMPTY");
+            }
+
+            table.refresh();
+        });
+
+        editAdminBtn.setOnAction(e -> {
+            if (nameTextField.getText() != "") {
+                table.getSelectionModel().getSelectedItem().setFirstname(nameTextField.getText());
+                table.getSelectionModel().getSelectedItem().setLastname(surnameTextField.getText());
+                table.getSelectionModel().getSelectedItem().setAddress(addressTextField.getText());
+                table.getSelectionModel().getSelectedItem().setZipcode(Integer.parseInt(zipcodeTextField.getText()));
+                table.getSelectionModel().getSelectedItem().setCity(cityTextField.getText());
+                table.getSelectionModel().getSelectedItem().setCountry(countryTextField.getText());
+                table.getSelectionModel().getSelectedItem().setEmail(emailTextField.getText());
+
+                adminDAO.updateAdmin(table.getSelectionModel().getSelectedItem());
+
+                //reset text fields after use
+                nameTextField.setText("");
+                surnameTextField.setText("");
+                addressTextField.setText("");
+                zipcodeTextField.setText("");
+                cityTextField.setText("");
+                countryTextField.setText("");
+                emailTextField.setText("");
+
+            } else {
+                System.out.println("NAME FIELD CANT EMPTY");
+            }
+            table.refresh();
+        });
 
         //DISABLAR KNAPPAR OCH TEXTFIELDS OM MAN INTE ÄR ADMIN
         if (!viewManager.isAdmin()) {
+            nameTextField.setDisable(true);
+            surnameTextField.setDisable(true);
+            addressTextField.setDisable(true);
+            zipcodeTextField.setDisable(true);
+            cityTextField.setDisable(true);
+            countryTextField.setDisable(true);
+            emailTextField.setDisable(true);
             buttonBar.setDisable(true);
         }
 
         // Layout med VBox
-        VBox vBox = new VBox(10, table, buttonBar);
+        VBox vBox = new VBox(10, table, buttonBar, nameTextField, surnameTextField, addressTextField, zipcodeTextField, cityTextField, countryTextField, emailTextField);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
         vBox.setPrefHeight(600);
@@ -107,5 +185,3 @@ public class AdminView {
     }
 
 }
-
-
