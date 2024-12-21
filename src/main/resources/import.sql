@@ -10,17 +10,11 @@ insert into Games (game_name) values ( 'Dota 2');
 insert into Games (game_name) values ( 'League of Legends');
 insert into Games (game_name) values ( 'Rocket League');
 
-insert into Teams (team_name, game_id) values ('The Immortals',4);
-insert into Teams (team_name, game_id) values ('The Invincibles',2);
-insert into Teams (team_name, game_id) values ('The Warriors',5);
+insert into Teams (team_name, game_id) values ('The Immortals',1);
+insert into Teams (team_name, game_id) values ('The Invincibles',1);
+insert into Teams (team_name, game_id) values ('The Warriors',2);
 insert into Teams (team_name, game_id) values ('The Ninjas',3);
-insert into Teams (team_name, game_id) values ('Lions',1);
-
-insert into Games (game_name) values ( 'Starcraft 2');
-insert into Games (game_name) values ( 'Counterstrike Global Offensive');
-insert into Games (game_name) values ( 'Dota 2');
-insert into Games (game_name) values ( 'League of Legends');
-insert into Games (game_name) values ( 'Rocket League');
+insert into Teams (team_name, game_id) values ('Lions',3);
 
 
 insert into players (player_name, player_surname, player_nickname, team_id)values ('Christoffer', 'Morales', 'BigPapi', 4);
@@ -31,16 +25,17 @@ insert into players (player_name, player_surname, player_nickname, team_id)value
 
 -- lagmatcher
 
-insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-01', 'T vs T', 1, 2, 1);
-insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-02', 'T vs T', 3, 4, 4);
-insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-03', 'T vs T', 2, 5, 5);
-insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-04', 'T vs T', 4, 1, 4);
-insert into Matches (match_date, match_type, team1_id, team2_id, winner_team)values ('2024-01-05', 'T vs T', 5, 3, 3);
+insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-01', 'T vs T', 1, 2,1);
+insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-02', 'T vs T', 3, 4,1);
+insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-03', 'T vs T', 2, 5,2);
+insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-04', 'T vs T', 4, 1,3);
+insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-05', 'T vs T', 5, 3,3);
 
 -- spelarmatcher
 
--- insert into PlayerMatches (playerMatch_date, playerMatch_type, player1_id, player2_id, winner_player)values ('2024-01-01', 'P vs P', 1, 2, 1);
--- insert into PlayerMatches (playerMatch_date, playerMatch_type, player1_id, player2_id, winner_player)values ('2024-01-02', 'P vs P', 2, 4, 2);
--- insert into PlayerMatches (playerMatch_date, playerMatch_type, player1_id, player2_id, winner_player)values ('2024-01-03', 'P vs P', 3, 5, 5);
--- insert into PlayerMatches (playerMatch_date, playerMatch_type, player1_id, player2_id, winner_player)values ('2024-01-04', 'P vs P', 4, 1, 4);
--- insert into PlayerMatches (playerMatch_date, playerMatch_type, player1_id, player2_id, winner_player)values ('2024-01-05', 'P vs P', 5, 3, 3);
+insert into Matches (match_date, match_type,player1_id, player2_id, game_id)values ('2024-01-01', 'P vs P', 1, 2,1);
+insert into Matches (match_date, match_type,player1_id, player2_id, game_id)values ( '2024-01-02', 'P vs P',3,4,1);
+insert into Matches (match_date, match_type,player1_id, player2_id, game_id)values ( '2024-01-03', 'P vs P',4,3,2);
+insert into Matches (match_date, match_type,player1_id, player2_id, game_id)values ( '2024-01-04', 'P vs P',5,1,3);
+insert into Matches (match_date, match_type,player1_id, player2_id, game_id)values ( '2024-01-05', 'P vs P',2,5,3);
+

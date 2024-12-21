@@ -1,5 +1,6 @@
 package com.comp.compmanager.View;
 import com.comp.compmanager.DAO.GamesDAO;
+import com.comp.compmanager.DAO.TeamManagerDAO;
 import com.comp.compmanager.entities.Games;
 import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
@@ -37,25 +38,6 @@ public class GamesView {
 
         TableColumn<Games, String> name_col = new TableColumn<>("Game name");
         name_col.setCellValueFactory(new PropertyValueFactory<>("name"));
-//
-//        TableColumn<Games, String> lastname_col = new TableColumn<>("Last name");
-//        lastname_col.setCellValueFactory(new PropertyValueFactory<>("lastname"));
-//
-//        TableColumn<Games, String> address_col = new TableColumn<>("Address");
-//        address_col.setCellValueFactory(new PropertyValueFactory<>("address"));
-//
-//        TableColumn<Games, String> zip_col = new TableColumn<>("ZIP-code");
-//        zip_col.setCellValueFactory(new PropertyValueFactory<>("zipcode"));
-//
-//        TableColumn<Games, String> city_col = new TableColumn<>("City");
-//        city_col.setCellValueFactory(new PropertyValueFactory<>("city"));
-//
-//        TableColumn<Games, String> country_col = new TableColumn<>("Country");
-//        country_col.setCellValueFactory(new PropertyValueFactory<>("country"));
-//
-//        TableColumn<Games, String> email_col = new TableColumn<>("E-mail");
-//        email_col.setCellValueFactory(new PropertyValueFactory<>("email"));
-
 
         table.getColumns().addAll(id_col, name_col);
 
@@ -64,7 +46,6 @@ public class GamesView {
         List<Games> games = gamesDAO.getAllGames();
         ObservableList<Games> observableList = FXCollections.observableArrayList(games);
         table.setItems(observableList);
-
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
@@ -76,16 +57,21 @@ public class GamesView {
         //buttons
         Button deleteGameBtn = new Button("Delete Game");
         Button addGameBtn = new Button("Add Game");
+        Button editGameBtn = new Button("Edit Game");
         //add buttons to bar
-        buttonBar.getButtons().addAll(deleteGameBtn, addGameBtn);
+        buttonBar.getButtons().addAll(deleteGameBtn, addGameBtn, editGameBtn);
         //add button functionality via Lambda expression
         deleteGameBtn.setOnAction(e -> {
+            // Hämta det valda laget från tabellen
             Games selectedGame = table.getSelectionModel().getSelectedItem();
             if (selectedGame != null) {
-                gamesDAO.deleteGame(games.get(0));
-                table.getItems().remove(games.get(0));
+                // Ta bort laget från databasen
+                GamesDAO.deleteGame(selectedGame);
+                // Ta bort laget från tabellen
+                table.getItems().remove(selectedGame);
+                System.out.println("game deleted!");
             } else {
-//          Visa ett varningsmeddelande om inget lag är valt
+                // Visa ett varningsmeddelande om inget lag är valt
                 System.out.println("No game selected");
             }
         });
@@ -112,14 +98,12 @@ public class GamesView {
                     // Skapa ett nytt team-objekt och lägg till det i listan
                     Games newGame = new Games();
                     newGame.setName(gameName);
-                    GamesDAO.addGames(newGame); // Lägg till i databasen
+                    GamesDAO.addGame(newGame); // Lägg till i databasen
                     table.getItems().add(newGame); // Uppdatera tabellen
                     popupStage.close(); // Stäng popupen
                 } else {
                     // Om namnet är tomt, visa ett varningsmeddelande
                     System.out.println("Game name can't be empty!");
-//                Alert alert = new Alert(Alert.AlertType.WARNING, "Game name can't be empty!", ButtonType.OK);
-//                    alert.showAndWait();
                 }
             });
 
@@ -132,8 +116,56 @@ public class GamesView {
             popupStage.show();
         });
 
+        // Knapp för att redigera ett befintligt spel
+        editGameBtn.setOnAction(e -> {
+            // Hämta det valda spelet från tabellen
+            Games selectedGame = table.getSelectionModel().getSelectedItem();
+            if (selectedGame != null) {
+                // Skapa en ny Stage för popup fönster
+                Stage popupStage = new Stage();
+                popupStage.setTitle("Edit Game");
 
-        // Layout med VBox
+                // Layout för popup
+                VBox popupLayout = new VBox(10);
+                popupLayout.setPadding(new Insets(15));
+
+                // Skapa fält för att redigera spel
+                Label nameLabel = new Label("Game Name:");
+                TextField nameField = new TextField(selectedGame.getName());
+
+                Button saveButton = new Button("Save");
+                saveButton.setOnAction(event -> {
+                    String updatedName = nameField.getText();
+                    if (!updatedName.isEmpty()) {
+                        // Uppdatera spelets namn
+                        selectedGame.setName(updatedName);
+                        // Uppdatera spelet i databasen
+                        GamesDAO.updateGame(selectedGame);
+                        // Uppdatera tabellen
+                        table.refresh();
+                        System.out.println("Game updated!");
+                        popupStage.close();
+                    } else {
+                        // Visa ett varningsmeddelande om fältet är tomt
+                        System.out.println("Game name can't be empty!");
+                    }
+                });
+
+                // Lägg till fält och knapp till popup-layout
+                popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
+
+                // Visa popup-fönstret
+                Scene popupScene = new Scene(popupLayout, 300, 200);
+                popupStage.setScene(popupScene);
+                popupStage.show();
+            } else {
+                // Visa ett varningsmeddelande om inget spel är valt
+                System.out.println("No game selected for edit!");
+
+            }
+        });
+
+        // Layout
         VBox vBox = new VBox(10, table, buttonBar);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
@@ -146,5 +178,11 @@ public class GamesView {
         layout.getChildren().add(vBox);
 
         return layout;
+    }
+    public ObservableList gamesObservableList() {
+        //Skapar en lista med alla games från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
+        List<Games> game = GamesDAO.getAllGames();
+        ObservableList<Games> gamesObservableList = FXCollections.observableArrayList(game);
+        return gamesObservableList;
     }
 }

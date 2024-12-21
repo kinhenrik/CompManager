@@ -17,23 +17,27 @@ public class Games {
 
 
     //Primary key
-    @Id
+  @Id      //detta gör att den blir primary key.
 //Auto-increment
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 //Names column
     @Column(name = "game_id")
-    private int id;                //detta gör att den blir primary key.
+    private int id;
 
     @Column(name = "game_name", length = 50, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "games", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "games", orphanRemoval = true, fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Teams> teams = new ArrayList<>();
+
+    // relation till Matches
+    @OneToMany(mappedBy = "game", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<Matches> matches = new ArrayList<>();
 
     // match date, winner, match id, match type (lag mot lag/spelare mot spelare), player, lag, player_id 1-5. team_id 1-5.
     // här ska alla spel jag la till i mySQL vara.
 
-    //
+//
     //Games constructor
     public Games() {}
     public Games(String name) {
@@ -70,10 +74,5 @@ public class Games {
     public String toString() {
         return name;
     }
-
-    //    @Override
-//    public String toString() {
-//        return "Game: " + name + " (ID: " + id + ")";
-//    }
 
 }
