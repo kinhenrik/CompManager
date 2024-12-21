@@ -1,6 +1,5 @@
 package com.comp.compmanager.entities;
 
-import com.comp.compmanager.DAO.PlayerDAO;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -32,8 +31,6 @@ public class Player {
     @ManyToOne
     @JoinColumn(name = "team_id", nullable = false) // team_id är kolumnen i Teams-tabellen som refererar till Games-tabellen
     private Teams team; // Relationen till Games-objektet i Games/Matches classen
-
-    //----------FK till player / matches hopefully christoffer-------------
 
     @OneToMany(mappedBy = "player1", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<Matches> matchesAsPlayer1;
@@ -73,8 +70,8 @@ public class Player {
     }
     public void setTeam(Teams team) { this.team = team; }
 
-    //get and set ----matches/player---
 
+    //get and set ----matches/player---
 
     public List<Matches> getMatchesAsPlayer1() {return matchesAsPlayer1;}
 

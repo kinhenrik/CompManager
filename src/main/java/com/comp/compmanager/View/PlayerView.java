@@ -131,26 +131,9 @@ public class PlayerView {
                 nicknameTextField.clear();
                 teamsComboBox.getSelectionModel().clearSelection();
                 table.refresh();
-
-
-
-//            if (nameTextField.getText() != "" ) {
-//
-//                playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
-//                table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), (Teams)teamsComboBox.getSelectionModel().getSelectedItem()));
-//                table.getItems().clear();
-//                table.getItems().addAll(playerDAO.getAllPlayers());
-//
-//                //reset text fields after use
-//                nameTextField.setText("");
-//                surnameTextField.setText("");
-//                nicknameTextField.setText("");
-//                teamsComboBox.setPromptText("Teams");
-
-            }else {
+            } else {
                 System.out.println("NAME FIELD CANT EMPTY");
             }
-
             table.refresh();
         });
 
@@ -169,13 +152,10 @@ public class PlayerView {
                 nicknameTextField.setText("");
                 teamsComboBox.setPromptText("Teams");
 
-            }
-            else {
+            } else {
                 System.out.println("NAME FIELD CANT EMPTY");
             }
-
             table.refresh();
-
         });
 
         //DISABLAR KNAPPAR OCH TEXTFIELDS OM MAN INTE ÄR ADMIN
@@ -183,7 +163,6 @@ public class PlayerView {
             nameTextField.setDisable(true);
             surnameTextField.setDisable(true);
             nicknameTextField.setDisable(true);
-            //teamTextField.setDisable(true);
             buttonBar.setDisable(true);
         }
 

@@ -1,18 +1,13 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.AdminDAO;
-import com.comp.compmanager.DAO.PlayerDAO;
 import com.comp.compmanager.entities.Admin;
-import com.comp.compmanager.entities.Player;
-import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
@@ -24,7 +19,6 @@ public class AdminView {
     public AdminView(ViewManager viewManager) {
         this.viewManager = viewManager;
     }
-
 
     public AnchorPane getView() {
         AnchorPane layout = new AnchorPane();
@@ -98,7 +92,6 @@ public class AdminView {
         Button editAdminBtn = new Button("Edit selected");
         //add buttons to bar
         buttonBar.getButtons().addAll(deleteAdminBtn, addAdminBtn, editAdminBtn);
-        //add delete / add / edit buttons and actions
 
         deleteAdminBtn.setOnAction(e -> {
             Admin selectedAdmin = table.getSelectionModel().getSelectedItem();
@@ -151,13 +144,10 @@ public class AdminView {
                 countryTextField.setText("");
                 emailTextField.setText("");
 
-            }
-            else {
+            } else {
                 System.out.println("NAME FIELD CANT EMPTY");
             }
-
             table.refresh();
-
         });
 
         //DISABLAR KNAPPAR OCH TEXTFIELDS OM MAN INTE ÄR ADMIN
@@ -172,13 +162,6 @@ public class AdminView {
             buttonBar.setDisable(true);
         }
 
-
-        //DISABLAR KNAPPAR OCH TEXTFIELDS OM MAN INTE ÄR ADMIN
-        if (!viewManager.isAdmin()) {
-            buttonBar.setDisable(true);
-        }
-
-        //String firstname, String lastname, String address, int zipcode, String city, String country, String email
         // Layout med VBox
         VBox vBox = new VBox(10, table, buttonBar, nameTextField, surnameTextField, addressTextField, zipcodeTextField, cityTextField, countryTextField, emailTextField);
         vBox.setPadding(new Insets(10));

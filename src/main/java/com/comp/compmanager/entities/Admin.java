@@ -1,11 +1,6 @@
 package com.comp.compmanager.entities;
 
 import jakarta.persistence.*;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "admins")
