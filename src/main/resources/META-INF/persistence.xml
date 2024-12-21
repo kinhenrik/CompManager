@@ -5,7 +5,6 @@
 
     <persistence-unit name="myconfig">
 
-
         <properties>
             <!-- MySQL -->
             <property name="jakarta.persistence.jdbc.url"
@@ -19,8 +18,8 @@
 
             <!-- Automatic schema export -->
             <property name="hibernate.hbm2ddl.auto"
-                      value="update"/><!--value="drop-and-create"/>-->
-
+                      value="update"/>
+                      <!-- value="update"/> -->
             <!-- SQL statement logging -->
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>

@@ -1,8 +1,10 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.PlayerDAO;
+import com.comp.compmanager.entities.Games;
 import com.comp.compmanager.entities.Player;
 import com.comp.compmanager.entities.Teams;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -19,6 +21,7 @@ public class PlayerView {
 
     private final ViewManager viewManager;
     private ComboBox teamsComboBox;
+    private ComboBox gamesComboBox;
 
     public PlayerView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -55,8 +58,13 @@ public class PlayerView {
         TableColumn<Player, String> team_column = new TableColumn<>("Team");
         team_column.setCellValueFactory(new PropertyValueFactory<>("team"));
 
+        //"Game" col getting game data
+        TableColumn<Player, String> game_column = new TableColumn<>("Game");
+        //game_column.setCellValueFactory(new PropertyValueFactory<>("games"));
+        game_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGame().getName()));
+
         //combine all cols
-        table.getColumns().addAll(id_column, name_column, surname_column, nickname_column, team_column);
+        table.getColumns().addAll(id_column, name_column, surname_column, nickname_column, team_column, game_column);
 
         //adds all col data to ObservableList for JavaFX
         PlayerDAO playerDAO = new PlayerDAO();
@@ -65,16 +73,16 @@ public class PlayerView {
         table.setItems(observableList);
 
         //FILTER DROPDOWN
-        ComboBox filterDropdown = new ComboBox(new TeamView(viewManager).teamList());
+        ComboBox filterDropdown = new ComboBox(new GamesView(viewManager).gamesObservableList());
         Button resetButton = new Button("Reset");
-        filterDropdown.setPromptText("Filter by team...");
+        filterDropdown.setPromptText("Filter by game...");
         filterDropdown.setPrefWidth(170);
         HBox dropdownBox = new HBox(10);
         dropdownBox.setAlignment(Pos.CENTER_RIGHT);
         dropdownBox.getChildren().addAll(filterDropdown, resetButton);
         filterDropdown.setOnAction(e -> {
             if (filterDropdown.getValue() != null) {
-                table.setItems(playerList((Teams)filterDropdown.getValue()));
+                table.setItems(playerList((Games)filterDropdown.getValue()));
             }
         });
         resetButton.setOnAction(e -> {
@@ -95,9 +103,16 @@ public class PlayerView {
         nicknameTextField.setPromptText("Nickname...");
 
         //DROP DOWN
+        //teams
         ObservableList<Teams> teamsObservableList = new TeamView(viewManager).teamList();
         teamsComboBox = new ComboBox(teamsObservableList);
         teamsComboBox.setPromptText("Teams");
+        //games
+        ObservableList gamesObservableList = new TeamView(viewManager).teamList();
+        gamesComboBox = new ComboBox(gamesObservableList);
+        gamesComboBox.setPromptText("Games");
+
+
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
@@ -122,7 +137,7 @@ public class PlayerView {
 
         addPlayerBtn.setOnAction(e -> {
             if (!nameTextField.getText().isEmpty()) {
-                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue());
+                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue(), (Games) gamesComboBox.getValue());
                 playerDAO.addPlayer(newPlayer);
                 observableList.add(newPlayer); // Lägg till spelaren i tabellen
                 newPlayer.getTeam().getPlayers().add(newPlayer); // Uppdatera lagets lista
@@ -131,9 +146,11 @@ public class PlayerView {
                 nicknameTextField.clear();
                 teamsComboBox.getSelectionModel().clearSelection();
                 table.refresh();
-            } else {
+
+            }else {
                 System.out.println("NAME FIELD CANT EMPTY");
             }
+
             table.refresh();
         });
 
@@ -152,10 +169,13 @@ public class PlayerView {
                 nicknameTextField.setText("");
                 teamsComboBox.setPromptText("Teams");
 
-            } else {
+            }
+            else {
                 System.out.println("NAME FIELD CANT EMPTY");
             }
+
             table.refresh();
+
         });
 
         //DISABLAR KNAPPAR OCH TEXTFIELDS OM MAN INTE ÄR ADMIN
@@ -166,7 +186,8 @@ public class PlayerView {
             buttonBar.setDisable(true);
         }
 
-        VBox vBox = new VBox(10,dropdownBox, table, nameTextField, surnameTextField, nicknameTextField, teamsComboBox, buttonBar);
+
+        VBox vBox = new VBox(10,dropdownBox, table, nameTextField,surnameTextField, nicknameTextField, teamsComboBox, gamesComboBox, buttonBar);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
         vBox.setPrefHeight(400);
@@ -180,9 +201,9 @@ public class PlayerView {
         return layout;
     }
 
-    public ObservableList playerList(Teams team) {
+    public ObservableList playerList(Games game) {
         //Skapar en lista med alla players från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
-        List<Player> player = PlayerDAO.getPlayerByTeam(team);
+        List<Player> player = PlayerDAO.getPlayerByGame(game);
         ObservableList<Player> observableList = FXCollections.observableArrayList(player);
         return observableList;
     }
