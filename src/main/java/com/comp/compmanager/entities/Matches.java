@@ -19,6 +19,10 @@ public class Matches {
     private String matchType;
 
     @ManyToOne
+    @JoinColumn(name = "game_id", nullable = false) // Länk till spelet
+    private Games game;
+
+    @ManyToOne
     @JoinColumn(name = "team1_id", nullable = true)
     private Teams team1;
 
@@ -62,6 +66,15 @@ public class Matches {
     }
 
     // Getters and Setters
+
+
+    public Games getGame() {
+        return game;
+    }
+
+    public void setGame(Games game) {
+        this.game = game;
+    }
 
     public int getMatchId() {
         return matchId;

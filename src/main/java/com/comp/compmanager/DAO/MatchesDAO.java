@@ -45,7 +45,7 @@ public class MatchesDAO {
     public static List<Matches> getAllMatches() {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         try {
-            return manager.createQuery("FROM Matches", Matches.class).getResultList();
+            return manager.createQuery("SELECT m FROM Matches m JOIN FETCH m.game",Matches.class).getResultList();
         } finally {
             manager.close();
         }
