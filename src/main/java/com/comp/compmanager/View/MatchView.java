@@ -6,6 +6,7 @@ import com.comp.compmanager.DAO.TeamManagerDAO;
 import com.comp.compmanager.entities.Matches;
 import com.comp.compmanager.entities.Player;
 import com.comp.compmanager.entities.Teams;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -46,6 +47,10 @@ public class MatchView {
         // Kolumn för Match Type
         TableColumn<Matches, String> typeColumn = new TableColumn<>("Type");
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("matchType"));
+
+        // Kolumn för Game i tabellen
+        TableColumn<Matches, String> gameColumn = new TableColumn<>("Game");
+        gameColumn.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getGame().getName()));
 
         // Kolumner för Teams
         TableColumn<Matches, String> team1Column = new TableColumn<>("Team 1");
