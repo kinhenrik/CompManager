@@ -38,7 +38,7 @@ public class PlayerDAO {
         List<Player> listToReturn = new ArrayList<>();
 
         TypedQuery<Player> result = manager.createQuery("FROM Player WHERE team = :teamName", Player.class);
-        result.setParameter("teamName", team.getName());
+        result.setParameter("teamName", team);
 
         listToReturn.addAll(result.getResultList());
         manager.close();

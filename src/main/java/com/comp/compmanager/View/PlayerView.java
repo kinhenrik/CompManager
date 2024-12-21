@@ -187,11 +187,7 @@ public class PlayerView {
             buttonBar.setDisable(true);
         }
 
-        //TOOL-VBOX
-//        VBox toolVBox = new VBox(10, nameTextField, surnameTextField, nicknameTextField, teamTextField, buttonBar);
-//        toolVBox.setPadding(new Insets(8));
-
-        VBox vBox = new VBox(10,dropdownBox, table, nameTextField,surnameTextField, nicknameTextField, teamsComboBox/*teamTextField,*/ , buttonBar);
+        VBox vBox = new VBox(10,dropdownBox, table, nameTextField, surnameTextField, nicknameTextField, teamsComboBox, buttonBar);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
         vBox.setPrefHeight(400);
