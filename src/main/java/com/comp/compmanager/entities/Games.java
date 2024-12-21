@@ -50,19 +50,20 @@ public class Games {
         this.name = name;
     }
 
-    public List<Teams> getTeams() { return teams; }
+    public List<Teams> getTeams() {
+        return teams;
+    }
 
     public void setTeams(List<Teams> teams) {
         this.teams = teams;
     }
 
-    public List<Matches> getMatches() { return matches; }
+    public List<Matches> getMatches() {return matches;}
 
-    public void setMatches(List<Matches> matches) { this.matches = matches; }
+    public void setMatches(List<Matches> matches) {this.matches = matches;}
 
     @Override
     public String toString() {
         return name;
     }
-
 }
