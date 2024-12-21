@@ -6,6 +6,7 @@ import com.comp.compmanager.DAO.TeamManagerDAO;
 import com.comp.compmanager.entities.Matches;
 import com.comp.compmanager.entities.Player;
 import com.comp.compmanager.entities.Teams;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -47,6 +48,11 @@ public class MatchView {
         TableColumn<Matches, String> typeColumn = new TableColumn<>("Type");
         typeColumn.setCellValueFactory(new PropertyValueFactory<>("matchType"));
 
+        // Kolumn för Game i tabellen
+        TableColumn<Matches, String> gameColumn = new TableColumn<>("Game");
+        gameColumn.setCellValueFactory(cellData ->
+                new SimpleStringProperty(cellData.getValue().getGame().getName()));
+
         // Kolumner för Teams
         TableColumn<Matches, String> team1Column = new TableColumn<>("Team 1");
         team1Column.setCellValueFactory(new PropertyValueFactory<>("team1"));
@@ -82,7 +88,7 @@ public class MatchView {
         winnerPlayerColumn.setCellValueFactory(new PropertyValueFactory<>("winnerPlayer"));
 
         // Lägg till kolumner i tabellen
-        table.getColumns().addAll(idColumn, dateColumn, typeColumn,
+        table.getColumns().addAll(idColumn, dateColumn, typeColumn, gameColumn,
                 team1Column,team1ScoreColumn,team2ScoreColumn, team2Column, winnerTeamColumn
                ,player1Column,player1ScoreColumn,player2ScoreColumn, player2Column,
                 winnerPlayerColumn);
@@ -117,6 +123,8 @@ public class MatchView {
                 // Ta bort laget från tabellen
                 table.getItems().remove(selectedMatch);
                 System.out.println("Match deleted!");
+                table.refresh();
+
             } else {
                 System.out.println("No mactch selected");
             }

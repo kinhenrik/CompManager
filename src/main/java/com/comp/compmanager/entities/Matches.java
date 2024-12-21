@@ -11,12 +11,16 @@ public class Matches {
     @Column(name = "match_id")
     private int matchId;
 
-    @Column(name = "match_date", nullable = false)
+    @Column(name = "match_date", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date matchDate;
 
-    @Column(name = "match_type", length = 50, nullable = false)
+    @Column(name = "match_type", length = 50, nullable = true)
     private String matchType;
+
+    @ManyToOne
+    @JoinColumn(name = "game_id", nullable = true) // Länk till spelet
+    private Games game;
 
     @ManyToOne
     @JoinColumn(name = "team1_id", nullable = true)
@@ -58,10 +62,13 @@ public class Matches {
     public Matches() {}
     public Matches(String matchtype){
        this.matchType = matchtype;
-
     }
 
     // Getters and Setters
+
+    public Games getGame() {return game;}
+
+    public void setGame(Games game) {this.game = game;}
 
     public int getMatchId() {
         return matchId;

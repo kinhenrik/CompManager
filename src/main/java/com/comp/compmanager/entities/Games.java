@@ -22,6 +22,10 @@ public class Games {
     @OneToMany(mappedBy = "games", orphanRemoval = true, fetch = FetchType.EAGER, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Teams> teams = new ArrayList<>();
 
+    // relation till Matches
+    @OneToMany(mappedBy = "game", cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, fetch = FetchType.LAZY)
+    private List<Matches> matches = new ArrayList<>();
+
     // match date, winner, match id, match type (lag mot lag/spelare mot spelare), player, lag, player_id 1-5. team_id 1-5.
 
     //Games constructor
@@ -54,9 +58,12 @@ public class Games {
         this.teams = teams;
     }
 
+    public List<Matches> getMatches() {return matches;}
+
+    public void setMatches(List<Matches> matches) {this.matches = matches;}
+
     @Override
     public String toString() {
         return name;
     }
-
 }
