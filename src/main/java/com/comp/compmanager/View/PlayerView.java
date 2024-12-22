@@ -120,17 +120,33 @@ public class PlayerView {
         //add delete / add / edit buttons and actions
 
         deletePlayerBtn.setOnAction(e -> {
+
+
+
             Player selectedPlayer = table.getSelectionModel().getSelectedItem();
+
             if (selectedPlayer != null) {
-                playerDAO.deletePlayer(selectedPlayer); // Använder den justerade delete-metoden
-                observableList.remove(selectedPlayer); // Uppdatera tabellen
-                table.refresh(); // Uppdatera GUI:t
+
+                if (selectedPlayer.getMatchesAsPlayer1().isEmpty() && selectedPlayer.getMatchesAsPlayer2().isEmpty() && selectedPlayer.getTeam().getMatchesAsTeam1().isEmpty() && selectedPlayer.getTeam().getMatchesAsTeam2().isEmpty()) {
+
+
+                    playerDAO.deletePlayer(selectedPlayer); // Använder den justerade delete-metoden
+                    observableList.remove(selectedPlayer); // Uppdatera tabellen
+                    table.refresh(); // Uppdatera GUI:t
+
+
+                }
+                else {
+                    System.out.println("PLAYER IS CURRENTLY IN MATCH");
+                }
+
             }
+
         });
 
         addPlayerBtn.setOnAction(e -> {
-            if (!nameTextField.getText().isEmpty()) {
-                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue());
+            if (!nameTextField.getText().isEmpty() && !surnameTextField.getText().isEmpty() && !nicknameTextField.getText().isEmpty() && teamsComboBox.getSelectionModel().getSelectedItem() != null) {
+                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue(), ((Teams) teamsComboBox.getValue()).getGames());
                 playerDAO.addPlayer(newPlayer);
                 observableList.add(newPlayer); // Lägg till spelaren i tabellen
                 newPlayer.getTeam().getPlayers().add(newPlayer); // Uppdatera lagets lista
@@ -142,7 +158,7 @@ public class PlayerView {
                 table.refresh();
 
             }else {
-                System.out.println("NAME FIELD CANT EMPTY");
+                System.out.println("INFO FIELDS CAN NOT BE EMPTY");
             }
 
             table.refresh();
@@ -153,7 +169,8 @@ public class PlayerView {
                 table.getSelectionModel().getSelectedItem().setName(nameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setSurname(surnameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
-                table.getSelectionModel().getSelectedItem().setTeam((Teams) teamsComboBox.getSelectionModel().getSelectedItem());
+                table.getSelectionModel().getSelectedItem().setTeam((Teams)teamsComboBox.getSelectionModel().getSelectedItem());
+                table.getSelectionModel().getSelectedItem().setGames(((Teams) teamsComboBox.getSelectionModel().getSelectedItem()).getGames());
 
                 playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
 
