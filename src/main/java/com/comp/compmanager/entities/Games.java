@@ -19,7 +19,7 @@ public class Games {
     @Column(name = "game_name", length = 50, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "games", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "games", orphanRemoval = true, fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Teams> teams = new ArrayList<>();
 
     // relation till Matches

@@ -25,16 +25,16 @@ public class Teams {
 
     //foreign Key till spelet laget tävlar inom
     @ManyToOne
-    @JoinColumn(name = "game_id") // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
+    @JoinColumn(name = "game_id", nullable = true) // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
     private Games games; // Team relationen till Games-objektet i Games tabellen
 
-    @OneToMany(mappedBy = "team1", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team1", orphanRemoval = true, cascade = CascadeType.REMOVE)
     private List<Matches> matchesAsTeam1;
 
-    @OneToMany(mappedBy = "team2", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team2", orphanRemoval = true, cascade = CascadeType.REMOVE)
     private List<Matches> matchesAsTeam2;
 
-    @OneToMany(mappedBy = "winnerTeam", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "winnerTeam", orphanRemoval = true, cascade = CascadeType.REMOVE)
     private List<Matches> matchesWonTeam;
 
     public Teams() {}
