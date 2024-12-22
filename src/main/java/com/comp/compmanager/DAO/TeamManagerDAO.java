@@ -132,27 +132,4 @@ public class TeamManagerDAO {
             manager.close();
         }
     }
-//    public static void deleteTeam(Teams team) {
-//        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-//        EntityTransaction transaction = null;
-//
-//        try {
-//            transaction = manager.getTransaction();
-//            transaction.begin();
-//            // Om laget inte finns i EntityManager, gör merge för att få en referens
-//            if (!manager.contains(team)) {
-//                team = manager.merge(team);
-//            }
-//            manager.remove(team); // Ta bort laget från databasen
-//            transaction.commit();
-//            System.out.println("Team with ID = " + team.getId() + " has been removed from database.");
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            if (manager != null && transaction != null && transaction.isActive()) {
-//                transaction.rollback();
-//            }
-//        } finally {
-//            manager.close();
-//        }
-//    }
 }

@@ -129,7 +129,7 @@ public class PlayerView {
         });
 
         addPlayerBtn.setOnAction(e -> {
-            if (!nameTextField.getText().isEmpty()) {
+            if (!nameTextField.getText().isEmpty() && !surnameTextField.getText().isEmpty() && !nicknameTextField.getText().isEmpty() && teamsComboBox.getSelectionModel().getSelectedItem() != null) {
                 Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue());
                 playerDAO.addPlayer(newPlayer);
                 observableList.add(newPlayer); // Lägg till spelaren i tabellen
@@ -142,7 +142,7 @@ public class PlayerView {
                 table.refresh();
 
             }else {
-                System.out.println("NAME FIELD CANT EMPTY");
+                System.out.println("INFO FIELDS CAN NOT BE EMPTY");
             }
 
             table.refresh();
