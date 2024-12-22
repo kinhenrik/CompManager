@@ -126,7 +126,6 @@ public class MatchView {
                 table.getItems().remove(selectedMatch);
                 System.out.println("Match deleted!");
                 table.refresh();
-
             } else {
                 System.out.println("No mactch selected");
             }
