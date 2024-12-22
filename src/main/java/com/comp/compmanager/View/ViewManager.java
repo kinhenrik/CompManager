@@ -166,7 +166,7 @@ public class ViewManager {
         AnchorPane.setRightAnchor(welcomeLabel, (stage.getWidth() - welcomeLabel.getWidth()) / 3);
 
         // Ladda bilden
-        Image backgroundImage = new Image(getClass().getResource("/images/bild1.png").toExternalForm());
+        Image backgroundImage = new Image(getClass().getResource("/images/bild2.png").toExternalForm());
         ImageView backgroundView = new ImageView(backgroundImage);
 
         // Anpassa bildens egenskaper
