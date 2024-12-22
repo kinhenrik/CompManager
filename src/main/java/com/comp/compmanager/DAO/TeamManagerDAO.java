@@ -84,98 +84,59 @@ public class TeamManagerDAO {
         }
     }
 
-    public static void deleteTeam(Teams team) {
-        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        EntityTransaction transaction = null;
+public static void deleteTeam(Teams team) {
+    EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+    EntityTransaction transaction = null;
 
-        try {
-            transaction = manager.getTransaction();
-            transaction.begin();
+    try {
+        transaction = manager.getTransaction();
+        transaction.begin();
 
-            Teams managedTeam = manager.find(Teams.class, team.getId());
+        Teams managedTeam = manager.find(Teams.class, team.getId());
 
-            if (managedTeam != null) {
-                for (Matches match : managedTeam.getMatchesAsTeam1()) {
-                    match.setTeam1(null);
-                    manager.merge(match);
-                }
-
-                for (Matches match : managedTeam.getMatchesAsTeam2()) {
-                    match.setTeam2(null);
-                    manager.merge(match);
-                }
-
-                for (Matches match : managedTeam.getMatchesWonTeam()) {
-                    match.setWinnerTeam(null);
-                    manager.merge(match);
-                }
-
-                managedTeam.setMatchesAsTeam1(null);
-                managedTeam.setMatchesAsTeam2(null);
-                managedTeam.setMatchesWonTeam(null);
-
-                managedTeam.getPlayers().clear();
-                managedTeam.setGames(null);
+        if (managedTeam != null) {
+            // Hantera alla matcher där laget är involverat
+            // Ta bort laget från alla matcher där det är team1
+            for (Matches match : managedTeam.getMatchesAsTeam1()) {
+                match.setTeam1(null);  // Ta bort referensen till laget från matchen
+                manager.merge(match);  // Merge för att uppdatera matchen i databasen
             }
-            manager.remove(managedTeam);
-            transaction.commit();
-            System.out.println("Team with ID = " + team.getId() + " has been removed from database.");        } catch (Exception e) {
-            System.err.println("Error deleting team: " + e.getMessage());
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
+
+            // Ta bort laget från alla matcher där det är team2
+            for (Matches match : managedTeam.getMatchesAsTeam2()) {
+                match.setTeam2(null);  // Ta bort referensen till laget från matchen
+                manager.merge(match);  // Merge för att uppdatera matchen i databasen
             }
-        } finally {
-            manager.close();
+
+            // Ta bort laget från alla matcher där det är vinnarteam
+            for (Matches match : managedTeam.getMatchesWonTeam()) {
+                match.setWinnerTeam(null);  // Ta bort referensen till laget från matchen
+                manager.merge(match);  // Merge för att uppdatera matchen i databasen
+            }
+
+            // Rensa referenser till matcher för laget
+            managedTeam.setMatchesAsTeam1(null);
+            managedTeam.setMatchesAsTeam2(null);
+            managedTeam.setMatchesWonTeam(null);
+
+            // Ta bort laget från alla spelare som är kopplade till laget
+            managedTeam.getPlayers().clear();  // Rensa spelarlistan
+            managedTeam.setGames(null);  // Ta bort spelet från laget
         }
+
+        // Ta bort laget från databasen
+        manager.remove(managedTeam);
+        transaction.commit();  // Committa ändringarna till databasen
+
+        System.out.println("Team with ID = " + team.getId() + " has been removed from database.");
+    } catch (Exception e) {
+        System.err.println("Error deleting team: " + e.getMessage());
+        if (transaction != null && transaction.isActive()) {
+            transaction.rollback();  // Rulla tillbaka om något går fel
+        }
+    } finally {
+        manager.close();  // Stäng EntityManager
     }
+}
 
-    // DELETE - Ta bort lag
-
-//    public static void deleteTeam(Teams team) {
-//        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-//        EntityTransaction transaction = null;
-//
-//        try {
-//            transaction = manager.getTransaction();
-//            transaction.begin();
-//
-//            // Om laget inte finns i EntityManager, gör merge för att få en referens
-//            if (!manager.contains(team)) {
-//                team = manager.merge(team);
-//            }
-//
-//            // Uppdatera relaterade matcher där laget används (team1, team2, winnerTeam)
-//            // Sätt teamreferenserna i matcher till NULL, så de inte refererar till det borttagna laget
-//            List<Matches> matches = manager.createQuery(
-//                            "SELECT m FROM Matches m WHERE m.team1 = :team OR m.team2 = :team OR m.winnerTeam = :team", Matches.class)
-//                    .setParameter("team", team)
-//                    .getResultList();
-//
-//            for (Matches match : matches) {
-//                if (match.getTeam1() != null && match.getTeam1().equals(team)) {
-//                    match.setTeam1(null);  // Sätt team1 till null
-//                }
-//                if (match.getTeam2() != null && match.getTeam2().equals(team)) {
-//                    match.setTeam2(null);  // Sätt team2 till null
-//                }
-//                if (match.getWinnerTeam() != null && match.getWinnerTeam().equals(team)) {
-//                    match.setWinnerTeam(null);  // Sätt winnerTeam till null
-//                }
-//                manager.merge(match); // Uppdatera matcherna i databasen
-//            }
-//
-//            // Ta bort laget från databasen
-//            manager.remove(team);
-//
-//            transaction.commit();
-//            System.out.println("Team with ID = " + team.getId() + " has been removed from database.");
-//        } catch (Exception e) {
-//            System.out.println(e.getMessage());
-//            if (transaction != null && transaction.isActive()) {
-//                transaction.rollback();
-//            }
-//        } finally {
-//            manager.close();
-//        }
-//    }
 }
