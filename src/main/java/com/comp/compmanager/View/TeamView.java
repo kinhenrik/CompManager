@@ -2,7 +2,6 @@ package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.TeamManagerDAO;
 import com.comp.compmanager.entities.Games;
-import com.comp.compmanager.entities.Matches;
 import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -188,7 +187,6 @@ public class TeamView {
         AnchorPane.setBottomAnchor(vBox, 10.0);
 
         layout.getChildren().add(vBox);
-
 
         return layout;
     }

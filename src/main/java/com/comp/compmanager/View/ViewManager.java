@@ -38,7 +38,6 @@ public class ViewManager {
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Select view");
-
         //userMenu som man kan logga ut med
         Menu userMenu = new Menu("Not logged in");
 
@@ -158,7 +157,7 @@ public class ViewManager {
         AnchorPane.setLeftAnchor(loginView, 0.0);
         AnchorPane.setRightAnchor(loginView, 0.0);
 
-        Label welcomeLabel = new Label("--- || Welcome to Piper Games || ---");
+        Label welcomeLabel = new Label("|| Welcome to Piper Games ||");
         welcomeLabel.setStyle("-fx-font-size: 24px; -fx-text-fill: beige;");
         // Placerering av etiketten i mitten av skärmen
         AnchorPane.setTopAnchor(welcomeLabel, 80.0);
@@ -204,7 +203,6 @@ public class ViewManager {
         setView(playerView);
     }
 
-
     public void showGamesView() {
         AnchorPane gameView = new GamesView(this).getView();
         setView(gameView);
@@ -217,7 +215,6 @@ public class ViewManager {
 
     // Ta bort allt under menyfältet och lägg till den nya vyn
     private void setView(AnchorPane newView) {
-
         root.getChildren().removeIf(node -> node != menuBar);
         AnchorPane.setTopAnchor(newView, 30.0); // Placera under menyn
         AnchorPane.setBottomAnchor(newView, 0.0);
@@ -228,7 +225,6 @@ public class ViewManager {
 
     // Starta scenen med huvudmenyn
     public void start() {
-
         Scene scene = new Scene(root, 1125, 700);
         stage.setScene(scene);
         stage.setTitle("CompManager");
@@ -240,6 +236,7 @@ public class ViewManager {
     public boolean isAdmin() {
         return isAdmin;
     }
+
     public void setAdmin(boolean admin) {
         isAdmin = admin;
     }

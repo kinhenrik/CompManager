@@ -1,10 +1,8 @@
 package com.comp.compmanager.View;
 
-import com.comp.compmanager.DAO.GamesDAO;
 import com.comp.compmanager.DAO.MatchesDAO;
 import com.comp.compmanager.DAO.PlayerDAO;
 import com.comp.compmanager.DAO.TeamManagerDAO;
-import com.comp.compmanager.entities.Games;
 import com.comp.compmanager.entities.Matches;
 import com.comp.compmanager.entities.Player;
 import com.comp.compmanager.entities.Teams;
@@ -254,8 +252,6 @@ public class MatchView {
             popupStage.setScene(popupScene);
             popupStage.show();
         });
-
-
 
         // Edit knapp för att redigera befintliga matcher i tabellen och sen uppdatera tabellen samt en popupfönster
         // finns två olika funktiner för edit match med winner eller utan winner i layouten

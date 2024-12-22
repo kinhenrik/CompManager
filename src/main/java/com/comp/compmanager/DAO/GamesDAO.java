@@ -31,16 +31,6 @@ public class GamesDAO {
         }
     }
 
-    //GET
-    public static Games getGamesById(int game_id) {
-        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        try {
-            return manager.find(Games.class, game_id);
-        } finally {
-            manager.close();
-        }
-    }
-
     public static List<Games> getAllGames() {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         List<Games> listToReturn = new ArrayList<>();
@@ -50,27 +40,6 @@ public class GamesDAO {
 
         listToReturn.addAll(result.getResultList());
         return listToReturn;
-    }
-
-    public static Games getDefaultGames() {
-        // Här kan du implementera logik för att hämta ett default spel
-        // Det kan vara det första spelet i databasen eller ett specifikt spel
-        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        try {
-            return manager.createQuery("SELECT g FROM Games g WHERE g.name = :gameName", Games.class)
-                    .setParameter("gameName", "Default Game")  // Exempel på att hämta standardspel
-                    .getSingleResult();
-        } catch (NoResultException e) {
-            // Om inget spel finns, skapa och returnera ett nytt standardspel
-            Games defaultGame = new Games();
-            defaultGame.setName("Default Game");
-            manager.getTransaction().begin();
-            manager.persist(defaultGame);
-            manager.getTransaction().commit();
-            return defaultGame;
-        } finally {
-            manager.close();
-        }
     }
 
     //UPDATE

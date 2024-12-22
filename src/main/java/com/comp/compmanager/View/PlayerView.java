@@ -88,7 +88,6 @@ public class PlayerView {
             table.setItems(observableList);
         });
 
-
         //TEXT FIELDS
         //name
         TextField nameTextField = new TextField();
@@ -106,7 +105,6 @@ public class PlayerView {
         teamsComboBox = new ComboBox(teamsObservableList);
         teamsComboBox.setPromptText("Teams");
 
-
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
         //general dimensions
@@ -120,26 +118,16 @@ public class PlayerView {
         //add delete / add / edit buttons and actions
 
         deletePlayerBtn.setOnAction(e -> {
-
-
-
             Player selectedPlayer = table.getSelectionModel().getSelectedItem();
 
             if (selectedPlayer != null) {
-
-                if (selectedPlayer.getMatchesAsPlayer1().isEmpty() && selectedPlayer.getMatchesAsPlayer2().isEmpty() && selectedPlayer.getTeam().getMatchesAsTeam1().isEmpty() && selectedPlayer.getTeam().getMatchesAsTeam2().isEmpty()) {
-
-
+                //if (selectedPlayer.getMatchesAsPlayer1().isEmpty() && selectedPlayer.getMatchesAsPlayer2().isEmpty() && selectedPlayer.getTeam().getMatchesAsTeam1().isEmpty() && selectedPlayer.getTeam().getMatchesAsTeam2().isEmpty()) {
                     playerDAO.deletePlayer(selectedPlayer); // Använder den justerade delete-metoden
                     observableList.remove(selectedPlayer); // Uppdatera tabellen
                     table.refresh(); // Uppdatera GUI:t
-
-
-                }
-                else {
+                /*} else {
                     System.out.println("PLAYER IS CURRENTLY IN MATCH");
-                }
-
+                }*/
             }
 
         });

@@ -30,14 +30,6 @@ public class AdminDAO {
         }
     }
 
-    //GET
-    public Admin getAdminByID (int admin_id) {
-        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        Admin adminToReturn = manager.find(Admin.class, admin_id);
-        manager.close();
-        return adminToReturn;
-    }
-
     public List<Admin> getAllAdmins () {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         List<Admin> listToReturn = new ArrayList<>();

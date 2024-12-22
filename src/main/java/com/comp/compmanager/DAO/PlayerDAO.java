@@ -38,7 +38,6 @@ public class PlayerDAO {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         List<Player> listToReturn = new ArrayList<>();
 
-//        TypedQuery<Player> result = manager.createQuery("FROM Player WHERE games = :gameName", Player.class);
         TypedQuery<Player> result = manager.createQuery("SELECT p FROM Player p JOIN p.team t WHERE t.games = :gameName", Player.class);
         result.setParameter("gameName", game);
 
@@ -106,7 +105,6 @@ public class PlayerDAO {
                 team.getPlayers().remove(player);
                 manager.merge(team); // Uppdatera laget i databasen
             }
-
 
             if (!manager.contains(player)) {
                 player = manager.merge(player);

@@ -2,7 +2,6 @@ package com.comp.compmanager.DAO;
 
 import com.comp.compmanager.entities.Games;
 import com.comp.compmanager.entities.Matches;
-import com.comp.compmanager.entities.Teams;
 import jakarta.persistence.*;
 
 import java.util.List;
@@ -56,16 +55,6 @@ public class MatchesDAO {
         }
     }
 
-    // READ - Hämta en match via ID
-    public Matches getMatchById(int id) {
-        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-        try {
-            return manager.find(Matches.class, id);
-        } finally {
-            manager.close();
-        }
-    }
-
     // READ - Hämta alla matcher
     public static List<Matches> getAllMatches() {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
@@ -107,29 +96,6 @@ public class MatchesDAO {
             manager.close();
         }
     }
-
-//    // DELETE - Ta bort en match
-//    public void deleteMatch(Matches match) {
-//        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-//        EntityTransaction transaction = null;
-//
-//        try {
-//            transaction = manager.getTransaction();
-//            transaction.begin();
-//            if (!manager.contains(match)) {
-//                match = manager.merge(match);
-//            }
-//            manager.remove(match);
-//            transaction.commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if (transaction != null && transaction.isActive()) {
-//                transaction.rollback();
-//            }
-//        } finally {
-//            manager.close();
-//        }
-//    }
 
     public void deleteMatch(Matches match) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
