@@ -17,6 +17,7 @@ insert into Teams (team_name, game_id) values ('The Warriors',2);
 insert into Teams (team_name, game_id) values ('The Ninjas',2);
 insert into Teams (team_name, game_id) values ('The Lions',3);
 insert into Teams (team_name, game_id) values ('The Monkeys',3);
+insert into Teams (team_name, game_id) values ('The Testers',5);
 
 insert into players (player_name, player_surname, player_nickname, team_id)values ('Christoffer', 'Morales', 'BigPapi', 3);
 insert into players (player_name, player_surname, player_nickname, team_id)values ('Martin', 'Andersson', 'ilMuro', 1);
