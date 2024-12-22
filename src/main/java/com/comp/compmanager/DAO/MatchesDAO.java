@@ -31,6 +31,46 @@ public class MatchesDAO {
 //            manager.close();
 //        }
 //    }
+//    public void addMatch(Matches match) {
+//        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+//        EntityTransaction transaction = null;
+//
+//        try {
+//            transaction = manager.getTransaction();
+//            transaction.begin();
+//
+//            // Tilldela spelet baserat på lag eller spelare
+//            if (match.getTeam1() != null && match.getTeam2() != null) {
+//
+//                if (match.getTeam1().getGames().getId() == match.getTeam2().getGames().getId()) {
+//                    match.setGame(match.getTeam1().getGames());
+//                } else {
+//                    throw new IllegalArgumentException("Error: Teams must be associated with the same game.");
+//                }
+//            } else if (match.getPlayer1() != null && match.getPlayer2() != null) {
+//                if (match.getPlayer1().getGames().getId() == match.getPlayer2().getGames().getId()) {
+//                    match.setGame(match.getPlayer1().getGames());
+//                } else {
+//                    throw new IllegalArgumentException("Error: Players must be associated with the same game.");
+//                }
+//            } else {
+//                throw new IllegalArgumentException("Error: Match must have valid teams or players.");
+//            }
+//
+//            // Spara matchen
+//            manager.persist(match);
+//            transaction.commit();
+//            System.out.println("Match added successfully!");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            if (transaction != null && transaction.isActive()) {
+//                transaction.rollback();
+//            }
+//        } finally {
+//            manager.close();
+//        }
+//    }
+
     public void addMatch(Matches match) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
@@ -41,18 +81,33 @@ public class MatchesDAO {
 
             // Tilldela spelet baserat på lag eller spelare
             if (match.getTeam1() != null && match.getTeam2() != null) {
-                if (match.getTeam1().getGames() != null && match.getTeam2().getGames() != null &&
-                        match.getTeam1().getGames().equals(match.getTeam2().getGames())) {
-                    match.setGame(match.getTeam1().getGames());
+                if (match.getTeam1().getGames() != null && match.getTeam2().getGames() != null) {
+                    if (match.getTeam1().getGames().getId() == match.getTeam2().getGames().getId()) {
+                        match.setGame(match.getTeam1().getGames());
+                    } else {
+                        throw new IllegalArgumentException("Error: Teams must be associated with the same game.");
+                    }
                 } else {
-                    throw new IllegalArgumentException("Error: Teams must be associated with the same game.");
+                    throw new IllegalArgumentException("Error: Teams must have a valid associated game.");
                 }
             } else if (match.getPlayer1() != null && match.getPlayer2() != null) {
-                if (match.getPlayer1().getGames() != null && match.getPlayer2().getGames() != null &&
-                        match.getPlayer1().getGames().equals(match.getPlayer2().getGames())) {
-                    match.setGame(match.getPlayer1().getGames());
+                // Kontrollera om spelarna har ett associerat spel
+                if (match.getPlayer1().getGames() == null || match.getPlayer2().getGames() == null) {
+                    // Skapa ett nytt spel om spelarna inte har ett
+                    Games newGame = new Games();
+                    manager.persist(newGame);  // Spara det nya spelet i databasen
+
+                    // Tilldela spelet till spelarna
+                    match.getPlayer1().setGames(newGame);
+                    match.getPlayer2().setGames(newGame);
+
+                    match.setGame(newGame);  // Tilldela matchen det nya spelet
                 } else {
-                    throw new IllegalArgumentException("Error: Players must be associated with the same game.");
+                    if (match.getPlayer1().getGames().getId() == match.getPlayer2().getGames().getId()) {
+                        match.setGame(match.getPlayer1().getGames());
+                    } else {
+                        throw new IllegalArgumentException("Error: Players must be associated with the same game.");
+                    }
                 }
             } else {
                 throw new IllegalArgumentException("Error: Match must have valid teams or players.");
@@ -71,50 +126,6 @@ public class MatchesDAO {
             manager.close();
         }
     }
-
-
-//    public void addMatch(Matches match) {
-//        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-//        EntityTransaction transaction = null;
-//
-//        try {
-//            transaction = manager.getTransaction();
-//            transaction.begin();
-//
-//            // Hantera relationer för lag och spelare
-//            if (match.getTeam1() != null && !manager.contains(match.getTeam1())) {
-//                match.setTeam1(manager.merge(match.getTeam1()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//            if (match.getTeam2() != null && !manager.contains(match.getTeam2())) {
-//                match.setTeam2(manager.merge(match.getTeam2()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//            if (match.getWinnerTeam() != null && !manager.contains(match.getWinnerTeam())) {
-//                match.setWinnerTeam(manager.merge(match.getWinnerTeam()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//
-//            if (match.getPlayer1() != null && !manager.contains(match.getPlayer1())) {
-//                match.setPlayer1(manager.merge(match.getPlayer1()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//            if (match.getPlayer2() != null && !manager.contains(match.getPlayer2())) {
-//                match.setPlayer2(manager.merge(match.getPlayer2()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//            if (match.getWinnerPlayer() != null && !manager.contains(match.getWinnerPlayer())) {
-//                match.setWinnerPlayer(manager.merge(match.getWinnerPlayer()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//
-//            // Persist the new match
-//            manager.persist(match);
-//            transaction.commit();
-//            System.out.println("Match with ID=" + match.getMatchId() + " has been added to the database.");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if (transaction != null && transaction.isActive()) {
-//                transaction.rollback();
-//            }
-//        } finally {
-//            manager.close();
-//        }
-//    }
 
     // READ - Hämta en match via ID
     public Matches getMatchById(int id) {
@@ -191,6 +202,7 @@ public class MatchesDAO {
 //            manager.close();
 //        }
 //    }
+
 
     public void deleteMatch(Matches match) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
