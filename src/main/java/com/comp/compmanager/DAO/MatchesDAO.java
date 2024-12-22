@@ -11,26 +11,6 @@ public class MatchesDAO {
 
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("myconfig");
 
-    // CREATE - Lägg till en match
-//    public void addMatch(Matches match) {
-//        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-//        EntityTransaction transaction = null;
-//
-//        try {
-//            transaction = manager.getTransaction();
-//            transaction.begin();
-//            manager.persist(match);
-//            transaction.commit();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if (transaction != null && transaction.isActive()) {
-//                transaction.rollback();
-//            }
-//
-//        } finally {
-//            manager.close();
-//        }
-//    }
     public void addMatch(Matches match) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
@@ -40,17 +20,25 @@ public class MatchesDAO {
             transaction.begin();
 
             // Tilldela spelet baserat på lag eller spelare
-            if (match.getTeam1() != null && match.getTeam2() != null) {
-
-                if (match.getTeam1().getGames().getId() == match.getTeam2().getGames().getId()) {
-                    match.setGame(match.getTeam1().getGames());
-                } else if (match.getPlayer1().getTeam().getGames() == match.getPlayer2().getTeam().getGames()) {
-                    match.setGame(match.getPlayer1().getTeam().getGames());
-                } else {
-                    throw new IllegalArgumentException("Error: Teams must be associated with the same game.");
+            if (match.getMatchType().equals("T vs T")) {
+                if (match.getTeam1() != null && match.getTeam2() != null) {
+                    if (match.getTeam1().getGames().getId() == match.getTeam2().getGames().getId()) {
+                        match.setGame(match.getTeam1().getGames());
+                    } else {
+                        throw new IllegalArgumentException("Error! Teams must play the same game.");
+                    }
                 }
-            } else {
-                throw new IllegalArgumentException("Error: Match must have valid teams or players.");
+            } else if (match.getMatchType().equals("P vs P")) {
+                if (match.getPlayer1() != null && match.getPlayer2() != null) {
+                    Games game1 = match.getPlayer1().getTeam().getGames();
+                    Games game2 = match.getPlayer2().getTeam().getGames();
+
+                    if (game1.getId() == game2.getId()) {
+                        match.setGame(game1);
+                    } else {
+                        throw new IllegalArgumentException("Error! Players must play the same game.");
+                    }
+                }
             }
 
             // Spara matchen
@@ -62,6 +50,7 @@ public class MatchesDAO {
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
+            throw e;
         } finally {
             manager.close();
         }

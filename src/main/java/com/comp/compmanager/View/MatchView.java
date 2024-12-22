@@ -230,15 +230,8 @@ public class MatchView {
                             return;
                         }
 
-                        // Kontrollerar om spelarna har samma spel
-                        if (player1.getTeam().getGames() != player2.getTeam().getGames()) {
-                            System.out.println("Error!! Players must be associated with the same game.");
-                            return;
-                        }
-
                         newMatch.setPlayer1(player1);
                         newMatch.setPlayer2(player2);
-                        newMatch.setGame(player1.getGames()); // Båda spelarna ska ha samma spel
                     }
 
                     // Lägg till matchen i databasen och uppdatera tabellen
@@ -246,7 +239,6 @@ public class MatchView {
                     matchesDAO.addMatch(newMatch);
                     table.getItems().add(newMatch); // Lägger till matchen i tabellen
                     table.refresh();
-
                     System.out.println("Match added successfully!");
                     popupStage.close();
 
