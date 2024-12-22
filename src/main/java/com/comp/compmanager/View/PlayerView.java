@@ -1,19 +1,26 @@
 package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.PlayerDAO;
+import com.comp.compmanager.entities.Games;
 import com.comp.compmanager.entities.Player;
+import com.comp.compmanager.entities.Teams;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
 
 public class PlayerView {
+
     private final ViewManager viewManager;
+    private ComboBox teamsComboBox;
 
     public PlayerView(ViewManager viewManager) {
         this.viewManager = viewManager;
@@ -26,7 +33,6 @@ public class PlayerView {
         AnchorPane.setTopAnchor(label, 10.0);
         AnchorPane.setLeftAnchor(label, 10.0);
         layout.getChildren().add(label);
-
 
         //TABLE
         TableView<Player> table = new TableView();
@@ -51,14 +57,37 @@ public class PlayerView {
         TableColumn<Player, String> team_column = new TableColumn<>("Team");
         team_column.setCellValueFactory(new PropertyValueFactory<>("team"));
 
+        //"Game" col getting game data
+        TableColumn<Player, String> game_column = new TableColumn<>("Game");
+        game_column.setCellValueFactory(cellData -> new SimpleStringProperty(cellData.getValue().getTeam().getGames().toString()));
+
         //combine all cols
-        table.getColumns().addAll(id_column, name_column, surname_column, nickname_column, team_column);
+        table.getColumns().addAll(id_column, name_column, surname_column, nickname_column, team_column, game_column);
 
         //adds all col data to ObservableList for JavaFX
         PlayerDAO playerDAO = new PlayerDAO();
         List<Player> players = playerDAO.getAllPlayers();
         ObservableList<Player> observableList = FXCollections.observableArrayList(players);
         table.setItems(observableList);
+
+        //FILTER DROPDOWN
+        ComboBox filterDropdown = new ComboBox(new GamesView(viewManager).gamesObservableList());
+        Button resetButton = new Button("Reset");
+        filterDropdown.setPromptText("Filter by game...");
+        filterDropdown.setPrefWidth(170);
+        HBox dropdownBox = new HBox(10);
+        dropdownBox.setAlignment(Pos.CENTER_RIGHT);
+        dropdownBox.getChildren().addAll(filterDropdown, resetButton);
+        filterDropdown.setOnAction(e -> {
+            if (filterDropdown.getValue() != null) {
+                table.setItems(playerList((Games)filterDropdown.getValue()));
+            }
+        });
+        resetButton.setOnAction(e -> {
+            filterDropdown.getSelectionModel().clearSelection();
+            table.setItems(observableList);
+        });
+
 
         //TEXT FIELDS
         //name
@@ -70,9 +99,13 @@ public class PlayerView {
         //nickname
         TextField nicknameTextField = new TextField();
         nicknameTextField.setPromptText("Nickname...");
-        //team
-        TextField teamTextField = new TextField();
-        teamTextField.setPromptText("Team...");
+
+        //DROP DOWN
+        //teams
+        ObservableList<Teams> teamsObservableList = new TeamView(viewManager).teamList();
+        teamsComboBox = new ComboBox(teamsObservableList);
+        teamsComboBox.setPromptText("Teams");
+
 
         //BUTTON BAR
         ButtonBar buttonBar = new ButtonBar();
@@ -84,53 +117,72 @@ public class PlayerView {
         Button editPlayerBtn = new Button("Edit selected");
         //add buttons to bar
         buttonBar.getButtons().addAll(deletePlayerBtn, addPlayerBtn, editPlayerBtn);
-        //add button functionality via Lambda expression
-        deletePlayerBtn.setOnAction(e -> {  playerDAO.deletePlayer(table.getSelectionModel().getSelectedItem());
-            table.getItems().remove(table.getSelectionModel().getSelectedItem());
+        //add delete / add / edit buttons and actions
+
+        deletePlayerBtn.setOnAction(e -> {
+            Player selectedPlayer = table.getSelectionModel().getSelectedItem();
+            if (selectedPlayer != null) {
+                playerDAO.deletePlayer(selectedPlayer); // Använder den justerade delete-metoden
+                observableList.remove(selectedPlayer); // Uppdatera tabellen
+                table.refresh(); // Uppdatera GUI:t
+            }
         });
 
         addPlayerBtn.setOnAction(e -> {
-            if (nameTextField.getText() != "" ) {
-                playerDAO.addPlayer(new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), teamTextField.getText()));
-                table.getItems().add(new Player(nameTextField.getText(), surnameTextField.getText(),nicknameTextField.getText(), teamTextField.getText()));
+            if (!nameTextField.getText().isEmpty()) {
+                Player newPlayer = new Player(nameTextField.getText(), surnameTextField.getText(), nicknameTextField.getText(), (Teams) teamsComboBox.getValue());
+                playerDAO.addPlayer(newPlayer);
+                observableList.add(newPlayer); // Lägg till spelaren i tabellen
+                newPlayer.getTeam().getPlayers().add(newPlayer); // Uppdatera lagets lista
+                nameTextField.clear();
+                surnameTextField.clear();
+                nicknameTextField.clear();
+                teamsComboBox.getSelectionModel().clearSelection();
+                teamsComboBox.setPromptText("Teams");
+                table.refresh();
 
-                //reset text fields after use
-                nameTextField.setText("");
-                surnameTextField.setText("");
-                nicknameTextField.setText("");
-                teamTextField.setText("");
-            }
-            else {
+            }else {
                 System.out.println("NAME FIELD CANT EMPTY");
             }
+
+            table.refresh();
         });
 
         editPlayerBtn.setOnAction(e -> {
             if (nameTextField.getText() != "") {
-
                 table.getSelectionModel().getSelectedItem().setName(nameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setSurname(surnameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
-                table.getSelectionModel().getSelectedItem().setTeam(teamTextField.getText());
+                table.getSelectionModel().getSelectedItem().setTeam((Teams)teamsComboBox.getSelectionModel().getSelectedItem());
+
                 playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
-                //TODO IDK HOW TO SHOW IT IN TABLE
+
                 //reset text fields after use
                 nameTextField.setText("");
                 surnameTextField.setText("");
                 nicknameTextField.setText("");
-                teamTextField.setText("");
+                teamsComboBox.setPromptText("Teams");
+
             }
             else {
                 System.out.println("NAME FIELD CANT EMPTY");
             }
 
+            table.refresh();
+
         });
 
-        //TOOL-VBOX
-//        VBox toolVBox = new VBox(10, nameTextField, surnameTextField, nicknameTextField, teamTextField, buttonBar);
-//        toolVBox.setPadding(new Insets(8));
+        //DISABLAR KNAPPAR OCH TEXTFIELDS OM MAN INTE ÄR ADMIN
+        if (!viewManager.isAdmin()) {
+            nameTextField.setDisable(true);
+            surnameTextField.setDisable(true);
+            nicknameTextField.setDisable(true);
+            buttonBar.setDisable(true);
+            teamsComboBox.setDisable(true);
+        }
 
-        VBox vBox = new VBox(10,table, nameTextField,surnameTextField, nicknameTextField, teamTextField, buttonBar);
+
+        VBox vBox = new VBox(10,dropdownBox, table, nameTextField,surnameTextField, nicknameTextField, teamsComboBox, buttonBar);
         vBox.setPadding(new Insets(10));
         vBox.setPrefWidth(820);
         vBox.setPrefHeight(400);
@@ -142,6 +194,13 @@ public class PlayerView {
         layout.getChildren().add(vBox);
 
         return layout;
+    }
 
+    public ObservableList playerList(Games games) {
+        //Skapar en lista med alla players från databasen och gör om till en ObservableList så att den kan användas i en tabell eller dropdown-lista
+        List<Player> player = PlayerDAO.getPlayerByGame(games);
+        ObservableList<Player> observableList = FXCollections.observableArrayList(player);
+        return observableList;
     }
 }
+

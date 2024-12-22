@@ -8,17 +8,17 @@
         <properties>
             <!-- MySQL -->
             <property name="jakarta.persistence.jdbc.url"
-                      value="jdbc:mysql://localhost/compdb"/>
+                      value="jdbc:mysql://localhost:3306/compdb"/>
 
             <!-- Credentials -->
             <property name="jakarta.persistence.jdbc.user"
                       value="root"/>
             <property name="jakarta.persistence.jdbc.password"
-                      value="2651jj1009"/>
+                      value="Hejhejhej123"/>
 
             <!-- Automatic schema export -->
             <property name="hibernate.hbm2ddl.auto"
-                      value="drop-and-create"/>
+                      value="update"/>
 
             <!-- SQL statement logging -->
             <property name="hibernate.show_sql" value="true"/>

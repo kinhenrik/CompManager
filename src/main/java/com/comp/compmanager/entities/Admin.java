@@ -87,4 +87,10 @@ public class Admin {
         return email;
     } public void setEmail(String email) {
         this.email = email; }
+
+    // Override toString så att dropdown och menyer visar rätt namn
+    @Override
+    public String toString(){
+        return firstname + " " + lastname;
+    }
 }

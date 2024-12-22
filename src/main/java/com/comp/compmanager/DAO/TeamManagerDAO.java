@@ -1,5 +1,7 @@
 package com.comp.compmanager.DAO;
 
+import com.comp.compmanager.entities.Matches;
+import com.comp.compmanager.entities.Player;
 import com.comp.compmanager.entities.Teams;
 import jakarta.persistence.*;
 
@@ -12,7 +14,7 @@ public class TeamManagerDAO {
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("myconfig");
 
     // CREATE - Lägg till ett lag
-    public boolean addTeam(Teams team) {
+    public static boolean addTeam(Teams team) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -21,6 +23,7 @@ public class TeamManagerDAO {
             transaction.begin();
             manager.persist(team); // Spara laget i databasen
             transaction.commit();
+            System.out.println("New team added with id: " + team.getId() + " has been added in database.");
             return true;
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -34,7 +37,7 @@ public class TeamManagerDAO {
     }
 
     // READ - Hämta lag med ID
-    public Teams getTeamByID(int team_id) {
+    public static Teams getTeamByID(int team_id) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         Teams teamToReturn = manager.find(Teams.class, team_id); // Hämtar laget baserat på ID
         manager.close();
@@ -54,7 +57,7 @@ public class TeamManagerDAO {
     }
 
     // UPDATE - Uppdatera lag
-    public void updateTeam(Teams teamToUpdate) {
+    public static void updateTeam(Teams teamToUpdate) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
@@ -70,6 +73,7 @@ public class TeamManagerDAO {
                 System.out.println("Team with ID = " + updatedTeam.getId() + " has been updated.");
             }
             transaction.commit();
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             if (manager != null && transaction != null && transaction.isActive()) {
@@ -81,27 +85,74 @@ public class TeamManagerDAO {
     }
 
     // DELETE - Ta bort lag
-    public void deleteTeam(Teams team) {
+
+    public static void deleteTeam(Teams team) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
 
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            // Om laget inte finns i EntityManager, gör merge för att få en referens
-            if (!manager.contains(team)) {
-                team = manager.merge(team);
+
+            // Ladda team om det inte finns i persistence context
+            team = manager.contains(team) ? team : manager.merge(team);
+
+            // Frikoppla alla relaterade entiteter
+            for (Player player : team.getPlayers()) {
+                player.setTeam(null);
+                manager.merge(player); // Uppdatera spelaren i databasen
             }
-            manager.remove(team); // Ta bort laget från databasen
+
+            for (Matches match : team.getMatchesAsTeam1()) {
+                match.setTeam1(null);
+                manager.merge(match);
+            }
+
+            for (Matches match : team.getMatchesAsTeam2()) {
+                match.setTeam2(null);
+                manager.merge(match);
+            }
+
+            for (Matches match : team.getMatchesWonTeam()) {
+                match.setWinnerTeam(null);
+                manager.merge(match);
+            }
+
+            // Ta bort laget
+            manager.remove(team);
+
             transaction.commit();
             System.out.println("Team with ID = " + team.getId() + " has been removed from database.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            if (manager != null && transaction != null && transaction.isActive()) {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
+            e.printStackTrace();
         } finally {
             manager.close();
         }
     }
+//    public static void deleteTeam(Teams team) {
+//        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+//        EntityTransaction transaction = null;
+//
+//        try {
+//            transaction = manager.getTransaction();
+//            transaction.begin();
+//            // Om laget inte finns i EntityManager, gör merge för att få en referens
+//            if (!manager.contains(team)) {
+//                team = manager.merge(team);
+//            }
+//            manager.remove(team); // Ta bort laget från databasen
+//            transaction.commit();
+//            System.out.println("Team with ID = " + team.getId() + " has been removed from database.");
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            if (manager != null && transaction != null && transaction.isActive()) {
+//                transaction.rollback();
+//            }
+//        } finally {
+//            manager.close();
+//        }
+//    }
 }

@@ -2,6 +2,8 @@ package com.comp.compmanager.entities;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 //CREATE TABLE
 @Entity
 //NAME TABLE    
@@ -25,12 +27,29 @@ public class Player {
     @Column(name = "player_nickname", length = 50, nullable = false)
     private String nickname;
 
-    @Column(name = "player_team", length = 50, nullable = false)
-    private String team;
+    //ForeignKeys
+    @ManyToOne
+    @JoinColumn(name = "team_id") // team_id är kolumnen i Teams-tabellen som refererar till Games-tabellen
+    private Teams team; // Relationen till Games-objektet i Games/Matches classen
+
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private Games games;
+
+    //----------FK till player / matches hopefully christoffer-------------
+
+    @OneToMany(mappedBy = "player1", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    private List<Matches> matchesAsPlayer1;
+
+    @OneToMany(mappedBy = "player2", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    private List<Matches> matchesAsPlayer2;
+
+    @OneToMany(mappedBy = "winnerPlayer", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
+    private List<Matches> matchesWonAsPlayer;
 
     //Player constructor
     public Player(){}
-    public Player(String name, String surname, String nickname, String team) {
+    public Player(String name, String surname, String nickname, Teams team) {
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
@@ -52,10 +71,33 @@ public class Player {
     public String getNickname() {return nickname;}
     public void setNickname(String nickname) { this.nickname = nickname; }
 
-    public String getTeam() {
+    public Teams getTeam() {
         return team;
     }
-    public void setTeam(String team) { this.team = team; }
+    public void setTeam(Teams team) { this.team = team; }
+
+    public Games getGames() {
+        return games;
+    }
+
+    public void setGames(Games game) {this.games = game; }
+    //get and set ----matches/player---
 
 
+    public List<Matches> getMatchesAsPlayer1() {return matchesAsPlayer1;}
+
+    public void setMatchesAsPlayer1(List<Matches> matchesAsPlayer1) {this.matchesAsPlayer1 = matchesAsPlayer1;}
+
+    public List<Matches> getMatchesAsPlayer2() {return matchesAsPlayer2;}
+
+    public void setMatchesAsPlayer2(List<Matches> matchesAsPlayer2) {this.matchesAsPlayer2 = matchesAsPlayer2;}
+
+    public List<Matches> getMatchesWonAsPlayer() {return matchesWonAsPlayer;}
+
+    public void setMatchesWonAsPlayer(List<Matches> matchesWonAsPlayer) {this.matchesWonAsPlayer = matchesWonAsPlayer;}
+
+    @Override
+    public String toString() {
+        return nickname;
+    }
 }
