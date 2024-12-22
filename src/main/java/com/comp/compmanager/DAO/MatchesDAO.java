@@ -44,14 +44,10 @@ public class MatchesDAO {
 
                 if (match.getTeam1().getGames().getId() == match.getTeam2().getGames().getId()) {
                     match.setGame(match.getTeam1().getGames());
+                } else if (match.getPlayer1().getTeam().getGames() == match.getPlayer2().getTeam().getGames()) {
+                    match.setGame(match.getPlayer1().getTeam().getGames());
                 } else {
                     throw new IllegalArgumentException("Error: Teams must be associated with the same game.");
-                }
-            } else if (match.getPlayer1() != null && match.getPlayer2() != null) {
-                if (match.getPlayer1().getGames().getId() == match.getPlayer2().getGames().getId()) {
-                    match.setGame(match.getPlayer1().getGames());
-                } else {
-                    throw new IllegalArgumentException("Error: Players must be associated with the same game.");
                 }
             } else {
                 throw new IllegalArgumentException("Error: Match must have valid teams or players.");
@@ -70,50 +66,6 @@ public class MatchesDAO {
             manager.close();
         }
     }
-
-
-//    public void addMatch(Matches match) {
-//        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
-//        EntityTransaction transaction = null;
-//
-//        try {
-//            transaction = manager.getTransaction();
-//            transaction.begin();
-//
-//            // Hantera relationer för lag och spelare
-//            if (match.getTeam1() != null && !manager.contains(match.getTeam1())) {
-//                match.setTeam1(manager.merge(match.getTeam1()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//            if (match.getTeam2() != null && !manager.contains(match.getTeam2())) {
-//                match.setTeam2(manager.merge(match.getTeam2()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//            if (match.getWinnerTeam() != null && !manager.contains(match.getWinnerTeam())) {
-//                match.setWinnerTeam(manager.merge(match.getWinnerTeam()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//
-//            if (match.getPlayer1() != null && !manager.contains(match.getPlayer1())) {
-//                match.setPlayer1(manager.merge(match.getPlayer1()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//            if (match.getPlayer2() != null && !manager.contains(match.getPlayer2())) {
-//                match.setPlayer2(manager.merge(match.getPlayer2()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//            if (match.getWinnerPlayer() != null && !manager.contains(match.getWinnerPlayer())) {
-//                match.setWinnerPlayer(manager.merge(match.getWinnerPlayer()));  // Endast merge om objektet inte redan finns i sessionen
-//            }
-//
-//            // Persist the new match
-//            manager.persist(match);
-//            transaction.commit();
-//            System.out.println("Match with ID=" + match.getMatchId() + " has been added to the database.");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            if (transaction != null && transaction.isActive()) {
-//                transaction.rollback();
-//            }
-//        } finally {
-//            manager.close();
-//        }
-//    }
 
     // READ - Hämta en match via ID
     public Matches getMatchById(int id) {
