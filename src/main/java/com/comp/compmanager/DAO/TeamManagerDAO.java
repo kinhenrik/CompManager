@@ -1,5 +1,7 @@
 package com.comp.compmanager.DAO;
 
+import com.comp.compmanager.entities.Matches;
+import com.comp.compmanager.entities.Player;
 import com.comp.compmanager.entities.Teams;
 import jakarta.persistence.*;
 
@@ -71,6 +73,7 @@ public class TeamManagerDAO {
                 System.out.println("Team with ID = " + updatedTeam.getId() + " has been updated.");
             }
             transaction.commit();
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
             if (manager != null && transaction != null && transaction.isActive()) {
@@ -82,6 +85,7 @@ public class TeamManagerDAO {
     }
 
     // DELETE - Ta bort lag
+
     public static void deleteTeam(Teams team) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
@@ -89,20 +93,66 @@ public class TeamManagerDAO {
         try {
             transaction = manager.getTransaction();
             transaction.begin();
-            // Om laget inte finns i EntityManager, gör merge för att få en referens
-            if (!manager.contains(team)) {
-                team = manager.merge(team);
+
+            // Ladda team om det inte finns i persistence context
+            team = manager.contains(team) ? team : manager.merge(team);
+
+            // Frikoppla alla relaterade entiteter
+            for (Player player : team.getPlayers()) {
+                player.setTeam(null);
+                manager.merge(player); // Uppdatera spelaren i databasen
             }
-            manager.remove(team); // Ta bort laget från databasen
+
+            for (Matches match : team.getMatchesAsTeam1()) {
+                match.setTeam1(null);
+                manager.merge(match);
+            }
+
+            for (Matches match : team.getMatchesAsTeam2()) {
+                match.setTeam2(null);
+                manager.merge(match);
+            }
+
+            for (Matches match : team.getMatchesWonTeam()) {
+                match.setWinnerTeam(null);
+                manager.merge(match);
+            }
+
+            // Ta bort laget
+            manager.remove(team);
+
             transaction.commit();
             System.out.println("Team with ID = " + team.getId() + " has been removed from database.");
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            if (manager != null && transaction != null && transaction.isActive()) {
+            if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
+            e.printStackTrace();
         } finally {
             manager.close();
         }
     }
+//    public static void deleteTeam(Teams team) {
+//        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
+//        EntityTransaction transaction = null;
+//
+//        try {
+//            transaction = manager.getTransaction();
+//            transaction.begin();
+//            // Om laget inte finns i EntityManager, gör merge för att få en referens
+//            if (!manager.contains(team)) {
+//                team = manager.merge(team);
+//            }
+//            manager.remove(team); // Ta bort laget från databasen
+//            transaction.commit();
+//            System.out.println("Team with ID = " + team.getId() + " has been removed from database.");
+//        } catch (Exception e) {
+//            System.out.println(e.getMessage());
+//            if (manager != null && transaction != null && transaction.isActive()) {
+//                transaction.rollback();
+//            }
+//        } finally {
+//            manager.close();
+//        }
+//    }
 }

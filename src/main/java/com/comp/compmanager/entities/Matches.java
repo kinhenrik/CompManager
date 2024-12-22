@@ -19,7 +19,7 @@ public class Matches {
     private String matchType;
 
     @ManyToOne
-    @JoinColumn(name = "game_id", nullable = true) // Länk till spelet
+    @JoinColumn(name = "game_id", nullable = false) // Länk till spelet
     private Games game;
 
     @ManyToOne

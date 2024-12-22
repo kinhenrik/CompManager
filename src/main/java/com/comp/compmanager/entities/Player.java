@@ -38,13 +38,13 @@ public class Player {
 
     //----------FK till player / matches hopefully christoffer-------------
 
-    @OneToMany(mappedBy = "player1", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "player1", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private List<Matches> matchesAsPlayer1;
 
-    @OneToMany(mappedBy = "player2", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "player2", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private List<Matches> matchesAsPlayer2;
 
-    @OneToMany(mappedBy = "winnerPlayer", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "winnerPlayer", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private List<Matches> matchesWonAsPlayer;
 
     //Player constructor
@@ -76,7 +76,7 @@ public class Player {
     }
     public void setTeam(Teams team) { this.team = team; }
 
-    public Games getGame() {
+    public Games getGames() {
         return games;
     }
 

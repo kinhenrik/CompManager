@@ -67,7 +67,7 @@ public class PlayerDAO {
     }
 
     //UPDATE
-    public void updatePlayer(Player playerToUpdate) {
+    public static void updatePlayer(Player playerToUpdate) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {
