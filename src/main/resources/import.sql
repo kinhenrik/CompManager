@@ -26,7 +26,7 @@ insert into players (player_name, player_surname, player_nickname, team_id)value
 insert into players (player_name, player_surname, player_nickname, team_id)values ('Thomas', 'Nilsson', 'Fantomen', 2);
 insert into players (player_name, player_surname, player_nickname, team_id)values ('Erik', 'Svensson', 'Skillz', 2);
 insert into players (player_name, player_surname, player_nickname, team_id)values ('Henrik', 'Kinnunen', 'Henkin', 5);
-insert into players (player_name, player_surname, player_nickname, team_id)values ('Test', 'Testsson', 'Test', 6);
+insert into players (player_name, player_surname, player_nickname, team_id)values ('Test', 'Testsson', 'Test', 7);
 
 -- lagmatcher
 
