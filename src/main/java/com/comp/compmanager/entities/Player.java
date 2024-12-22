@@ -49,10 +49,14 @@ public class Player {
 
     //Player constructor
     public Player(){}
-    public Player(String name, String surname, String nickname, Teams team) {
+    public Player(String name, String surname, String nickname, Teams team, Games game) {
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
+        this.team = team;
+        this.games = game;
+
+
     }
 
     //GETTERS & SETTERS

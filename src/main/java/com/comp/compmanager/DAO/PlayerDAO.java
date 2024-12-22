@@ -100,12 +100,13 @@ public class PlayerDAO {
             transaction = manager.getTransaction();
             transaction.begin();
 
-            // Ta bort spelaren från sitt lag
+            //remove player from team
             Teams team = player.getTeam();
             if (team != null) {
                 team.getPlayers().remove(player);
                 manager.merge(team); // Uppdatera laget i databasen
             }
+
 
             if (!manager.contains(player)) {
                 player = manager.merge(player);
