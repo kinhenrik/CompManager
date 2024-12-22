@@ -30,7 +30,7 @@ insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values 
 insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-02', 'T vs T', 2, 1,1);
 insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-03', 'T vs T', 2, 3,2);
 insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-04', 'T vs T', 3, 2,2);
-insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-05', 'T vs T', 4, 5,3);
+insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-05', 'T vs T', 6, 5,3);
 insert into Matches (match_date, match_type, team1_id, team2_id, game_id)values ('2024-01-06', 'T vs T', 5, 6,3);
 
 -- spelarmatcher

@@ -84,8 +84,6 @@ public class TeamManagerDAO {
         }
     }
 
-    // DELETE - Ta bort lag
-
     public static void deleteTeam(Teams team) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
@@ -94,44 +92,36 @@ public class TeamManagerDAO {
             transaction = manager.getTransaction();
             transaction.begin();
 
-            // Ladda team om det inte finns i persistence context
-            team = manager.contains(team) ? team : manager.merge(team);
+            // Ladda alla relaterade matcher
+            List<Matches> matches = manager.createQuery(
+                    "SELECT m FROM Matches m WHERE m.team1 = :team OR m.team2 = :team OR m.winnerTeam = :team",
+                    Matches.class
+            ).setParameter("team", team).getResultList();
 
-            // Frikoppla alla relaterade entiteter
-            for (Player player : team.getPlayers()) {
-                player.setTeam(null);
-                manager.merge(player); // Uppdatera spelaren i databasen
-            }
-
-            for (Matches match : team.getMatchesAsTeam1()) {
-                match.setTeam1(null);
-                manager.merge(match);
-            }
-
-            for (Matches match : team.getMatchesAsTeam2()) {
-                match.setTeam2(null);
-                manager.merge(match);
-            }
-
-            for (Matches match : team.getMatchesWonTeam()) {
-                match.setWinnerTeam(null);
-                manager.merge(match);
+            // Ta bort relaterade matcher
+            for (Matches match : matches) {
+                manager.remove(match);
             }
 
             // Ta bort laget
+            if (!manager.contains(team)) {
+                team = manager.merge(team);
+            }
             manager.remove(team);
 
             transaction.commit();
-            System.out.println("Team with ID = " + team.getId() + " has been removed from database.");
-        } catch (Exception e) {
+            System.out.println("Team with ID = " + team.getId() + " has been removed from database.");        } catch (Exception e) {
+            System.err.println("Error deleting team: " + e.getMessage());
             if (transaction != null && transaction.isActive()) {
                 transaction.rollback();
             }
-            e.printStackTrace();
         } finally {
             manager.close();
         }
     }
+
+    // DELETE - Ta bort lag
+
 //    public static void deleteTeam(Teams team) {
 //        EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
 //        EntityTransaction transaction = null;
@@ -139,16 +129,40 @@ public class TeamManagerDAO {
 //        try {
 //            transaction = manager.getTransaction();
 //            transaction.begin();
+//
 //            // Om laget inte finns i EntityManager, gör merge för att få en referens
 //            if (!manager.contains(team)) {
 //                team = manager.merge(team);
 //            }
-//            manager.remove(team); // Ta bort laget från databasen
+//
+//            // Uppdatera relaterade matcher där laget används (team1, team2, winnerTeam)
+//            // Sätt teamreferenserna i matcher till NULL, så de inte refererar till det borttagna laget
+//            List<Matches> matches = manager.createQuery(
+//                            "SELECT m FROM Matches m WHERE m.team1 = :team OR m.team2 = :team OR m.winnerTeam = :team", Matches.class)
+//                    .setParameter("team", team)
+//                    .getResultList();
+//
+//            for (Matches match : matches) {
+//                if (match.getTeam1() != null && match.getTeam1().equals(team)) {
+//                    match.setTeam1(null);  // Sätt team1 till null
+//                }
+//                if (match.getTeam2() != null && match.getTeam2().equals(team)) {
+//                    match.setTeam2(null);  // Sätt team2 till null
+//                }
+//                if (match.getWinnerTeam() != null && match.getWinnerTeam().equals(team)) {
+//                    match.setWinnerTeam(null);  // Sätt winnerTeam till null
+//                }
+//                manager.merge(match); // Uppdatera matcherna i databasen
+//            }
+//
+//            // Ta bort laget från databasen
+//            manager.remove(team);
+//
 //            transaction.commit();
 //            System.out.println("Team with ID = " + team.getId() + " has been removed from database.");
 //        } catch (Exception e) {
 //            System.out.println(e.getMessage());
-//            if (manager != null && transaction != null && transaction.isActive()) {
+//            if (transaction != null && transaction.isActive()) {
 //                transaction.rollback();
 //            }
 //        } finally {
