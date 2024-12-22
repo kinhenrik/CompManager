@@ -31,24 +31,10 @@ public class ViewManager {
         AnchorPane.setLeftAnchor(menuBar, 0.0);
         AnchorPane.setRightAnchor(menuBar, 0.0);
 
-// Ladda bilden om man vill ha på alla skärmar/vy
-//        Image backgroundImage = new Image(getClass().getResource("/images/bild1.png").toExternalForm());
-//        ImageView backgroundView = new ImageView(backgroundImage);
-//
-//        // Anpassa bildens egenskaper
-//        backgroundView.setPreserveRatio(false);
-//        backgroundView.setSmooth(true);
-//        backgroundView.setFitWidth(stage.getWidth());
-//        backgroundView.setFitHeight(stage.getHeight());
-//
-//        // Lägg till lyssnare för att hantera storleksändringar
-//        stage.widthProperty().addListener((obs, oldVal, newVal) -> backgroundView.setFitWidth((double) newVal));
-//        stage.heightProperty().addListener((obs, oldVal, newVal) -> backgroundView.setFitHeight((double) newVal));
-//
-//      root.setBackground(new Background(backgroundView));
         root.getChildren().add(menuBar);
     }
- // skapar menyvall taben
+
+    // skapar menyval taben
     private MenuBar createMenuBar() {
         MenuBar menuBar = new MenuBar();
         Menu menu = new Menu("Select view");
@@ -119,7 +105,7 @@ public class ViewManager {
 
         return menuBar;
     }
-    // Skapa Login-view , skapad av henrik
+    // Skapa Login-view, skapad av henrik
     private VBox createLoginView() {
         Button adminButton = new Button("Login as admin");
         Button guestButton = new Button("Continue as guest");
@@ -128,13 +114,12 @@ public class ViewManager {
         guestButton.setPrefWidth(150);
 
         adminButton.setOnAction(event -> {
-            // Öppnar login-fönstret om man inte är admin
-            // Aktiverar knappar och visar vem man är inloggad som
             LoginView loginView = new LoginView(this);
+            // Öppnar login-fönstret om man inte är admin
             if (!isAdmin) {
                 loginView.createLoginWindow();
             }
-
+            // Aktiverar knappar och visar vem man är inloggad som
             if (isAdmin) {
                 menuBar.setDisable(false);
                 isGuest = false;
@@ -181,7 +166,7 @@ public class ViewManager {
         AnchorPane.setRightAnchor(welcomeLabel, (stage.getWidth() - welcomeLabel.getWidth()) / 3);
 
         // Ladda bilden
-        Image backgroundImage = new Image(getClass().getResource("/images/bild1.png").toExternalForm());
+        Image backgroundImage = new Image(getClass().getResource("/images/bild2.png").toExternalForm());
         ImageView backgroundView = new ImageView(backgroundImage);
 
         // Anpassa bildens egenskaper
@@ -207,8 +192,6 @@ public class ViewManager {
 
     // Skapa TeamView
     public void showTeamView() {
-//        AnchorPane teamView = new TeamView(this).getView();
-//        setView(teamView);
         if (teamView == null) {
             teamView = new TeamView(this);
         }
@@ -253,7 +236,7 @@ public class ViewManager {
         showMainView(); // Visa huvudmenyn först
     }
 
-//Getters och setters om man är admin elr guest
+    //Getters och setters om man är admin elr guest
     public boolean isAdmin() {
         return isAdmin;
     }

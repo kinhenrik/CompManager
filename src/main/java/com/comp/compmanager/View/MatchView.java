@@ -1,8 +1,10 @@
 package com.comp.compmanager.View;
 
+import com.comp.compmanager.DAO.GamesDAO;
 import com.comp.compmanager.DAO.MatchesDAO;
 import com.comp.compmanager.DAO.PlayerDAO;
 import com.comp.compmanager.DAO.TeamManagerDAO;
+import com.comp.compmanager.entities.Games;
 import com.comp.compmanager.entities.Matches;
 import com.comp.compmanager.entities.Player;
 import com.comp.compmanager.entities.Teams;
@@ -34,7 +36,6 @@ public class MatchView {
         AnchorPane.setLeftAnchor(label, 10.0);
         layout.getChildren().add(label);
 
-
         TableView<Matches> table = new TableView<>();
 
         // Kolumner för Match ID
@@ -51,7 +52,6 @@ public class MatchView {
 
         // Kolumn för Game i tabellen
         TableColumn<Matches, String> gameColumn = new TableColumn<>("Game");
-//        gameColumn.setCellValueFactory(new PropertyValueFactory<>("matchGame"));
         gameColumn.setCellValueFactory(cellData ->
                 new SimpleStringProperty(cellData.getValue().getGame().getName()));
 
@@ -125,12 +125,15 @@ public class MatchView {
                 // Ta bort laget från tabellen
                 table.getItems().remove(selectedMatch);
                 System.out.println("Match deleted!");
+                table.refresh();
+
             } else {
                 System.out.println("No mactch selected");
             }
         });
 
         // add/lägga till knapp för att lägga till nya natcher i tabellen och sen uppdatera tabellen samt en popupfönster
+
         addMatchBtn.setOnAction(e -> {
             Stage popupStage = new Stage();
             popupStage.setTitle("Add New Match");
@@ -187,23 +190,49 @@ public class MatchView {
                         selectedMatch.setMatchType(matchTypeComboBox.getValue());
                         selectedMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
 
-                        //hämtar teams via ID
+                        // Hämtar lag via ID
                         if (matchType.equals("T vs T")) {
-                        Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
-                        Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
+                            Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
+                            Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
 
-                        selectedMatch.setTeam1(team1);
-                        selectedMatch.setTeam2(team2);
+                            // Kontrollera att lagen har ett associerat spel
+                            if (team1.getGames() == null || team2.getGames() == null) {
+                                System.out.println("Error: Both teams must be associated with a game.");
+                                return;
+                            }
+
+                            selectedMatch.setTeam1(team1);
+                            selectedMatch.setTeam2(team2);
 
                         } else if (matchType.equals("P vs P")) {
                             Player player1 = PlayerDAO.getPlayerByID(Integer.parseInt(player1Field.getText()));
                             Player player2 = PlayerDAO.getPlayerByID(Integer.parseInt(player2Field.getText()));
+
+                            // Kontrollera att spelarna har ett associerat spel
+                            if (player1.getGames() == null || player2.getGames() == null) {
+                                // Skapa ett nytt spel för spelarna om de inte har ett
+                                Games newGame = new Games();
+                                GamesDAO.addGame(newGame);  // Lägg till det nya spelet i databasen
+
+                                player1.setGames(newGame);
+                                player2.setGames(newGame);
+                                selectedMatch.setGame(newGame);
+                            } else {
+                                // Kontrollera att spelarna är associerade med samma spel
+                                if (player1.getGames().getId() == player2.getGames().getId()) {
+                                    selectedMatch.setGame(player1.getGames());
+                                } else {
+                                    System.out.println("Error: Players must be associated with the same game.");
+                                    return;
+                                }
+                            }
+
                             selectedMatch.setPlayer1(player1);
                             selectedMatch.setPlayer2(player2);
                         }
 
                         MatchesDAO.addMatch(selectedMatch);
-                        table.getItems().addAll(selectedMatch);// Lägger till den nya matchen i tabellen
+                        table.getItems().addAll(selectedMatch);  // Lägg till den nya matchen i tabellen
                         table.refresh();
 
                         popupStage.close();
@@ -225,6 +254,129 @@ public class MatchView {
             popupStage.setScene(popupScene);
             popupStage.show();
         });
+
+
+//        addMatchBtn.setOnAction(e -> {
+//            Stage popupStage = new Stage();
+//            popupStage.setTitle("Add New Match");
+//
+//            VBox popupLayout = new VBox(10);
+//            popupLayout.setPadding(new Insets(15));
+//
+//            // Matchtyp ComboBox
+//            Label typeLabel = new Label("Match Type:");
+//            ComboBox<String> matchTypeComboBox = new ComboBox<>();
+//            matchTypeComboBox.getItems().addAll("T vs T", "P vs P");
+//            matchTypeComboBox.setValue("T vs T");
+//
+//            // datum
+//            Label dateLabel = new Label("Match Date (YYYY-MM-DD):");
+//            TextField dateField = new TextField();
+//
+//            // Team och Player labels och TextFields
+//            Label team1Label = new Label("Team 1 ID:");
+//            TextField team1Field = new TextField();
+//            Label team2Label = new Label("Team 2 ID:");
+//            TextField team2Field = new TextField();
+//
+//            Label player1Label = new Label("Player 1 ID:");
+//            TextField player1Field = new TextField();
+//            Label player2Label = new Label("Player 2 ID:");
+//            TextField player2Field = new TextField();
+//
+//            // layout för olika matchtyper
+//            VBox teamLayout = new VBox(10, team1Label, team1Field, team2Label, team2Field);
+//            VBox playerLayout = new VBox(10, player1Label, player1Field, player2Label, player2Field);
+//
+//            // Spara knapp för att lägga till matchen
+//            Button saveButton = new Button("Add Match");
+//            saveButton.setOnAction(event -> {
+//                try {
+//                    // Kontrollerar om alla obligatoriska fält är ifyllda
+//                    if (dateField.getText().isEmpty()) {
+//                        System.out.println("Error! Match date can't be empty!");
+//                        return;
+//                    }
+//
+//                    // Skapar en ny match
+//                    Matches newMatch = new Matches();
+//                    newMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
+//
+//                    // Hanterar matchtyp för lag eller spelare
+//                    String matchType = matchTypeComboBox.getValue();
+//                    if ("T vs T".equals(matchType)) {
+//                        int team1Id = Integer.parseInt(team1Field.getText().trim());
+//                        int team2Id = Integer.parseInt(team2Field.getText().trim());
+//                        Teams team1 = TeamManagerDAO.getTeamByID(team1Id);
+//                        Teams team2 = TeamManagerDAO.getTeamByID(team2Id);
+//
+//                        if (team1 == null || team2 == null) {
+//                            System.out.println("Error!! Teams not found!");
+//                            return;
+//                        }
+//
+//                        // Kontrollerar om lagen har samma spel
+//                        if (!team1.getGames().equals(team2.getGames())) {
+//                            System.out.println("Error!! Teams must be associated with the same game.");
+//                            return;
+//                        }
+//
+//                        newMatch.setTeam1(team1);
+//                        newMatch.setTeam2(team2);
+//                        newMatch.setGame(team1.getGames()); // Båda lagen ska ha samma spel
+//
+//                    } else if ("P vs P".equals(matchType)) {
+//                        int player1Id = Integer.parseInt(player1Field.getText().trim());
+//                        int player2Id = Integer.parseInt(player2Field.getText().trim());
+//                        Player player1 = PlayerDAO.getPlayerByID(player1Id);
+//                        Player player2 = PlayerDAO.getPlayerByID(player2Id);
+//
+//                        if (player1 == null || player2 == null) {
+//                            System.out.println("Error!! Players not found!");
+//                            return;
+//                        }
+//
+//                        // Kontrollerar om spelarna har samma spel
+//                        if (!player1.getGames().equals(player2.getGames())) {
+//                            System.out.println("Error!! Players must be associated with the same game.");
+//                            return;
+//                        }
+//
+//                        newMatch.setPlayer1(player1);
+//                        newMatch.setPlayer2(player2);
+//                        newMatch.setGame(player1.getGames()); // Båda spelarna ska ha samma spel
+//                    }
+//
+//                    // Lägg till matchen i databasen och uppdatera tabellen
+//                    MatchesDAO matchesDAO = new MatchesDAO();
+//                    matchesDAO.addMatch(newMatch);
+//                    table.getItems().add(newMatch); // Lägger till matchen i tabellen
+//                    table.refresh();
+//                    popupStage.close();
+//                    System.out.println("Match added successfully!");
+//
+//                } catch (Exception ex) {
+//                    ex.printStackTrace();
+//                    System.out.println("Error adding match. Check code");
+//                }
+//            });
+//
+//            popupLayout.getChildren().addAll(typeLabel, matchTypeComboBox, dateLabel, dateField);
+//
+//            if ("T vs T".equals(matchTypeComboBox.getValue())) {
+//                popupLayout.getChildren().addAll(teamLayout);
+//            } else if ("P vs P".equals(matchTypeComboBox.getValue())) {
+//                popupLayout.getChildren().addAll(playerLayout);
+//            }
+//
+//            popupLayout.getChildren().add(saveButton);
+//
+//            Scene popupScene = new Scene(popupLayout, 300, 300);
+//            popupStage.setScene(popupScene);
+//            popupStage.show();
+//        });
+
+
 
         // Edit knapp för att redigera befintliga matcher i tabellen och sen uppdatera tabellen samt en popupfönster
         // finns två olika funktiner för edit match med winner eller utan winner i layouten
@@ -249,8 +401,6 @@ public class MatchView {
                 TextField team1Field = new TextField();
                 Label team2Label = new Label("Team 2 ID:");
                 TextField team2Field = new TextField();
-//                Label winnerTeamLabel = new Label("Winner Team ID:");
-//                TextField winnerTeamField = new TextField();
 
                 //skapar en egen layout för edit player och dens innehåll
                 VBox playerMatchLayout = new VBox(10);
@@ -258,8 +408,6 @@ public class MatchView {
                 TextField player1Field = new TextField();
                 Label player2Label = new Label("Player 2 ID:");
                 TextField player2Field = new TextField();
-//                Label winnerPlayerLabel = new Label("Winner Player ID:");
-//                TextField winnerPlayerField = new TextField();
 
                 // Om matchtyp är T vs T visas endast team layout annars visas player layout
                 boolean isTeamMatch = "T vs T".equals(selectedMatch.getMatchType());
@@ -267,24 +415,18 @@ public class MatchView {
                 team1Field.setVisible(isTeamMatch);
                 team2Label.setVisible(isTeamMatch);
                 team2Field.setVisible(isTeamMatch);
-//                winnerTeamLabel.setVisible(isTeamMatch);
-//                winnerTeamField.setVisible(isTeamMatch);
 
                 player1Label.setVisible(!isTeamMatch);
                 player1Field.setVisible(!isTeamMatch);
                 player2Label.setVisible(!isTeamMatch);
                 player2Field.setVisible(!isTeamMatch);
-//                winnerPlayerLabel.setVisible(!isTeamMatch);
-//                winnerPlayerField.setVisible(!isTeamMatch);
 
                 if (isTeamMatch) {
                     team1Field.setText(String.valueOf(selectedMatch.getTeam1().getId()));
                     team2Field.setText(String.valueOf(selectedMatch.getTeam2().getId()));
-//                    winnerTeamField.setText(selectedMatch.getWinnerTeam() != null ? String.valueOf(selectedMatch.getWinnerTeam().getId()) : "");
                 } else {
                     player1Field.setText(String.valueOf(selectedMatch.getPlayer1().getId()));
                     player2Field.setText(String.valueOf(selectedMatch.getPlayer2().getId()));
-//                    winnerPlayerField.setText(selectedMatch.getWinnerPlayer() != null ? String.valueOf(selectedMatch.getWinnerPlayer().getId()) : "");
 
                 }
 
@@ -296,33 +438,29 @@ public class MatchView {
                             selectedMatch.setMatchDate(java.sql.Date.valueOf(dateField.getText()));
 
                             if ("T vs T".equals(typeField.getText())) {
-                                TeamManagerDAO teamManagerDAO = new TeamManagerDAO();
-                                Teams team1 = teamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
-                                Teams team2 = teamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
-//                                Teams winnerTeam = teamManagerDAO.getTeamByID(Integer.parseInt(winnerTeamField.getText()));
+
+                                Teams team1 = TeamManagerDAO.getTeamByID(Integer.parseInt(team1Field.getText()));
+                                Teams team2 = TeamManagerDAO.getTeamByID(Integer.parseInt(team2Field.getText()));
 
                                 selectedMatch.setTeam1(team1);
                                 selectedMatch.setTeam2(team2);
-//                                selectedMatch.setWinnerTeam(winnerTeam);
 
                                 // Rensar spelarinformation för lagmatcher
+
                                 selectedMatch.setPlayer1(null);
                                 selectedMatch.setPlayer2(null);
 
                             } else if ("P vs P".equals(typeField.getText())) {
-                                PlayerDAO playerDAO = new PlayerDAO();
-                                Player player1 = playerDAO.getPlayerByID(Integer.parseInt(player1Field.getText()));
-                                Player player2 = playerDAO.getPlayerByID(Integer.parseInt(player2Field.getText()));
-//                                Player winnerPlayer = playerDAO.getPlayerByID(Integer.parseInt(winnerPlayerField.getText()));
+
+                                Player player1 = PlayerDAO.getPlayerByID(Integer.parseInt(player1Field.getText()));
+                                Player player2 = PlayerDAO.getPlayerByID(Integer.parseInt(player2Field.getText()));
 
                                 selectedMatch.setPlayer1(player1);
                                 selectedMatch.setPlayer2(player2);
-//                                selectedMatch.setWinnerPlayer(winnerPlayer);
 
                                 // Rensar laginformation för spelarmatcher
                                 selectedMatch.setTeam1(null);
                                 selectedMatch.setTeam2(null);
-//                                selectedMatch.setWinnerTeam(null);
                             }
 
                             // Uppdatera matchen i databasen
@@ -342,10 +480,10 @@ public class MatchView {
 
                 //if sats för att visa rätt popuplayout efter val av matchtyp
                 if (isTeamMatch){
-                    teamMatchLayout.getChildren().addAll(team1Label,team1Field,team2Label,team2Field/*,winnerTeamLabel,winnerTeamField*/);
+                    teamMatchLayout.getChildren().addAll(team1Label,team1Field,team2Label,team2Field);
                     popupLayout.getChildren().add(teamMatchLayout);
                 } else {
-                    playerMatchLayout.getChildren().addAll(player1Label,player1Field,player2Label,player2Field/*,winnerPlayerLabel,winnerPlayerField*/);
+                    playerMatchLayout.getChildren().addAll(player1Label,player1Field,player2Label,player2Field);
                     popupLayout.getChildren().add(playerMatchLayout);
                 }
 
@@ -423,7 +561,7 @@ public class MatchView {
                           }
                        }
                         } else {
-                    // Kontrollerar att fälten inte är tomma för spelarmatch
+                        // Kontrollerar att fälten inte är tomma för spelarmatch
                         if (!player1ScoreField.getText().isEmpty() && !player2ScoreField.getText().isEmpty()) {
                             int player1Score = Integer.parseInt(player1ScoreField.getText());
                             int player2Score = Integer.parseInt(player2ScoreField.getText());

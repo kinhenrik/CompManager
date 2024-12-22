@@ -20,21 +20,21 @@ public class Teams {
     private String name; // Lagets namn
 
     //testar koppla players till olika lag //christoffer
-    @OneToMany(mappedBy = "team", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "team", orphanRemoval = true, fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<Player> players = new ArrayList<>();
 
     //foreign Key till spelet laget tävlar inom
     @ManyToOne
-    @JoinColumn(name = "game_id") // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
+    @JoinColumn(name = "game_id", nullable = true) // game_id är kolumnen i Games-tabellen som refererar till Games-tabellen
     private Games games; // Team relationen till Games-objektet i Games tabellen
 
-    @OneToMany(mappedBy = "team1", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team1", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     private List<Matches> matchesAsTeam1;
 
-    @OneToMany(mappedBy = "team2", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "team2", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     private List<Matches> matchesAsTeam2;
 
-    @OneToMany(mappedBy = "winnerTeam", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "winnerTeam", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
     private List<Matches> matchesWonTeam;
 
     public Teams() {}

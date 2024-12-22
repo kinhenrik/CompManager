@@ -106,7 +106,6 @@ public class GamesView {
                     System.out.println("Game name can't be empty!");
                 }
             });
-
             // Lägg till komponenter i layouten
             popupLayout.getChildren().addAll(nameLabel, nameField, saveButton);
 
@@ -176,7 +175,6 @@ public class GamesView {
         AnchorPane.setBottomAnchor(vBox, 10.0);
 
         layout.getChildren().add(vBox);
-
         return layout;
     }
     public ObservableList gamesObservableList() {

@@ -30,18 +30,22 @@ public class Player {
 
     //ForeignKeys
     @ManyToOne
-    @JoinColumn(name = "team_id", nullable = false) // team_id är kolumnen i Teams-tabellen som refererar till Games-tabellen
+    @JoinColumn(name = "team_id") // team_id är kolumnen i Teams-tabellen som refererar till Games-tabellen
     private Teams team; // Relationen till Games-objektet i Games/Matches classen
+
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private Games games;
 
     //----------FK till player / matches hopefully christoffer-------------
 
-    @OneToMany(mappedBy = "player1", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "player1", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private List<Matches> matchesAsPlayer1;
 
-    @OneToMany(mappedBy = "player2", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "player2", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private List<Matches> matchesAsPlayer2;
 
-    @OneToMany(mappedBy = "winnerPlayer", orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "winnerPlayer", orphanRemoval = true, cascade = CascadeType.REMOVE,fetch = FetchType.EAGER)
     private List<Matches> matchesWonAsPlayer;
 
     //Player constructor
@@ -73,6 +77,11 @@ public class Player {
     }
     public void setTeam(Teams team) { this.team = team; }
 
+    public Games getGames() {
+        return games;
+    }
+
+    public void setGames(Games game) {this.games = game; }
     //get and set ----matches/player---
 
 

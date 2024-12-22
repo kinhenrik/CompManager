@@ -1,5 +1,6 @@
 package com.comp.compmanager.DAO;
 
+import com.comp.compmanager.entities.Games;
 import com.comp.compmanager.entities.Player;
 import com.comp.compmanager.entities.Teams;
 import jakarta.persistence.*;
@@ -33,12 +34,13 @@ public class PlayerDAO {
     }
 
     //GET
-    public static List<Player> getPlayerByTeam(Teams team) {
+    public static List<Player> getPlayerByGame(Games game) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         List<Player> listToReturn = new ArrayList<>();
 
-        TypedQuery<Player> result = manager.createQuery("FROM Player WHERE team = :teamName", Player.class);
-        result.setParameter("teamName", team.getName());
+//        TypedQuery<Player> result = manager.createQuery("FROM Player WHERE games = :gameName", Player.class);
+        TypedQuery<Player> result = manager.createQuery("SELECT p FROM Player p JOIN p.team t WHERE t.games = :gameName", Player.class);
+        result.setParameter("gameName", game);
 
         listToReturn.addAll(result.getResultList());
         manager.close();
@@ -65,7 +67,7 @@ public class PlayerDAO {
     }
 
     //UPDATE
-    public void updatePlayer(Player playerToUpdate) {
+    public static void updatePlayer(Player playerToUpdate) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
         try {
@@ -93,6 +95,7 @@ public class PlayerDAO {
     public static void deletePlayer(Player player) {
         EntityManager manager = ENTITY_MANAGER_FACTORY.createEntityManager();
         EntityTransaction transaction = null;
+
         try {
             transaction = manager.getTransaction();
             transaction.begin();

@@ -11,11 +11,11 @@ public class Matches {
     @Column(name = "match_id")
     private int matchId;
 
-    @Column(name = "match_date", nullable = false)
+    @Column(name = "match_date", nullable = true)
     @Temporal(TemporalType.DATE)
     private Date matchDate;
 
-    @Column(name = "match_type", length = 50, nullable = false)
+    @Column(name = "match_type", length = 50, nullable = true)
     private String matchType;
 
     @ManyToOne
@@ -62,19 +62,13 @@ public class Matches {
     public Matches() {}
     public Matches(String matchtype){
        this.matchType = matchtype;
-
     }
 
     // Getters and Setters
 
+    public Games getGame() {return game;}
 
-    public Games getGame() {
-        return game;
-    }
-
-    public void setGame(Games game) {
-        this.game = game;
-    }
+    public void setGame(Games game) {this.game = game;}
 
     public int getMatchId() {
         return matchId;
