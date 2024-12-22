@@ -2,6 +2,7 @@ package com.comp.compmanager.View;
 
 import com.comp.compmanager.DAO.TeamManagerDAO;
 import com.comp.compmanager.entities.Games;
+import com.comp.compmanager.entities.Matches;
 import com.comp.compmanager.entities.Teams;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -81,8 +82,8 @@ public class TeamView {
                 // Ta bort laget från tabellen
                 table.getItems().remove(selectedTeam);
                 System.out.println("Team deleted!");
+                table.refresh();
             } else {
-                // Visa ett varningsmeddelande om inget lag är valt
                 System.out.println("No team selected");
             }
         });

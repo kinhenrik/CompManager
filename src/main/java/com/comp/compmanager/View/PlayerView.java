@@ -153,7 +153,7 @@ public class PlayerView {
                 table.getSelectionModel().getSelectedItem().setName(nameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setSurname(surnameTextField.getText());
                 table.getSelectionModel().getSelectedItem().setNickname(nicknameTextField.getText());
-                table.getSelectionModel().getSelectedItem().setTeam((Teams)teamsComboBox.getSelectionModel().getSelectedItem());
+                table.getSelectionModel().getSelectedItem().setTeam((Teams) teamsComboBox.getSelectionModel().getSelectedItem());
 
                 playerDAO.updatePlayer(table.getSelectionModel().getSelectedItem());
 

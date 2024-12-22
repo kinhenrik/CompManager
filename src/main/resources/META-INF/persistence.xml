@@ -14,11 +14,11 @@
             <property name="jakarta.persistence.jdbc.user"
                       value="root"/>
             <property name="jakarta.persistence.jdbc.password"
-                      value="Hejhejhej123"/>
+                      value="root"/>
 
             <!-- Automatic schema export -->
             <property name="hibernate.hbm2ddl.auto"
-                      value="update"/>
+                      value="drop-and-create"/>
 
             <!-- SQL statement logging -->
             <property name="hibernate.show_sql" value="true"/>
