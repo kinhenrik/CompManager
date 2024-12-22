@@ -127,7 +127,7 @@ public class MatchView {
                 System.out.println("Match deleted!");
                 table.refresh();
             } else {
-                System.out.println("No mactch selected");
+                System.out.println("No match selected");
             }
         });
 
@@ -192,7 +192,9 @@ public class MatchView {
                         }
 
                         // Kontrollerar om lagen har samma spel
-                        if (!team1.getGames().equals(team2.getGames())) {
+                        if (team1.getGames().getId() != team2.getGames().getId()) {
+                            System.out.println(team1.getGames().getId());
+                            System.out.println(team2.getGames().getId());
                             System.out.println("Error!! Teams must be associated with the same game.");
                             return;
                         }
@@ -213,7 +215,9 @@ public class MatchView {
                         }
 
                         // Kontrollerar om spelarna har samma spel
-                        if (!player1.getGames().equals(player2.getGames())) {
+                        if (player1.getGames().getId() != player2.getGames().getId()) {
+                            System.out.println(player1.getGames().getId());
+                            System.out.println(player2.getGames().getId());
                             System.out.println("Error!! Players must be associated with the same game.");
                             return;
                         }
