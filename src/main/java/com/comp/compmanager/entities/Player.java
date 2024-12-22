@@ -53,7 +53,6 @@ public class Player {
         this.name = name;
         this.surname = surname;
         this.nickname = nickname;
-        this.team = team;
     }
 
     //GETTERS & SETTERS
