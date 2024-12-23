@@ -20,14 +20,14 @@ insert into Teams (team_name, game_id) values ('The Monkeys',3);
 insert into Teams (team_name, game_id) values ('The Jesters',5);
 insert into Teams (team_name, game_id) values ('Test team',4);
 
-insert into players (player_name, player_surname, player_nickname, team_id)values ('Christoffer', 'Morales', 'BigPapi', 3);
-insert into players (player_name, player_surname, player_nickname, team_id)values ('Martin', 'Andersson', 'ilMuro', 1);
-insert into players (player_name, player_surname, player_nickname, team_id)values ('Michael', 'Dahl', 'Miklo', 3);
-insert into players (player_name, player_surname, player_nickname, team_id)values ('Alexander', 'Rune', 'ChuPapi', 1);
-insert into players (player_name, player_surname, player_nickname, team_id)values ('Thomas', 'Nilsson', 'Fantomen', 2);
-insert into players (player_name, player_surname, player_nickname, team_id)values ('Erik', 'Svensson', 'Skillz', 2);
-insert into players (player_name, player_surname, player_nickname, team_id)values ('Henrik', 'Kinnunen', 'Henkin', 5);
-insert into players (player_name, player_surname, player_nickname, team_id)values ('Test', 'Testsson', 'Test', 7);
+
+insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Christoffer', 'Morales', 'BigPapi', 3, 2);
+insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Martin', 'Andersson', 'ilMuro', 1, 1);
+insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Michael', 'Dahl', 'Miklo', 3, 2);
+insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Alexander', 'Rune', 'ChuPapi', 1, 1);
+insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Thomas', 'Nilsson', 'Fantomen', 2, 1);
+insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Erik', 'Svensson', 'Skillz', 2, 1);
+insert into players (player_name, player_surname, player_nickname, team_id, game_id)values ('Test', 'Testing', 'Testerson', 7, 5);
 
 -- lagmatcher
 
