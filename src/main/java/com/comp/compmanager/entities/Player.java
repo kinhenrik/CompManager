@@ -9,6 +9,8 @@ import java.util.List;
 //NAME TABLE
 @Table(name = "players")
 
+//SAMUEL FUNCK´S KLASS
+
 public class Player {
 
     //Primary key
@@ -55,7 +57,6 @@ public class Player {
         this.nickname = nickname;
         this.team = team;
         this.games = game;
-
 
     }
 

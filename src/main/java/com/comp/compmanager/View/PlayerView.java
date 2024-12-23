@@ -17,6 +17,8 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+//SAMUEL FUNCK´S KLASS
+
 public class PlayerView {
 
     private final ViewManager viewManager;
