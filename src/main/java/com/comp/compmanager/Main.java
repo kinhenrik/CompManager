@@ -4,6 +4,8 @@ import com.comp.compmanager.View.ViewManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+//ALLAS KLASS
+
 public class Main extends Application {
 
     @Override

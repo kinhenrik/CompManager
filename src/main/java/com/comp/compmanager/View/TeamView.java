@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+//CHRISTOFFER MORALES KLASS
+
 public class TeamView {
     private final ViewManager viewManager;
 

@@ -21,6 +21,8 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+//ALLAS KLASS
+
 public class MatchView {
     private final ViewManager viewManager;
 

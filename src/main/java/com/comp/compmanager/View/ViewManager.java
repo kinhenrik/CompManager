@@ -9,6 +9,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
+//ALLAS KLASS
+
 public class ViewManager {
     private final Stage stage;
     private final AnchorPane root;

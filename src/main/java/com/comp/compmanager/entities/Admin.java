@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 @Entity
 @Table(name = "admins")
 
+//HENRIK KINNUNEN´S KLASS
+
 public class Admin {
 
     //Primary key

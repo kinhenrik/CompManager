@@ -12,6 +12,8 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+//HENRIK KINNUNEN´S KLASS
+
 public class AdminView {
     private final ViewManager viewManager;
     private AdminDAO adminDAO = new AdminDAO();

@@ -10,6 +10,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+//HENRIK KINNUNEN´S KLASS
+
 public class LoginView{
 
     private final ViewManager viewManager;
