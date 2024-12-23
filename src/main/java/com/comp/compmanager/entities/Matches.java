@@ -5,6 +5,9 @@ import java.util.Date;
 
 @Entity
 @Table(name = "Matches")
+
+//ALLAS KLASS
+
 public class Matches {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//SIMON WESTERLUNDS KLASS
 
 public class GamesDAO {
 

@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 
 import java.util.List;
 
+//ALLAS KLASS
+
 public class MatchesDAO {
 
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("myconfig");

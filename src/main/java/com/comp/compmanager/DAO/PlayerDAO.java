@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//SAMUEL FUNCK´S KLASS
 
 public class PlayerDAO {
 

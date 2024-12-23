@@ -3,6 +3,9 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//SIMON WESTERLUNDS KLASS
+
+
 // CREATE TABLE //
 @Entity //NAME TABLE
 @Table(name = "Games")

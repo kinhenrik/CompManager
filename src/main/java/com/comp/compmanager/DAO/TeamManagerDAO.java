@@ -7,6 +7,9 @@ import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+//CHRISTOFFER MORALES KLASS
+
+
 public class TeamManagerDAO {
 
     // Hämta konfigurationen från persistence.xml

@@ -13,6 +13,8 @@ import javafx.stage.Stage;
 
 import java.util.List;
 
+//SIMON WESTERLUNDS KLASS
+
 public class GamesView {
     private final ViewManager viewManager;
 

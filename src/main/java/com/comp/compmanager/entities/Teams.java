@@ -8,6 +8,8 @@ import java.util.List;
 @Entity
 @Table(name = "Teams")
 
+//CHRISTOFFER MORALES KLASS
+
 public class Teams {
 //primary key ,AUTO_INCREMENT, Kollumn i tabellen
     @Id
